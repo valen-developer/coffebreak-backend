@@ -20,6 +20,8 @@
     "dic-ioc": "^0.1.1",
     "express": "^4.18.1",
     "helmet": "^5.0.2",
+    "mongoose": "^6.3.2",
+    "nanoid": "^3.3.4",
     "node-cron": "^3.0.0",
     "node-fetch": "2",
     "xml2js": "^0.4.23"

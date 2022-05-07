@@ -4,6 +4,8 @@ import { cleanArray } from "../../../../helpers/functions/cleanArray.function";
 import { Nullable } from "../../../../helpers/types/Nullable.type";
 
 import { HttpClient } from "../../Shared/domain/interfaces/HttpClient.interface";
+import { UUIDGenerator } from "../../Shared/domain/interfaces/UuidGenerator";
+import { UUID } from "../../Shared/domain/valueObjects/Uuid.valueObject";
 import { PodcastExtractor } from "../domain/interfaces/PodcastExtractor.interface";
 import { PodcastEpisode } from "../domain/PodcastEpisode.model";
 import { PodcastAudioUrl } from "../domain/valueObjects/PodcastAudioUrl.valueObject";
@@ -17,7 +19,15 @@ export class IvooxPodcastExtractor implements PodcastExtractor {
   private _IVOOX_PODCAST_URL =
     "https://www.ivoox.com/feed_fg_f1172891_filtro_1.xml";
 
-  public async extract(httpClient: HttpClient, from?: Date): Promise<any[]> {
+  private uuidGenerator!: UUIDGenerator;
+
+  public async extract(
+    httpClient: HttpClient,
+    uuidGenerator: UUIDGenerator,
+    from?: Date
+  ): Promise<any[]> {
+    this.uuidGenerator = uuidGenerator;
+
     const dataAsString = await httpClient.get<string>(
       this._IVOOX_PODCAST_URL,
       true
@@ -44,6 +54,7 @@ export class IvooxPodcastExtractor implements PodcastExtractor {
 
     const episodes = items.map((item) => {
       const title = item["title"][0];
+      const ep = this.getEpisodeNumber(title);
       const description = item["description"][0];
       const pubDate = item["pubDate"][0];
       const duration = item["itunes:duration"][0];
@@ -59,7 +70,9 @@ export class IvooxPodcastExtractor implements PodcastExtractor {
         const audioUrlValueObject = new PodcastAudioUrl(audioUrl);
 
         const episode = PodcastEpisode.fromValueObjects({
+          uuid: new UUID(this.uuidGenerator?.generate()),
           title: titleValueObject,
+          episode: ep as number,
           description: descriptionValueObject,
           pubDate: pubDateValueObject,
           duration: durationValueObject,
@@ -85,6 +98,22 @@ export class IvooxPodcastExtractor implements PodcastExtractor {
     return episodes.filter((episode) => {
       return episode.pubDate.ifAfter(date);
     });
+  }
+
+  private getEpisodeNumber(title: string): Nullable<number> {
+    let regex = /Ep[0-9]+/i;
+    let match = title.match(regex);
+
+    if (!match) return null;
+
+    // extract digits after "Ep"
+    let digits = match[0].substring(2);
+
+    // remove all non-digits
+    digits = digits.replace(/\D/g, "");
+
+    // convert to number
+    return Number(digits);
   }
 }
 

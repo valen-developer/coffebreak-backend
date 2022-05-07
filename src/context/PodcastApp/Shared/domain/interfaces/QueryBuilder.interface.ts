@@ -1,3 +1,3 @@
 export abstract class QueryBuilder {
-  abstract build(): any;
+  abstract build(query: any): any;
 }
