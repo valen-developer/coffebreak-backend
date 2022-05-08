@@ -1,7 +1,10 @@
 import express, { json, urlencoded } from "express";
+import cors from "cors";
 import http from "http";
 
 import helmet from "helmet";
+
+import { router } from "./routes";
 
 export class Server {
   private express: express.Application;
@@ -15,10 +18,14 @@ export class Server {
     this.express.use(json());
     this.express.use(urlencoded({ extended: true }));
 
+    this.express.use(cors());
+
     this.express.use(helmet.xssFilter());
     this.express.use(helmet.noSniff());
     this.express.use(helmet.hidePoweredBy());
     this.express.use(helmet.frameguard({ action: "deny" }));
+
+    this.express.use("/api", router);
   }
 
   public getHttpServer(): http.Server {
