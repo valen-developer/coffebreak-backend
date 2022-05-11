@@ -9,4 +9,5 @@ export abstract class PodcastEpisodeRepository {
     paginator: Paginator<PodcastEpisodeDTO>
   ): Promise<PodcastEpisode[]>;
   abstract findLastPublished(): Promise<Nullable<PodcastEpisode>>;
+  abstract findByArray(uuids: string[]): Promise<PodcastEpisode[]>;
 }

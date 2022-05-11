@@ -8,14 +8,20 @@ export class PlaylistCreator {
   public create(
     uuid: string,
     name: string,
+    description: string,
     own: Nullable<string>
   ): Promise<void> {
     return this.playlistRepository.save(
       new Playlist({
         uuid,
         name,
+        description,
         own,
       })
     );
+  }
+
+  public async fromEntity(playlist: Playlist): Promise<void> {
+    return this.playlistRepository.save(playlist);
   }
 }

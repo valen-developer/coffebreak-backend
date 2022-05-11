@@ -10,6 +10,10 @@ const PlaylistSchema = new Schema({
     type: String,
     required: true,
   },
+  description: {
+    type: String,
+    required: true,
+  },
   own: {
     type: String,
   },

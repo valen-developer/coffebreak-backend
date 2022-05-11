@@ -1,0 +1,71 @@
+import { PlaylistCreator } from "../../../../context/PodcastApp/Playlist/application/PlaylistCreator";
+import { PlaylistDeleter } from "../../../../context/PodcastApp/Playlist/application/PlaylistDeleter";
+import { PlaylistEpisodeUpdater } from "../../../../context/PodcastApp/Playlist/application/PlaylistEpisodeUpdater";
+import { PlaylistFinder } from "../../../../context/PodcastApp/Playlist/application/PlaylistFinder";
+import { PlaylistTematicCreator } from "../../../../context/PodcastApp/Playlist/application/PlaylistTematicCreator";
+import { PlaylistUpdater } from "../../../../context/PodcastApp/Playlist/application/PlaylistUpdater";
+import { PlaylistRepository } from "../../../../context/PodcastApp/Playlist/domain/interfaces/PlaylistRepository.interface";
+import { Container } from "./Container";
+import { PodcastEpisodeDependencies } from "./injectPodcastEpisodiesDependencies";
+import { Repositories } from "./injectRepositories";
+import { UtilDependencies } from "./injectUtils";
+
+export enum PlaylistUseCases {
+  PlaylistCreator = "PlaylistCreator",
+  PlaylistUpdater = "PlaylistUpdater",
+  PlaylistDeleter = "PlaylistDeleter",
+  PlaylistFinder = "PlaylistFinder",
+  PlaylistEpisodesUpdater = "PlaylistEpisodesUpdater",
+  PlaylistTematicCreator = "PlaylistTematicCreator",
+}
+
+export const injectPlaylistDependencies = () => {
+  const container = Container.getInstance();
+
+  const playlistRepository = container.get<PlaylistRepository>(
+    Repositories.PlaylistRepository
+  );
+
+  container.register(
+    PlaylistUseCases.PlaylistCreator,
+    () => new PlaylistCreator(playlistRepository)
+  );
+
+  container.register(
+    PlaylistUseCases.PlaylistUpdater,
+    () => new PlaylistUpdater(playlistRepository)
+  );
+
+  container.register(
+    PlaylistUseCases.PlaylistDeleter,
+    () => new PlaylistDeleter(playlistRepository)
+  );
+
+  container.register(
+    PlaylistUseCases.PlaylistFinder,
+    (c) =>
+      new PlaylistFinder(
+        playlistRepository,
+        c.get(PodcastEpisodeDependencies.PodcastEpisodeFinder)
+      )
+  );
+
+  container.register(
+    PlaylistUseCases.PlaylistEpisodesUpdater,
+    (c) =>
+      new PlaylistEpisodeUpdater(
+        c.get(PlaylistUseCases.PlaylistFinder),
+        c.get(PlaylistUseCases.PlaylistUpdater)
+      )
+  );
+
+  container.register(
+    PlaylistUseCases.PlaylistTematicCreator,
+    (c) =>
+      new PlaylistTematicCreator(
+        c.get(PodcastEpisodeDependencies.PodcastEpisodeFinder),
+        c.get(PlaylistUseCases.PlaylistCreator),
+        c.get(UtilDependencies.UuidGenerator)
+      )
+  );
+};

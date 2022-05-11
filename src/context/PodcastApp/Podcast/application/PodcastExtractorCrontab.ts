@@ -20,7 +20,7 @@ export class PodcastExtractorCrontab {
     this.extract();
 
     // exectcute extract all thursday at 19h CEST
-    this.cron.schedule("0 19 * * THU", () => this.extract());
+    this.cron.schedule("0 17,18,19,20,21 * * THU", () => this.extract());
     this.cron.start();
   }
 

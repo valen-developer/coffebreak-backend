@@ -38,4 +38,8 @@ export class PodcastEpisodeFinder {
 
     return this.podcastEpisodeRepository.filter(queryBuilt, paginator);
   }
+
+  public async findByArray(uuids: string[]): Promise<PodcastEpisode[]> {
+    return this.podcastEpisodeRepository.findByArray(uuids);
+  }
 }

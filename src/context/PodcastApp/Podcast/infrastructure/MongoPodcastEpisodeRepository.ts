@@ -38,4 +38,13 @@ export class MongoPodcastEpisodeRepository implements PodcastEpisodeRepository {
 
     return new PodcastEpisode(episodeObject);
   }
+
+  public async findByArray(uuids: string[]): Promise<PodcastEpisode[]> {
+    const episodesObjects: PodcastEpisodeDTO[] =
+      await MongoPodcastEpisodeSchema.find({ uuid: { $in: uuids } });
+
+    return episodesObjects.map(
+      (episodeObject) => new PodcastEpisode(episodeObject)
+    );
+  }
 }
