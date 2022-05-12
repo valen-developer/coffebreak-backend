@@ -1,0 +1,33 @@
+{
+  "name": "coffebreak",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev:podcastapp:backend": "NODE_ENV=dev ts-node-dev --ignore-watch node_modules ./src/apps/PodcastApp/backend/start.ts"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/formidable": "^2.0.5",
+    "@types/node": "^17.0.31",
+    "@types/node-cron": "^3.0.1",
+    "@types/node-fetch": "^2.6.1",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.6.4"
+  },
+  "dependencies": {
+    "@types/xml2js": "^0.4.11",
+    "compress": "^0.99.0",
+    "cors": "^2.8.5",
+    "dic-ioc": "^0.1.1",
+    "express": "^4.18.1",
+    "formidable": "^2.0.1",
+    "helmet": "^5.0.2",
+    "mongoose": "^6.3.2",
+    "nanoid": "^3.3.4",
+    "node-cron": "^3.0.0",
+    "node-fetch": "2",
+    "xml2js": "^0.4.23"
+  }
+}
