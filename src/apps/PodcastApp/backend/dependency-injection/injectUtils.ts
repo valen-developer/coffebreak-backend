@@ -1,5 +1,6 @@
 import { IvooxPodcastExtractor } from "../../../../context/PodcastApp/Podcast/infrastructure/IvooxPodcastExtractor";
 import { FormidableFormDataParser } from "../../../../context/PodcastApp/Shared/infrastructure/FormidableFormDataParser";
+import { FsFileUploader } from "../../../../context/PodcastApp/Shared/infrastructure/FsFileUploader";
 import { MongoQueryBuilder } from "../../../../context/PodcastApp/Shared/infrastructure/MongoQueryBuilder";
 import { NanoUuidGenerator } from "../../../../context/PodcastApp/Shared/infrastructure/NanoUuidGenerator";
 import { NodeCronJob } from "../../../../context/PodcastApp/Shared/infrastructure/NodeCronJob";
@@ -13,6 +14,7 @@ export enum UtilDependencies {
   UuidGenerator = "UuidGenerator",
   QueryBuilder = "QueryBuilder",
   FormDataParser = "FormDataParser",
+  FileUploader = "FileUploader",
 }
 
 export const injectUtils = () => {
@@ -44,4 +46,6 @@ export const injectUtils = () => {
     UtilDependencies.FormDataParser,
     () => new FormidableFormDataParser()
   );
+
+  container.register(UtilDependencies.FileUploader, () => new FsFileUploader());
 };

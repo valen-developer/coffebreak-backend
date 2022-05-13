@@ -40,8 +40,11 @@ export class MongoPodcastEpisodeRepository implements PodcastEpisodeRepository {
   }
 
   public async findByArray(uuids: string[]): Promise<PodcastEpisode[]> {
+    // sort by episode.episode
     const episodesObjects: PodcastEpisodeDTO[] =
-      await MongoPodcastEpisodeSchema.find({ uuid: { $in: uuids } });
+      await MongoPodcastEpisodeSchema.find({
+        uuid: { $in: uuids },
+      }).sort({ episode: "desc" });
 
     return episodesObjects.map(
       (episodeObject) => new PodcastEpisode(episodeObject)

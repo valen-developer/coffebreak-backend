@@ -1,0 +1,47 @@
+import fs from "fs";
+import path from "path";
+import { enviroment } from "../../../../apps/PodcastApp/backend/config/enviroment";
+
+import { FileUploader } from "../domain/interfaces/FileUploader";
+import { FileData } from "../domain/interfaces/FormDataParser.interface";
+
+export class FsFileUploader implements FileUploader {
+  private _IMAGE_PATH = enviroment.dirs.images;
+  private _TMP_PATH = enviroment.dirs.temp;
+
+  private _ALLOED_EXTENSIONS = ["jpg", "jpeg", "png"];
+
+  constructor() {
+    this.createImageFolder();
+  }
+
+  public async uploadImage(file: FileData): Promise<string> {
+    // TODO: custom error
+    if (!file.name) throw new Error("File name is required");
+
+    const fileExt = this.ext(file.mimeType);
+
+    // TODO: custom error
+    if (!this.isAllowedExt(fileExt))
+      throw new Error("File extension is not allowed");
+
+    const filePath = path.join(this._IMAGE_PATH, `${file.name}.${fileExt}`);
+    fs.renameSync(file.path, filePath);
+
+    return filePath;
+  }
+
+  private ext(mimeType: string): string {
+    return mimeType.split("/")[1];
+  }
+
+  private isAllowedExt(ext: string): boolean {
+    return this._ALLOED_EXTENSIONS.includes(ext);
+  }
+
+  private createImageFolder(): void {
+    if (!fs.existsSync(this._IMAGE_PATH)) {
+      fs.mkdirSync(this._IMAGE_PATH);
+    }
+  }
+}

@@ -1,6 +1,5 @@
 import formidable from "formidable";
 import fs from "fs";
-import path from "path";
 import { enviroment } from "../../../../apps/PodcastApp/backend/config/enviroment";
 
 import { cleanArray } from "../../../../helpers/functions/cleanArray.function";
@@ -15,6 +14,7 @@ export class FormidableFormDataParser implements FormDataParser {
     return new Promise((resolve, reject) => {
       const form = formidable({
         uploadDir: this.getTempDirPath(),
+        encoding: "utf-8",
         multiples: true,
       });
 

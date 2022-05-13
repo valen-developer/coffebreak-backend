@@ -15,8 +15,6 @@ export class CreatePlaylistController implements Controller {
         PlaylistUseCases.PlaylistCreator
       );
 
-      await playlistCreator.create(uuid, name, description, own);
-
       res.status(201).json({
         ok: true,
       });

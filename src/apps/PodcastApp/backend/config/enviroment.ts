@@ -9,5 +9,6 @@ export const enviroment = {
   },
   dirs: {
     temp: path.join(__dirname, "../../../../../temp"),
+    images: path.join(__dirname, "../../../../../images"),
   },
 };

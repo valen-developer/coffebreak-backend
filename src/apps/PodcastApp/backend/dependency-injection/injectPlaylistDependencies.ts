@@ -6,6 +6,7 @@ import { PlaylistTematicCreator } from "../../../../context/PodcastApp/Playlist/
 import { PlaylistUpdater } from "../../../../context/PodcastApp/Playlist/application/PlaylistUpdater";
 import { PlaylistRepository } from "../../../../context/PodcastApp/Playlist/domain/interfaces/PlaylistRepository.interface";
 import { Container } from "./Container";
+import { ImageDependencies } from "./injectImageDependencies";
 import { PodcastEpisodeDependencies } from "./injectPodcastEpisodiesDependencies";
 import { Repositories } from "./injectRepositories";
 import { UtilDependencies } from "./injectUtils";
@@ -28,7 +29,13 @@ export const injectPlaylistDependencies = () => {
 
   container.register(
     PlaylistUseCases.PlaylistCreator,
-    () => new PlaylistCreator(playlistRepository)
+    (c) =>
+      new PlaylistCreator(
+        playlistRepository,
+        c.get(ImageDependencies.ImageCreator),
+        c.get(UtilDependencies.FileUploader),
+        c.get(UtilDependencies.UuidGenerator)
+      )
   );
 
   container.register(

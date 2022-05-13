@@ -1,4 +1,7 @@
 node_modules
 dist
+temp
+images
+public
 
 src/apps/PodcastApp/webapp

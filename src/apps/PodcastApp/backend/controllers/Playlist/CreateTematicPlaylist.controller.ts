@@ -26,15 +26,11 @@ export class CreateTematicPlaylistController implements Controller {
       }>(req);
 
       const { tematic, name, description } = fields;
-
-      res.json({ fields });
-      return;
-
       const tematicCreator = container.get<PlaylistTematicCreator>(
         PlaylistUseCases.PlaylistTematicCreator
       );
 
-      await tematicCreator.create(tematic, name, description);
+      await tematicCreator.create(tematic, name, description, files[0]);
 
       res.status(201).send();
     } catch (error) {

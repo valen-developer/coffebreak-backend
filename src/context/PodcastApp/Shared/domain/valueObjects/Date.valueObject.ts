@@ -6,6 +6,6 @@ export class DateValueObject extends NotNullValueObject<Date> {
   }
 
   ifAfter(date: Date): boolean {
-    return this.value.getTime() > date.getTime();
+    return this.value.getTime() >= date.getTime();
   }
 }

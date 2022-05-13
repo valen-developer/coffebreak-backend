@@ -12,4 +12,5 @@ export interface FileData {
   mimeType: string;
   path: string;
   size: number;
+  name?: string;
 }

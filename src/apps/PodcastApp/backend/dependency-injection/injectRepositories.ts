@@ -1,3 +1,4 @@
+import { MongoImageRepository } from "../../../../context/PodcastApp/Image/infrastructure/MongoImageRepository/MongoImageRepository";
 import { MongoPlaylistRepository } from "../../../../context/PodcastApp/Playlist/infrastructure/MongoPlaylistRepository/MongoPlaylistRepository";
 import { MongoPodcastEpisodeRepository } from "../../../../context/PodcastApp/Podcast/infrastructure/MongoPodcastEpisodeRepository";
 import { Container } from "./Container";
@@ -5,6 +6,7 @@ import { Container } from "./Container";
 export enum Repositories {
   PodcastEpisodeRepository = "PodcastEpisodeRepository",
   PlaylistRepository = "PlaylistRepository",
+  ImageRepository = "ImageRepository",
 }
 
 export const injectRepositories = () => {
@@ -18,5 +20,10 @@ export const injectRepositories = () => {
   container.register(
     Repositories.PlaylistRepository,
     () => new MongoPlaylistRepository()
+  );
+
+  container.register(
+    Repositories.ImageRepository,
+    () => new MongoImageRepository()
   );
 };
