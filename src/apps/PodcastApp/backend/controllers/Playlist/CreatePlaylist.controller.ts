@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { PlaylistCreator } from "../../../../../context/PodcastApp/Playlist/application/PlaylistCreator";
 import { Container } from "../../dependency-injection/Container";
 import { PlaylistUseCases } from "../../dependency-injection/injectPlaylistDependencies";
+import { HttpErrorManager } from "../../helpers/HttpErrorManager";
 import { Controller } from "../Controller.interface";
 
 export class CreatePlaylistController implements Controller {
@@ -19,8 +20,12 @@ export class CreatePlaylistController implements Controller {
         ok: true,
       });
     } catch (error) {
-      // TODO: custom error manager
-      res.status(500).send(error);
+      const { status, message } = new HttpErrorManager().manage(error);
+
+      res.status(status).json({
+        ok: false,
+        message,
+      });
     }
   }
 }

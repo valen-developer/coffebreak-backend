@@ -1,3 +1,4 @@
+import { NotFoundImageException } from "../../domain/exceptions/NotFoundImage.exception";
 import { Image, ImageDTO } from "../../domain/Image.model";
 import { ImageRepository } from "../../domain/interfaces/ImageRepository.interface";
 import { MongoImageSchema } from "./MongoImageSchema";
@@ -14,8 +15,7 @@ export class MongoImageRepository implements ImageRepository {
     const imageSchema = await MongoImageSchema.findOne({ uuid });
 
     if (!imageSchema) {
-      // TODO: custom error
-      throw new Error("Image not found");
+      throw new NotFoundImageException("Image not found");
     }
 
     return new Image(imageSchema.toDTO());

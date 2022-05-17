@@ -1,6 +1,8 @@
 import fs from "fs";
 import path from "path";
 import { enviroment } from "../../../../apps/PodcastApp/backend/config/enviroment";
+import { InvalidImageExtension } from "../../Image/domain/exceptions/InvalidImageExtension.exception";
+import { NullException } from "../domain/exceptions/Null.exception";
 
 import { FileUploader } from "../domain/interfaces/FileUploader";
 import { FileData } from "../domain/interfaces/FormDataParser.interface";
@@ -16,14 +18,11 @@ export class FsFileUploader implements FileUploader {
   }
 
   public async uploadImage(file: FileData): Promise<string> {
-    // TODO: custom error
-    if (!file.name) throw new Error("File name is required");
+    if (!file.name) throw new NullException("file name");
 
     const fileExt = this.ext(file.mimeType);
 
-    // TODO: custom error
-    if (!this.isAllowedExt(fileExt))
-      throw new Error("File extension is not allowed");
+    if (!this.isAllowedExt(fileExt)) throw new InvalidImageExtension(fileExt);
 
     const filePath = path.join(this._IMAGE_PATH, `${file.name}.${fileExt}`);
     fs.renameSync(file.path, filePath);

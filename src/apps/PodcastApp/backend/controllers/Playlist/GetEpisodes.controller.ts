@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { PlaylistFinder } from "../../../../../context/PodcastApp/Playlist/application/PlaylistFinder";
 import { Container } from "../../dependency-injection/Container";
 import { PlaylistUseCases } from "../../dependency-injection/injectPlaylistDependencies";
+import { HttpErrorManager } from "../../helpers/HttpErrorManager";
 import { Controller } from "../Controller.interface";
 
 export class GetPlaylistEpisodesController implements Controller {
@@ -22,8 +23,12 @@ export class GetPlaylistEpisodesController implements Controller {
         episodes: episodes.map((e) => e.toDTO()),
       });
     } catch (error) {
-      // TODO: custom error manager
-      res.status(500).send(error);
+      const { status, message } = new HttpErrorManager().manage(error);
+
+      res.status(status).json({
+        ok: false,
+        message,
+      });
     }
   }
 }

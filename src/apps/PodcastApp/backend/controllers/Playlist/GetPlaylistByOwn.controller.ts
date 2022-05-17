@@ -4,6 +4,7 @@ import { ParsedQs } from "qs";
 import { PlaylistFinder } from "../../../../../context/PodcastApp/Playlist/application/PlaylistFinder";
 import { Container } from "../../dependency-injection/Container";
 import { PlaylistUseCases } from "../../dependency-injection/injectPlaylistDependencies";
+import { HttpErrorManager } from "../../helpers/HttpErrorManager";
 import { Controller } from "../Controller.interface";
 
 export class GetPlaylistByOwnController implements Controller {
@@ -24,9 +25,12 @@ export class GetPlaylistByOwnController implements Controller {
         playlist: playlist.map((p) => p.toDTO()),
       });
     } catch (error) {
-      console.log(error);
-      // TODO: custom error manager
-      res.status(500).send(error);
+      const { status, message } = new HttpErrorManager().manage(error);
+
+      res.status(status).json({
+        ok: false,
+        message,
+      });
     }
   }
 }

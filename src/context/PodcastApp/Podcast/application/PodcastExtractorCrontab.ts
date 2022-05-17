@@ -25,7 +25,9 @@ export class PodcastExtractorCrontab {
   }
 
   public async extract(): Promise<void> {
-    const lastEpisode = await this.podcastFinder.findLastPublished();
+    const lastEpisode = await this.podcastFinder
+      .findLastPublished()
+      .catch(() => null);
     const newsEpisodes = await this.podcastExtractor.extract(
       this.httpClient,
       this.uuidGenerator,
@@ -33,7 +35,7 @@ export class PodcastExtractorCrontab {
     );
 
     await asyncForeach(newsEpisodes, async (episode) => {
-      await this.podcastEpisodeRepository.save(episode);
+      await this.podcastEpisodeRepository.save(episode).catch();
     });
   }
 }

@@ -1,3 +1,4 @@
+import { NotFoundPlaylistException } from "../../domain/exceptions/NotFoundPlaylist.exception";
 import { PlaylistRepository } from "../../domain/interfaces/PlaylistRepository.interface";
 import { Playlist, PlaylistDTO } from "../../domain/Playlist.model";
 import { MongoPlaylistSchema } from "./MongoPlaylistSchema";
@@ -8,8 +9,7 @@ export class MongoPlaylistRepository implements PlaylistRepository {
       const mongoObjet = new MongoPlaylistSchema(playlist.toDTO());
       await mongoObjet.save();
     } catch (error) {
-      // TODO: change by custom error
-      throw new Error("Error saving playlist");
+      throw new Error("Error saving playlist: DB save");
     }
   }
 
@@ -20,8 +20,7 @@ export class MongoPlaylistRepository implements PlaylistRepository {
         playlist.toDTO()
       );
     } catch (error) {
-      //TODO: change by custom error
-      throw new Error("Error updating playlist");
+      throw new Error("Error updating playlist: DB update");
     }
   }
 
@@ -33,6 +32,9 @@ export class MongoPlaylistRepository implements PlaylistRepository {
     const playlistDTO: PlaylistDTO = await MongoPlaylistSchema.findOne({
       uuid: uuid,
     });
+
+    if (!playlistDTO) throw new NotFoundPlaylistException("Playlist not found");
+
     return new Playlist(playlistDTO);
   }
 

@@ -4,6 +4,7 @@ import { PlaylistUpdater } from "../../../../../context/PodcastApp/Playlist/appl
 import { Playlist } from "../../../../../context/PodcastApp/Playlist/domain/Playlist.model";
 import { Container } from "../../dependency-injection/Container";
 import { PlaylistUseCases } from "../../dependency-injection/injectPlaylistDependencies";
+import { HttpErrorManager } from "../../helpers/HttpErrorManager";
 import { Controller } from "../Controller.interface";
 
 export class UpdatePlaylistController implements Controller {
@@ -34,8 +35,12 @@ export class UpdatePlaylistController implements Controller {
         ok: true,
       });
     } catch (error) {
-      // TODO: custom error manager
-      res.status(500).send(error);
+      const { status, message } = new HttpErrorManager().manage(error);
+
+      res.status(status).json({
+        ok: false,
+        message,
+      });
     }
   }
 }

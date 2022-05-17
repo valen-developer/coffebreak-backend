@@ -1,3 +1,4 @@
+import { NullException } from "../exceptions/Null.exception";
 import { ValueObject } from "./ValueObject.interface";
 
 export class NotNullValueObject<T> implements ValueObject {
@@ -9,8 +10,7 @@ export class NotNullValueObject<T> implements ValueObject {
   }
 
   private checkValue(value: T, name: string): void {
-    // TODO: change for custom error
     if (value === null || value === undefined)
-      throw new Error(`${name} shuld not be null`);
+      throw new NullException(`${name}`);
   }
 }

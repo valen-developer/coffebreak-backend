@@ -3,6 +3,7 @@ import { existsSync } from "fs";
 import { ImageFinder } from "../../../../../context/PodcastApp/Image/application/ImageFinder";
 import { Container } from "../../dependency-injection/Container";
 import { ImageDependencies } from "../../dependency-injection/injectImageDependencies";
+import { HttpErrorManager } from "../../helpers/HttpErrorManager";
 import { Controller } from "../Controller.interface";
 
 export class GetImageByEntity implements Controller {
@@ -24,8 +25,12 @@ export class GetImageByEntity implements Controller {
 
       res.sendFile(featuredImagePath);
     } catch (error) {
-      // TODO: manage error
-      res.status(500).send(error);
+      const { status, message } = new HttpErrorManager().manage(error);
+
+      res.status(status).json({
+        ok: false,
+        message,
+      });
     }
   }
 }

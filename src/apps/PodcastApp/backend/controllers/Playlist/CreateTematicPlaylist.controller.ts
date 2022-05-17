@@ -6,6 +6,7 @@ import { FormDataParser } from "../../../../../context/PodcastApp/Shared/domain/
 import { Container } from "../../dependency-injection/Container";
 import { PlaylistUseCases } from "../../dependency-injection/injectPlaylistDependencies";
 import { UtilDependencies } from "../../dependency-injection/injectUtils";
+import { HttpErrorManager } from "../../helpers/HttpErrorManager";
 import { Controller } from "../Controller.interface";
 
 export class CreateTematicPlaylistController implements Controller {
@@ -34,9 +35,12 @@ export class CreateTematicPlaylistController implements Controller {
 
       res.status(201).send();
     } catch (error) {
-      console.log(error);
-      // TODO: error custom manager
-      res.status(500).send(error);
+      const { status, message } = new HttpErrorManager().manage(error);
+
+      res.status(status).json({
+        ok: false,
+        message,
+      });
     }
   }
 }

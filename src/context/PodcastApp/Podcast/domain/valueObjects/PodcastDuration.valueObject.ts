@@ -1,3 +1,4 @@
+import { InvalidFormatException } from "../../../Shared/domain/exceptions/InvalidFormat.exception";
 import { NotNullValueObject } from "../../../Shared/domain/valueObjects/NotNull.valueObject";
 
 export class PodcastDuration extends NotNullValueObject<number> {
@@ -10,9 +11,8 @@ export class PodcastDuration extends NotNullValueObject<number> {
    * @param value HH:MM:SS format
    */
   public static fromString(value: string): PodcastDuration {
-    // TODO: custom error
     if (value.split(":").length !== 3)
-      throw new Error("PodcastDuration.fromString: invalid format");
+      throw new InvalidFormatException("HH:MM:SS");
 
     const [hours, minutes, seconds] = value.split(":");
 

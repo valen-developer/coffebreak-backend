@@ -36,7 +36,9 @@ export class IvooxPodcastExtractor implements PodcastExtractor {
     const data = await this.parseXml(dataAsString);
     const episodes = this.buildPodcastEpisode(data);
 
-    return this.filterByDate(episodes, from);
+    const filteredByDate = this.filterByDate(episodes, from);
+
+    return filteredByDate;
   }
 
   private async parseXml(xml: string): Promise<IvooxResponse> {
@@ -96,7 +98,12 @@ export class IvooxPodcastExtractor implements PodcastExtractor {
     if (!date) return episodes;
 
     return episodes.filter((episode) => {
-      return episode.pubDate.ifAfter(date);
+      const isAfter = episode.pubDate.ifAfter(date);
+      if (isAfter) {
+        console.log(date);
+        console.log(episode.pubDate);
+      }
+      return;
     });
   }
 

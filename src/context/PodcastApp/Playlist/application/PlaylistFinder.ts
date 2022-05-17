@@ -1,5 +1,6 @@
 import { PodcastEpisodeFinder } from "../../Podcast/application/PodcastEpisodeFinder";
 import { PodcastEpisode } from "../../Podcast/domain/PodcastEpisode.model";
+import { NotFoundPlaylistException } from "../domain/exceptions/NotFoundPlaylist.exception";
 import { PlaylistRepository } from "../domain/interfaces/PlaylistRepository.interface";
 import { Playlist } from "../domain/Playlist.model";
 
@@ -10,7 +11,11 @@ export class PlaylistFinder {
   ) {}
 
   public async getPlaylist(uuid: string): Promise<Playlist> {
-    return this.playlistRepository.getPlaylist(uuid);
+    const playlist = await this.playlistRepository.getPlaylist(uuid);
+
+    if (!playlist) throw new NotFoundPlaylistException("Playlist not found");
+
+    return playlist;
   }
 
   public getyByOwn(own: string): Promise<Playlist[]> {

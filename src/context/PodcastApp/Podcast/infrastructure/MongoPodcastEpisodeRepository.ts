@@ -24,8 +24,10 @@ export class MongoPodcastEpisodeRepository implements PodcastEpisodeRepository {
         .limit(limit)
         .sort({ [sort_by ?? "pubDate"]: order ?? "asc" });
 
-    return episodesObjects.map(
-      (episodeObject) => new PodcastEpisode(episodeObject)
+    return (
+      episodesObjects.map(
+        (episodeObject) => new PodcastEpisode(episodeObject)
+      ) ?? []
     );
   }
 
@@ -34,7 +36,7 @@ export class MongoPodcastEpisodeRepository implements PodcastEpisodeRepository {
     const episodeObject: Nullable<PodcastEpisodeDTO> =
       await MongoPodcastEpisodeSchema.findOne({}).sort({ pubDate: -1 });
 
-    if (!episodeObject) return null;
+    if (!episodeObject) throw new Error("Not found");
 
     return new PodcastEpisode(episodeObject);
   }
@@ -46,8 +48,10 @@ export class MongoPodcastEpisodeRepository implements PodcastEpisodeRepository {
         uuid: { $in: uuids },
       }).sort({ episode: "desc" });
 
-    return episodesObjects.map(
-      (episodeObject) => new PodcastEpisode(episodeObject)
+    return (
+      episodesObjects.map(
+        (episodeObject) => new PodcastEpisode(episodeObject)
+      ) ?? []
     );
   }
 }
