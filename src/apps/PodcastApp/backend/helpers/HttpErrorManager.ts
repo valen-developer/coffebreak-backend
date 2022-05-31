@@ -27,13 +27,13 @@ export class HttpErrorManager {
         message: error.message,
       };
 
-    this.logMessage(error.message);
+    this.logError(error);
 
     return errorData;
   }
 
-  private logMessage(message: string): void {
-    console.error(message);
+  private logError(error: any): void {
+    console.error(error);
   }
 }
 

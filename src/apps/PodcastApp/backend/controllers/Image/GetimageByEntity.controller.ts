@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { existsSync } from "fs";
 import { ImageFinder } from "../../../../../context/PodcastApp/Image/application/ImageFinder";
+import { NotFoundImageException } from "../../../../../context/PodcastApp/Image/domain/exceptions/NotFoundImage.exception";
 import { Container } from "../../dependency-injection/Container";
 import { ImageDependencies } from "../../dependency-injection/injectImageDependencies";
 import { HttpErrorManager } from "../../helpers/HttpErrorManager";
@@ -18,10 +19,10 @@ export class GetImageByEntity implements Controller {
       );
 
       const images = await imageFinder.findByEntityUuid(uuid);
-      const featuredImagePath = images[0].path.value;
+      const featuredImagePath = images[0]?.path?.value;
       const exitImage = existsSync(featuredImagePath);
 
-      if (!exitImage) throw new Error("Image not found");
+      if (!exitImage) throw new NotFoundImageException("Image not found");
 
       res.sendFile(featuredImagePath);
     } catch (error) {
