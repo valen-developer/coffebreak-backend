@@ -8,6 +8,7 @@ import { SignupUser } from "../../../../context/PodcastApp/User/application/Sing
 import { UserCreator } from "../../../../context/PodcastApp/User/application/UserCreator";
 import { UserDeleter } from "../../../../context/PodcastApp/User/application/UserDeleter";
 import { UserFinder } from "../../../../context/PodcastApp/User/application/UserFinder";
+import { UserStatusUpdater } from "../../../../context/PodcastApp/User/application/UserStatusUpdater";
 import { UserUpdater } from "../../../../context/PodcastApp/User/application/UserUpdater";
 import { UserRepository } from "../../../../context/PodcastApp/User/domain/interfaces/UserRepository.interface";
 import { Container } from "./Container";
@@ -22,6 +23,7 @@ export const enum UserDependencies {
   UserFinder = "UserFinder",
   UserDeleter = "UserDeleter",
   UserUpdater = "UserUpdater",
+  UserStatusUpdater = "UserStatusUpdater",
 }
 
 export const injectUserDependencies = () => {
@@ -69,6 +71,11 @@ export const injectUserDependencies = () => {
 
   container.register(
     UserDependencies.LoginUser,
-    (c) => new LoginUser(c.get(UserDependencies.UserCreator), crypt, jwt)
+    (c) => new LoginUser(c.get(UserDependencies.UserFinder), crypt, jwt)
+  );
+
+  container.register(
+    UserDependencies.UserStatusUpdater,
+    (c) => new UserStatusUpdater(userRepository)
   );
 };

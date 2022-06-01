@@ -13,11 +13,21 @@ export class MongoUserRepository implements UserRepository {
   public async findByEmail(email: string): Promise<User> {
     const userDto: UserDto = await MongoUser.findOne({ email });
 
+    if (!userDto) {
+      // TODO: make custom error
+      throw new Error("User not found");
+    }
+
     return new User(userDto);
   }
 
   public async findByUuid(uuid: string): Promise<User> {
     const userDto: UserDto = await MongoUser.findOne({ uuid });
+
+    if (!userDto) {
+      // TODO: make custom error
+      throw new Error("User not found");
+    }
 
     return new User(userDto);
   }

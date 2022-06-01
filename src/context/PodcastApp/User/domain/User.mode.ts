@@ -15,12 +15,12 @@ export class User {
   private _status: UserStatus;
 
   constructor(dto: UserDto) {
-    this.uuid = new UUID(dto.uuid);
-    this.name = new UserName(dto.name);
-    this.email = new UserEmail(dto.email);
-    this.password = new UserPassword(dto.password);
-    this._role = new UserRole(dto.role);
-    this._status = new UserStatus(dto.status);
+    this.uuid = new UUID(dto?.uuid);
+    this.name = new UserName(dto?.name);
+    this.email = new UserEmail(dto?.email);
+    this.password = new UserPassword(dto?.password);
+    this._role = new UserRole(dto?.role);
+    this._status = new UserStatus(dto?.status);
   }
 
   get role(): UserRole {

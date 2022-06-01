@@ -15,6 +15,7 @@ export class LoginUser {
       const user = await this.userFinder.findByEmail(email);
 
       this.validatePassword(password, user.password.value);
+      this.validateUser(user);
       const jwt = this.generateJWT(user);
 
       return {
@@ -24,6 +25,17 @@ export class LoginUser {
     } catch (error) {
       // TODO: make custom error
       throw error;
+    }
+  }
+
+  private validateUser(user: User): void {
+    // TODO: make custom error
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    if (!user.status.isActive()) {
+      throw new Error("User is not active");
     }
   }
 
