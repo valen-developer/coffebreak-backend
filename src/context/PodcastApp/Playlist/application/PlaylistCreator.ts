@@ -1,6 +1,5 @@
 import { Nullable } from "../../../../helpers/types/Nullable.type";
 import { ImageCreator } from "../../Image/application/ImageCreator";
-import { Image } from "../../Image/domain/Image.model";
 import { FileUploader } from "../../Shared/domain/interfaces/FileUploader";
 import { FileData } from "../../Shared/domain/interfaces/FormDataParser.interface";
 import { UUIDGenerator } from "../../Shared/domain/interfaces/UuidGenerator";
@@ -15,13 +14,9 @@ export class PlaylistCreator {
     private uuidGenerator: UUIDGenerator
   ) {}
 
-  public async create(
-    uuid: string,
-    name: string,
-    description: string,
-    own: Nullable<string>,
-    fileData: FileData
-  ): Promise<void> {
+  public async create(params: CreatePlaylistParams): Promise<void> {
+    const { uuid, name, description, own, fileData } = params;
+
     const playlist = new Playlist({
       uuid,
       name,
@@ -52,4 +47,12 @@ export class PlaylistCreator {
 
     return this.playlistRepository.save(playlist);
   }
+}
+
+interface CreatePlaylistParams {
+  uuid: string;
+  name: string;
+  description: string;
+  own: Nullable<string>;
+  fileData: FileData;
 }
