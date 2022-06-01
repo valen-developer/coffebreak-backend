@@ -14,9 +14,18 @@ export class UserUpdater {
     private imageUpdater: ImageUpdater
   ) {}
 
-  public async update(user: User, fileData?: FileData): Promise<User> {
+  public async update(request: UpdateRequest): Promise<User> {
+    const { uuid, name, email, fileData } = request;
+
+    const oldUser = await this.userRepository.findByUuid(uuid);
+    const user = new User({
+      ...oldUser.toDto(),
+      name: name ?? oldUser.name.value,
+      email: email ?? oldUser.email.value,
+    });
+
     if (fileData) {
-      await this.updateImage(fileData, user.uuid.value);
+      await this.updateImage(fileData, oldUser.uuid.value);
     }
 
     return this.userRepository.update(user);
@@ -36,4 +45,11 @@ export class UserUpdater {
 
     await this.imageUpdater.replateForEntity(userUuid, imagePath, imageUuid);
   }
+}
+
+interface UpdateRequest {
+  uuid: string;
+  name?: string;
+  email?: string;
+  fileData?: FileData;
 }

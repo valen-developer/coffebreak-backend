@@ -2,6 +2,7 @@ import { injectImageDependencies } from "./injectImageDependencies";
 import { injectPlaylistDependencies } from "./injectPlaylistDependencies";
 import { injectPodcastEpisodiesDependencies } from "./injectPodcastEpisodiesDependencies";
 import { injectRepositories } from "./injectRepositories";
+import { injectUserDependencies } from "./injectUserDependencies";
 import { injectUtils } from "./injectUtils";
 
 export const injectAll = () => {
@@ -12,4 +13,5 @@ export const injectAll = () => {
 
   injectPodcastEpisodiesDependencies();
   injectPlaylistDependencies();
+  injectUserDependencies();
 };

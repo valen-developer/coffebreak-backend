@@ -1,6 +1,7 @@
 import { ImageCreator } from "../../../../context/PodcastApp/Image/application/ImageCreator";
 import { ImageDeleter } from "../../../../context/PodcastApp/Image/application/ImageDeleter";
 import { ImageFinder } from "../../../../context/PodcastApp/Image/application/ImageFinder";
+import { ImageUpdater } from "../../../../context/PodcastApp/Image/application/ImageUpdater";
 
 import { ImageRepository } from "../../../../context/PodcastApp/Image/domain/interfaces/ImageRepository.interface";
 
@@ -11,6 +12,7 @@ export enum ImageDependencies {
   ImageFinder = "ImageFinder",
   ImageDeleter = "ImageDeleter",
   ImageCreator = "ImageCreator",
+  ImageUpdater = "ImageUpdater",
 }
 
 export const injectImageDependencies = () => {
@@ -33,5 +35,10 @@ export const injectImageDependencies = () => {
   container.register(
     ImageDependencies.ImageCreator,
     () => new ImageCreator(imageRepository)
+  );
+
+  container.register(
+    ImageDependencies.ImageUpdater,
+    () => new ImageUpdater(imageRepository)
   );
 };

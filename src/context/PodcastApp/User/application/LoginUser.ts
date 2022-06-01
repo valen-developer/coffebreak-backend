@@ -11,18 +11,30 @@ export class LoginUser {
   ) {}
 
   public async login(email: string, password: string): Promise<LoginReponse> {
-    const user = await this.userFinder.findByEmail(email);
+    try {
+      const user = await this.userFinder.findByEmail(email);
 
-    this.validatePassword(password, user.password.value);
-    const jwt = this.generateJWT(user);
+      this.validatePassword(password, user.password.value);
+      const jwt = this.generateJWT(user);
 
-    return {
-      user: user.toDtoWidthoutPassword(),
-      token: jwt,
-    };
+      return {
+        user: user.toDtoWidthoutPassword(),
+        token: jwt,
+      };
+    } catch (error) {
+      // TODO: make custom error
+      throw error;
+    }
   }
 
-  private validatePassword(value: string, hash: string): void {}
+  private validatePassword(value: string, hash: string): void {
+    const isValid = this.crypt.compare(value, hash);
+
+    if (isValid) return;
+
+    // TODO: make custom error
+    throw new Error("Password is not valid");
+  }
 
   private generateJWT(user: User): string {
     return this.jwt.sign(

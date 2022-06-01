@@ -1,6 +1,8 @@
 import { IvooxPodcastExtractor } from "../../../../context/PodcastApp/Podcast/infrastructure/IvooxPodcastExtractor";
+import { BCrypt } from "../../../../context/PodcastApp/Shared/infrastructure/BCrypt";
 import { FormidableFormDataParser } from "../../../../context/PodcastApp/Shared/infrastructure/FormidableFormDataParser";
 import { FsFileUploader } from "../../../../context/PodcastApp/Shared/infrastructure/FsFileUploader";
+import { JsonWebTokenJWT } from "../../../../context/PodcastApp/Shared/infrastructure/JsonWebTokenJWT";
 import { MongoQueryBuilder } from "../../../../context/PodcastApp/Shared/infrastructure/MongoQueryBuilder";
 import { NanoUuidGenerator } from "../../../../context/PodcastApp/Shared/infrastructure/NanoUuidGenerator";
 import { NodeCronJob } from "../../../../context/PodcastApp/Shared/infrastructure/NodeCronJob";
@@ -15,6 +17,8 @@ export enum UtilDependencies {
   QueryBuilder = "QueryBuilder",
   FormDataParser = "FormDataParser",
   FileUploader = "FileUploader",
+  Crypt = "Crypt",
+  JWT = "JWT",
 }
 
 export const injectUtils = () => {
@@ -48,4 +52,8 @@ export const injectUtils = () => {
   );
 
   container.register(UtilDependencies.FileUploader, () => new FsFileUploader());
+
+  container.register(UtilDependencies.Crypt, () => new BCrypt());
+
+  container.register(UtilDependencies.JWT, () => new JsonWebTokenJWT());
 };
