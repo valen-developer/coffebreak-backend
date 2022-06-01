@@ -6,4 +6,5 @@ export abstract class ImageRepository {
   abstract findByEntityUuid(entityUuid: string): Promise<Image[]>;
   abstract deleteByUuid(uuid: string): Promise<void>;
   abstract deleteByEntityUuid(entityUuid: string): Promise<void>;
+  abstract update(image: Image): Promise<Image>;
 }
