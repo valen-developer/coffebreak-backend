@@ -5,6 +5,7 @@ import { GetAllChannelsController } from "../controllers/Playlist/GetAllChannels
 import { GetPlaylistEpisodesController } from "../controllers/Playlist/GetEpisodes.controller";
 import { GetPlaylistController } from "../controllers/Playlist/GetPlaylist.controller";
 import { GetPlaylistByOwnController } from "../controllers/Playlist/GetPlaylistByOwn.controller";
+import { ValidateJWTMiddlware } from "../middlewares/ValidateJWT.middleware";
 
 export const playlistRouter = Router();
 
@@ -15,8 +16,16 @@ playlistRouter.get("/:uuid/episodes", new GetPlaylistEpisodesController().run);
 playlistRouter.get("/:uuid", new GetPlaylistController().run);
 
 // Post
-playlistRouter.post("/", new CreatePlaylistController().run);
-playlistRouter.post("/tematic", new CreateTematicPlaylistController().run);
+playlistRouter.post(
+  "/",
+  [new ValidateJWTMiddlware().handle],
+  new CreatePlaylistController().run
+);
+playlistRouter.post(
+  "/tematic",
+  [new ValidateJWTMiddlware().handle],
+  new CreateTematicPlaylistController().run
+);
 
 // Put
 

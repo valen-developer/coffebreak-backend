@@ -7,7 +7,7 @@ import { Controller } from "../Controller.interface";
 
 export class ValidateUserController implements Controller {
   public async run(req: Request, res: Response): Promise<void> {
-    const { uuid: userUuid } = req.params;
+    const { userTokenUuid } = req.body;
 
     try {
       const container = Container.getInstance();
@@ -15,7 +15,7 @@ export class ValidateUserController implements Controller {
         UserDependencies.UserStatusUpdater
       );
 
-      await userStatusUpdater.activateUser(userUuid);
+      await userStatusUpdater.activateUser(userTokenUuid);
 
       res.status(201).json({ ok: true });
     } catch (error) {
