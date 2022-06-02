@@ -10,8 +10,12 @@ import { ValidateJWTMiddlware } from "../middlewares/ValidateJWT.middleware";
 export const playlistRouter = Router();
 
 // Get
+playlistRouter.get(
+  "/own",
+  [new ValidateJWTMiddlware().handle],
+  new GetPlaylistByOwnController().run
+);
 playlistRouter.get("/channels", new GetAllChannelsController().run);
-playlistRouter.get("/own", new GetPlaylistByOwnController().run);
 playlistRouter.get("/:uuid/episodes", new GetPlaylistEpisodesController().run);
 playlistRouter.get("/:uuid", new GetPlaylistController().run);
 
