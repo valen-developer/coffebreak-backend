@@ -19,8 +19,10 @@ export class PodcastExtractorCrontab {
   public async run(): Promise<void> {
     this.extract();
 
-    // exectcute extract all thursday at 19h CEST
-    this.cron.schedule("0 17,18,19,20,21 * * THU", () => this.extract());
+    // execute extract every second between 22:00 and 23:00 (UTC)
+    this.cron.schedule("*/1 * * * 4", async () => {
+      await this.extract();
+    });
     this.cron.start();
   }
 
