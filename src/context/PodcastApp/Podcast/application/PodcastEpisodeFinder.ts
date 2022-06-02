@@ -17,19 +17,18 @@ export class PodcastEpisodeFinder {
 
   async findLastPublished(): Promise<Nullable<PodcastEpisode>> {
     try {
+      const dayInMilliseconds = 1000 * 60 * 60 * 24;
       const podcasts = await this.filter({
         // greater than last week minus a day
-        pubDate_gte: new Date(
-          new Date().getTime() - 7 * 24 * 60 * 60 * 1000 - 24 * 60 * 60 * 1000
-        ),
+        pubDate_gte: new Date(new Date().getTime() - 20 * dayInMilliseconds),
       });
 
       const sortedByPubDate = podcasts.sort((a, b) => {
         const ifAfter = a.pubDate.ifAfter(b.pubDate.value);
-        return ifAfter ? 1 : -1;
-      })[0];
+        return ifAfter ? -1 : 1;
+      });
 
-      return sortedByPubDate;
+      return sortedByPubDate[0];
     } catch (error) {
       throw new NotFoundEpisodeException();
     }

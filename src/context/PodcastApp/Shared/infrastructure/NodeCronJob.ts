@@ -17,9 +17,6 @@ export class NodeCronJob implements CronJob {
 
     cron.schedule(this.time, this.callback).start();
     cron.getTasks();
-    console.log(
-      "🚀 ~ file: NodeCronJob.ts ~ line 20 ~ NodeCronJob ~ start ~ cron.getTasks()",
-      cron.getTasks()
-    );
+    
   }
 }

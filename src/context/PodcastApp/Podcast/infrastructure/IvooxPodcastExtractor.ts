@@ -99,11 +99,7 @@ export class IvooxPodcastExtractor implements PodcastExtractor {
 
     return episodes.filter((episode) => {
       const isAfter = episode.pubDate.ifAfter(date);
-      if (isAfter) {
-        console.log(date);
-        console.log(episode.pubDate);
-      }
-      return;
+      return isAfter;
     });
   }
 

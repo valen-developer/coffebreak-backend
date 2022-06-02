@@ -20,13 +20,15 @@ export class PodcastExtractorCrontab {
     this.extract();
 
     // execute extract every second between 22:00 and 23:00 (UTC)
-    this.cron.schedule("*/1 * * * 4", async () => {
+    this.cron.schedule("10 */1 * * * 5", async () => {
       await this.extract();
     });
     this.cron.start();
   }
 
   public async extract(): Promise<void> {
+    console.log("extracting podcasts");
+    console.log(new Date().toISOString());
     const lastEpisode = await this.podcastFinder
       .findLastPublished()
       .catch(() => null);
