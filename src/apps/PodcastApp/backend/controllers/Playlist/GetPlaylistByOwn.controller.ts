@@ -9,7 +9,7 @@ import { Controller } from "../Controller.interface";
 
 export class GetPlaylistByOwnController implements Controller {
   public async run(req: Request, res: Response): Promise<void> {
-    const { uuid } = req.body;
+    const { userTokenUuid } = req.body;
 
     try {
       const container = Container.getInstance();
@@ -18,7 +18,7 @@ export class GetPlaylistByOwnController implements Controller {
         PlaylistUseCases.PlaylistFinder
       );
 
-      const playlist = await playlistFinder.getyByOwn(uuid);
+      const playlist = await playlistFinder.getyByOwn(userTokenUuid);
 
       res.json({
         ok: true,
