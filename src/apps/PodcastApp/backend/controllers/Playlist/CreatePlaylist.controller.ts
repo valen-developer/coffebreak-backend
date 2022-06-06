@@ -28,7 +28,7 @@ export class CreatePlaylistController implements Controller {
         PlaylistUseCases.PlaylistCreator
       );
 
-      await playlistCreator.create({
+      const playlist = await playlistCreator.create({
         uuid,
         name,
         description,
@@ -36,8 +36,9 @@ export class CreatePlaylistController implements Controller {
         fileData: files[0],
       });
 
-      res.status(201).json({
+      res.json({
         ok: true,
+        playlist: playlist.toDTO(),
       });
     } catch (error) {
       const { status, message } = new HttpErrorManager().manage(error);

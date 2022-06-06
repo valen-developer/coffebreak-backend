@@ -14,7 +14,7 @@ export class PlaylistCreator {
     private uuidGenerator: UUIDGenerator
   ) {}
 
-  public async create(params: CreatePlaylistParams): Promise<void> {
+  public async create(params: CreatePlaylistParams): Promise<Playlist> {
     const { uuid, name, description, own, fileData } = params;
 
     const playlist = new Playlist({
@@ -25,6 +25,8 @@ export class PlaylistCreator {
     });
 
     await this.fromEntity(playlist, fileData);
+
+    return playlist;
   }
 
   public async fromEntity(

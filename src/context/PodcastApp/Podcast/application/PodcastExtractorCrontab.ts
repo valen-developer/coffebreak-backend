@@ -28,7 +28,10 @@ export class PodcastExtractorCrontab {
 
   public async extract(): Promise<void> {
     console.log("extracting podcasts");
-    console.log(new Date().toISOString());
+    // timezone Madrid
+    console.log(
+      new Date().toLocaleString("es-ES", { timeZone: "Europe/Madrid" })
+    );
     const lastEpisode = await this.podcastFinder
       .findLastPublished()
       .catch(() => null);
