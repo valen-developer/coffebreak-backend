@@ -8,7 +8,7 @@ import { Controller } from "../Controller.interface";
 export class AddEpisodeToPlaylistController implements Controller {
   public async run(req: Request, res: Response): Promise<void> {
     const { uuid: playlistUuid } = req.params;
-    const { uuid, episodeUuid } = req.body;
+    const { episodeUuid } = req.body;
 
     try {
       const container = Container.getInstance();
