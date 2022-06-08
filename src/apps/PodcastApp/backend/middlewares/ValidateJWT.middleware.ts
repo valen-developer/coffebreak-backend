@@ -3,7 +3,9 @@ import {
   JWT,
   JWT_CONFIG,
 } from "../../../../context/PodcastApp/Shared/domain/interfaces/JWT.interface";
+import { UserFinder } from "../../../../context/PodcastApp/User/application/UserFinder";
 import { Container } from "../dependency-injection/Container";
+import { UserDependencies } from "../dependency-injection/injectUserDependencies";
 import { UtilDependencies } from "../dependency-injection/injectUtils";
 import { Middleware } from "./Middleware.interface";
 
@@ -24,6 +26,13 @@ export class ValidateJWTMiddlware implements Middleware {
 
       const { uuid } = jwt.decode(token);
       req.body.userTokenUuid = uuid;
+
+      // get user from token
+      const userFinder = container.get<UserFinder>(UserDependencies.UserFinder);
+      const user = await userFinder.findByUuid(uuid);
+
+      if (!user) throw new Error("User not found");
+      req.body.loggedUser = user;
 
       next();
     } catch (error) {

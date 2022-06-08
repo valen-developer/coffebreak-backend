@@ -45,7 +45,11 @@ export const injectPlaylistDependencies = () => {
 
   container.register(
     PlaylistUseCases.PlaylistDeleter,
-    () => new PlaylistDeleter(playlistRepository)
+    () =>
+      new PlaylistDeleter(
+        playlistRepository,
+        container.get(ImageDependencies.ImageDeleter)
+      )
   );
 
   container.register(

@@ -7,4 +7,5 @@ export abstract class FileUploader {
    * @returns file path
    */
   abstract uploadImage(file: FileData): Promise<string>;
+  abstract deleteImage(filePath: string): Promise<void>;
 }

@@ -7,6 +7,7 @@ import { ImageRepository } from "../../../../context/PodcastApp/Image/domain/int
 
 import { Container } from "./Container";
 import { Repositories } from "./injectRepositories";
+import { UtilDependencies } from "./injectUtils";
 
 export enum ImageDependencies {
   ImageFinder = "ImageFinder",
@@ -29,7 +30,11 @@ export const injectImageDependencies = () => {
 
   container.register(
     ImageDependencies.ImageDeleter,
-    () => new ImageDeleter(imageRepository)
+    () =>
+      new ImageDeleter(
+        imageRepository,
+        container.get(UtilDependencies.FileUploader)
+      )
   );
 
   container.register(

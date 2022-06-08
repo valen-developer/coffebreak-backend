@@ -2,6 +2,7 @@ import { Router } from "express";
 import { AddEpisodeToPlaylistController } from "../controllers/Playlist/AddEpisode.controller";
 import { CreatePlaylistController } from "../controllers/Playlist/CreatePlaylist.controller";
 import { CreateTematicPlaylistController } from "../controllers/Playlist/CreateTematicPlaylist.controller";
+import { DeletePlaylistController } from "../controllers/Playlist/DeletePlaylist.controller";
 import { GetAllChannelsController } from "../controllers/Playlist/GetAllChannels.controller";
 import { GetPlaylistEpisodesController } from "../controllers/Playlist/GetEpisodes.controller";
 import { GetPlaylistController } from "../controllers/Playlist/GetPlaylist.controller";
@@ -46,3 +47,8 @@ playlistRouter.post(
 );
 
 // Delete
+playlistRouter.delete(
+  "/:uuid",
+  [new ValidateJWTMiddlware().handle],
+  new DeletePlaylistController().run
+);

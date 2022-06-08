@@ -43,4 +43,8 @@ export class FsFileUploader implements FileUploader {
       fs.mkdirSync(this._IMAGE_PATH);
     }
   }
+
+  public async deleteImage(filePath: string): Promise<void> {
+    fs.unlinkSync(filePath);
+  }
 }
