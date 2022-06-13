@@ -28,6 +28,12 @@ export class MongoPlaylistRepository implements PlaylistRepository {
     await MongoPlaylistSchema.findOneAndDelete({ uuid: uuid });
   }
 
+  public async filter(query: any): Promise<Playlist[]> {
+    const playlistsDto: PlaylistDTO[] = await MongoPlaylistSchema.find(query);
+
+    return playlistsDto.map((playlistDTO) => new Playlist(playlistDTO));
+  }
+
   public async getPlaylist(uuid: string): Promise<Playlist> {
     const playlistDTO: PlaylistDTO = await MongoPlaylistSchema.findOne({
       uuid: uuid,

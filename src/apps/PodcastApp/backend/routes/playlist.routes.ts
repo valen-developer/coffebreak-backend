@@ -8,6 +8,7 @@ import { GetPlaylistEpisodesController } from "../controllers/Playlist/GetEpisod
 import { GetPlaylistController } from "../controllers/Playlist/GetPlaylist.controller";
 import { GetPlaylistByOwnController } from "../controllers/Playlist/GetPlaylistByOwn.controller";
 import { RemoveEpisodeFromPlaylistController } from "../controllers/Playlist/RemoveEpisode.controller";
+import { SearchPlaylistsController } from "../controllers/Playlist/SearchPlaylists.controller";
 import { ValidateJWTMiddlware } from "../middlewares/ValidateJWT.middleware";
 
 export const playlistRouter = Router();
@@ -32,6 +33,11 @@ playlistRouter.post(
   "/tematic",
   [new ValidateJWTMiddlware().handle],
   new CreateTematicPlaylistController().run
+);
+playlistRouter.post(
+  "/search",
+  [new ValidateJWTMiddlware().handle],
+  new SearchPlaylistsController().run
 );
 
 // Put

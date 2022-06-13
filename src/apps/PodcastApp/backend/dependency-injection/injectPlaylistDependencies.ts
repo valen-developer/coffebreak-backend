@@ -57,7 +57,8 @@ export const injectPlaylistDependencies = () => {
     (c) =>
       new PlaylistFinder(
         playlistRepository,
-        c.get(PodcastEpisodeDependencies.PodcastEpisodeFinder)
+        c.get(PodcastEpisodeDependencies.PodcastEpisodeFinder),
+        c.get(UtilDependencies.QueryBuilder)
       )
   );
 
