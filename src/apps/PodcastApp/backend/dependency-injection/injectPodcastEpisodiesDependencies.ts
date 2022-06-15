@@ -37,7 +37,8 @@ export const injectPodcastEpisodiesDependencies = () => {
         c.get(UtilDependencies.CronJob),
         c.get(PodcastEpisodeDependencies.PodcastExtractor),
         c.get(PodcastEpisodeDependencies.PodcastEpisodeFinder),
-        c.get(Repositories.PodcastEpisodeRepository)
+        c.get(Repositories.PodcastEpisodeRepository),
+        c.get(UtilDependencies.EventEmitter)
       )
   );
 };

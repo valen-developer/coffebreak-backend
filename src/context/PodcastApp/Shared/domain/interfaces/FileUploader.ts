@@ -8,4 +8,5 @@ export abstract class FileUploader {
    */
   abstract uploadImage(file: FileData): Promise<string>;
   abstract deleteImage(filePath: string): Promise<void>;
+  abstract duplicateImage(filePath: string, newName: string): Promise<string>;
 }

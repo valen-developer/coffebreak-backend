@@ -5,6 +5,7 @@ import { FsFileUploader } from "../../../../context/PodcastApp/Shared/infrastruc
 import { JsonWebTokenJWT } from "../../../../context/PodcastApp/Shared/infrastructure/JsonWebTokenJWT";
 import { MongoQueryBuilder } from "../../../../context/PodcastApp/Shared/infrastructure/MongoQueryBuilder";
 import { NanoUuidGenerator } from "../../../../context/PodcastApp/Shared/infrastructure/NanoUuidGenerator";
+import { NativeEventEmitter } from "../../../../context/PodcastApp/Shared/infrastructure/NativeEventEmitter";
 import { NodeCronJob } from "../../../../context/PodcastApp/Shared/infrastructure/NodeCronJob";
 import { NodeFetchHttpClient } from "../../../../context/PodcastApp/Shared/infrastructure/NodeFetchHttpClient";
 import { Container } from "./Container";
@@ -19,6 +20,7 @@ export enum UtilDependencies {
   FileUploader = "FileUploader",
   Crypt = "Crypt",
   JWT = "JWT",
+  EventEmitter = "EventEmitter",
 }
 
 export const injectUtils = () => {
@@ -56,4 +58,9 @@ export const injectUtils = () => {
   container.register(UtilDependencies.Crypt, () => new BCrypt());
 
   container.register(UtilDependencies.JWT, () => new JsonWebTokenJWT());
+
+  container.register(
+    UtilDependencies.EventEmitter,
+    () => new NativeEventEmitter()
+  );
 };

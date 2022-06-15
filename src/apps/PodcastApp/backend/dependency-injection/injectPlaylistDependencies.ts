@@ -77,7 +77,8 @@ export const injectPlaylistDependencies = () => {
       new PlaylistTematicCreator(
         c.get(PodcastEpisodeDependencies.PodcastEpisodeFinder),
         c.get(PlaylistUseCases.PlaylistCreator),
-        c.get(UtilDependencies.UuidGenerator)
+        c.get(UtilDependencies.UuidGenerator),
+        c.get(UtilDependencies.EventEmitter)
       )
   );
 };

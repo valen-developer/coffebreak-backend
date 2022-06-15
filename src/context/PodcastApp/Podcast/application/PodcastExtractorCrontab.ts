@@ -1,5 +1,7 @@
 import { asyncForeach } from "../../../../helpers/functions/asyncForeach.function";
+import { Events } from "../../Shared/domain/constants/Events";
 import { CronJob } from "../../Shared/domain/interfaces/Cronjob.interface";
+import { EventEmitter } from "../../Shared/domain/interfaces/EventEmitter";
 import { HttpClient } from "../../Shared/domain/interfaces/HttpClient.interface";
 import { UUIDGenerator } from "../../Shared/domain/interfaces/UuidGenerator";
 import { PodcastEpisodeRepository } from "../domain/interfaces/PodcastEpisodeRepository.interface";
@@ -13,14 +15,15 @@ export class PodcastExtractorCrontab {
     private cron: CronJob,
     private podcastExtractor: PodcastExtractor,
     private podcastFinder: PodcastEpisodeFinder,
-    private podcastEpisodeRepository: PodcastEpisodeRepository
+    private podcastEpisodeRepository: PodcastEpisodeRepository,
+    private eventEmitter: EventEmitter
   ) {}
 
   public async run(): Promise<void> {
     this.extract();
 
     // execute extract every second between 22:00 and 23:00 (UTC)
-    this.cron.schedule("10 */1 * * * 5", async () => {
+    this.cron.schedule("10,30,50 */1 * * * *", async () => {
       await this.extract();
     });
     this.cron.start();
@@ -43,6 +46,7 @@ export class PodcastExtractorCrontab {
 
     await asyncForeach(newsEpisodes, async (episode) => {
       await this.podcastEpisodeRepository.save(episode).catch();
+      this.eventEmitter.emit(Events.NEW_EPISODE, episode);
     });
   }
 }

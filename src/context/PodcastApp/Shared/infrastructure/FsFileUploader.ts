@@ -47,4 +47,12 @@ export class FsFileUploader implements FileUploader {
   public async deleteImage(filePath: string): Promise<void> {
     fs.unlinkSync(filePath);
   }
+
+  public async duplicateImage(
+    filePath: string,
+    newName: string
+  ): Promise<string> {
+    // TODO: implement
+    return "";
+  }
 }
