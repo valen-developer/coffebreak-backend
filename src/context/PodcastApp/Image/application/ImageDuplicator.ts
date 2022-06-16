@@ -10,19 +10,22 @@ export class ImageDuplicator {
     private fileUploader: FileUploader
   ) {}
 
-  public async duplicate(imageUuid: string): Promise<Image> {
+  public async duplicate(
+    imageUuid: string,
+    entityUuid: string,
+    newName: string
+  ): Promise<Image> {
     const image = await this.imageRepository.findByUuid(imageUuid);
-    const newUuid = this.uuidGenerator.generate();
 
     const newPath = await this.fileUploader.duplicateImage(
       image.path.value,
-      newUuid
+      newName
     );
 
     const newImage = new Image({
       uuid: this.uuidGenerator.generate(),
       path: newPath,
-      entityUuid: image.entityUuid.value,
+      entityUuid,
     });
 
     return await this.imageRepository.save(newImage);

@@ -1,5 +1,6 @@
 import { PlaylistCreator } from "../../../../context/PodcastApp/Playlist/application/PlaylistCreator";
 import { PlaylistDeleter } from "../../../../context/PodcastApp/Playlist/application/PlaylistDeleter";
+import { PlaylistDuplicator } from "../../../../context/PodcastApp/Playlist/application/PlaylistDuplicator";
 import { PlaylistEpisodeUpdater } from "../../../../context/PodcastApp/Playlist/application/PlaylistEpisodeUpdater";
 import { PlaylistFinder } from "../../../../context/PodcastApp/Playlist/application/PlaylistFinder";
 import { PlaylistTematicCreator } from "../../../../context/PodcastApp/Playlist/application/PlaylistTematicCreator";
@@ -18,6 +19,7 @@ export enum PlaylistUseCases {
   PlaylistFinder = "PlaylistFinder",
   PlaylistEpisodesUpdater = "PlaylistEpisodesUpdater",
   PlaylistTematicCreator = "PlaylistTematicCreator",
+  PlaylistDuplicator = "PlaylistDuplicator",
 }
 
 export const injectPlaylistDependencies = () => {
@@ -79,6 +81,17 @@ export const injectPlaylistDependencies = () => {
         c.get(PlaylistUseCases.PlaylistCreator),
         c.get(UtilDependencies.UuidGenerator),
         c.get(UtilDependencies.EventEmitter)
+      )
+  );
+
+  container.register(
+    PlaylistUseCases.PlaylistDuplicator,
+    (c) =>
+      new PlaylistDuplicator(
+        playlistRepository,
+        c.get(ImageDependencies.ImageFinder),
+        c.get(ImageDependencies.ImageDuplicator),
+        c.get(UtilDependencies.UuidGenerator)
       )
   );
 };

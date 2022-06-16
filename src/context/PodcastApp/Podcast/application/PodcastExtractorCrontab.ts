@@ -23,7 +23,7 @@ export class PodcastExtractorCrontab {
     this.extract();
 
     // execute extract every second between 22:00 and 23:00 (UTC)
-    this.cron.schedule("10,30,50 */1 * * * *", async () => {
+    this.cron.schedule("10 */2 * * * 5", async () => {
       await this.extract();
     });
     this.cron.start();

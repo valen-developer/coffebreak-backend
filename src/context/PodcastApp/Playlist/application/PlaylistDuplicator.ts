@@ -1,3 +1,4 @@
+import { ImageDuplicator } from "../../Image/application/ImageDuplicator";
 import { ImageFinder } from "../../Image/application/ImageFinder";
 import { ImageRepository } from "../../Image/domain/interfaces/ImageRepository.interface";
 import { UUIDGenerator } from "../../Shared/domain/interfaces/UuidGenerator";
@@ -8,6 +9,7 @@ export class PlaylistDuplicator {
   constructor(
     private playlistRepository: PlaylistRepository,
     private imageFinder: ImageFinder,
+    private imageDuplicator: ImageDuplicator,
     private uuidGenerator: UUIDGenerator
   ) {}
 
@@ -16,7 +18,7 @@ export class PlaylistDuplicator {
     ownUuid?: string
   ): Promise<Playlist> {
     const playlist = await this.playlistRepository.getPlaylist(playlistUuid);
-    const image = await this.imageFinder.findByEntityUuid(playlist.uuid.value);
+    const images = await this.imageFinder.findByEntityUuid(playlist.uuid.value);
 
     const newPlaylist = new Playlist({
       uuid: this.uuidGenerator.generate(),
@@ -27,6 +29,11 @@ export class PlaylistDuplicator {
     });
 
     await this.playlistRepository.save(newPlaylist);
+    await this.imageDuplicator.duplicate(
+      images[0]?.uuid.value,
+      newPlaylist.uuid.value,
+      newPlaylist.uuid.value
+    );
 
     return newPlaylist;
   }

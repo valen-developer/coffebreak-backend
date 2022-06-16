@@ -18,13 +18,13 @@ export class MongoImageRepository implements ImageRepository {
   }
 
   public async findByUuid(uuid: string): Promise<Image> {
-    const imageSchema = await MongoImageSchema.findOne({ uuid });
+    const imageSchema: ImageDTO = await MongoImageSchema.findOne({ uuid });
 
     if (!imageSchema) {
       throw new NotFoundImageException("Image not found");
     }
 
-    return new Image(imageSchema.toDTO());
+    return new Image(imageSchema);
   }
 
   public async findByEntityUuid(entityUuid: string): Promise<Image[]> {

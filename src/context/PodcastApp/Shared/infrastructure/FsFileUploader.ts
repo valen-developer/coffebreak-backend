@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+
 import { enviroment } from "../../../../apps/PodcastApp/backend/config/enviroment";
 import { InvalidImageExtension } from "../../Image/domain/exceptions/InvalidImageExtension.exception";
 import { NullException } from "../domain/exceptions/Null.exception";
@@ -52,7 +53,24 @@ export class FsFileUploader implements FileUploader {
     filePath: string,
     newName: string
   ): Promise<string> {
-    // TODO: implement
-    return "";
+    const splitted = filePath.split("/");
+    const imageName = splitted[splitted.length - 1];
+    const imageNameWithoutExt = imageName.split(".")[0];
+    const ext = imageName.split(".")[1];
+    const tempImageName = `${imageNameWithoutExt}_${newName}.${ext}`;
+
+    // copy from filePath
+    const tempPath = path.join(this._TMP_PATH, tempImageName);
+    fs.copyFileSync(filePath, tempPath);
+
+    const fileData: FileData = {
+      mimeType: `image/${ext}`,
+      orginalName: tempImageName,
+      path: tempPath,
+      size: fs.statSync(tempPath).size,
+      name: newName,
+    };
+
+    return await this.uploadImage(fileData);
   }
 }
