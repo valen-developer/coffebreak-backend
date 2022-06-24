@@ -43,7 +43,7 @@ export class UserUpdater {
 
     const imagePath = await this.fileUploader.uploadImage(file);
 
-    await this.imageUpdater.replateForEntity(userUuid, imagePath, imageUuid);
+    await this.imageUpdater.replaceForEntity(userUuid, imagePath, imageUuid);
   }
 }
 

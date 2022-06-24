@@ -9,7 +9,7 @@ export class ImageUpdater {
     return this.imageRepository.update(image);
   }
 
-  public async replateForEntity(
+  public async replaceForEntity(
     entityUuid: string,
     imagePath: string,
     imageUuid: string

@@ -1,4 +1,5 @@
 import { NotNullValueObject } from "../../../Shared/domain/valueObjects/NotNull.valueObject";
+import { InvalidPlaylistDescriptionLong } from "../exceptions/InvalidPlaylistDescriptionLong.exception";
 
 export class PlaylistDescription extends NotNullValueObject<string> {
   constructor(value: string) {
@@ -20,8 +21,7 @@ export class PlaylistDescription extends NotNullValueObject<string> {
 
     if (isValidLong) return;
 
-    // TODO: make custom error
-    throw new Error(
+    throw new InvalidPlaylistDescriptionLong(
       `PlaylistDescription must be between ${MIN_LONG} and ${MAX_LONG} characters`
     );
   }

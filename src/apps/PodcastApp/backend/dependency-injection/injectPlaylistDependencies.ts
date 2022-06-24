@@ -42,7 +42,13 @@ export const injectPlaylistDependencies = () => {
 
   container.register(
     PlaylistUseCases.PlaylistUpdater,
-    () => new PlaylistUpdater(playlistRepository)
+    () =>
+      new PlaylistUpdater(
+        playlistRepository,
+        container.get(UtilDependencies.UuidGenerator),
+        container.get(UtilDependencies.FileUploader),
+        container.get(ImageDependencies.ImageUpdater)
+      )
   );
 
   container.register(

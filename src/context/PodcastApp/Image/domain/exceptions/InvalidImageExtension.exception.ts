@@ -6,7 +6,8 @@ export class InvalidImageExtension extends InvalidException implements Error {
   stack?: string | undefined;
 
   constructor(ext: string) {
-    super();
+    const message = `Invalid image extension: ${ext}`;
+    super(message);
     this.name = "InvalidImageExtension";
     this.message = `Invalid image extension: ${ext}`;
   }

@@ -10,6 +10,7 @@ import { GetPlaylistController } from "../controllers/Playlist/GetPlaylist.contr
 import { GetPlaylistByOwnController } from "../controllers/Playlist/GetPlaylistByOwn.controller";
 import { RemoveEpisodeFromPlaylistController } from "../controllers/Playlist/RemoveEpisode.controller";
 import { SearchPlaylistsController } from "../controllers/Playlist/SearchPlaylists.controller";
+import { UpdatePlaylistController } from "../controllers/Playlist/UpdatePlaylist.controller";
 import { ValidateJWTMiddlware } from "../middlewares/ValidateJWT.middleware";
 
 export const playlistRouter = Router();
@@ -47,6 +48,11 @@ playlistRouter.post(
 );
 
 // Put
+playlistRouter.put(
+  "/:uuid",
+  [new ValidateJWTMiddlware().handle],
+  new UpdatePlaylistController().run
+);
 playlistRouter.post(
   "/:uuid/episode/add",
   [new ValidateJWTMiddlware().handle],

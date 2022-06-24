@@ -8,7 +8,8 @@ export class InvalidFormatException extends InvalidException implements Error {
   stack?: string | undefined;
 
   constructor(correctFormat: string) {
-    super();
+    const message = `Invalid format. Correct format: ${correctFormat}`;
+    super(message);
     this.correctFormat = correctFormat;
 
     this.name = "InvalidFormatException";

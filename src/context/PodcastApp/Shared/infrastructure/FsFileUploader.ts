@@ -19,7 +19,7 @@ export class FsFileUploader implements FileUploader {
   }
 
   public async uploadImage(file: FileData): Promise<string> {
-    if (!file.name) throw new NullException("file name");
+    if (!file?.size) throw new NullException("image");
 
     const fileExt = this.ext(file.mimeType);
 

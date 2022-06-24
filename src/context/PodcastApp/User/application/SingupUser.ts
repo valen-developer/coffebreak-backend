@@ -2,6 +2,7 @@ import {
   CRYPT_SALT_ROUNDS,
   ICrypt,
 } from "../../Shared/domain/interfaces/Crypt.interface";
+import { InvalidPasswordConfirmationException } from "../domain/exceptions/InvalidPasswordConfirmation.exception";
 import { User } from "../domain/User.mode";
 import { UserPassword } from "../domain/valueObject/UserPassword.valueObject";
 import { UserCreator } from "./UserCreator";
@@ -30,8 +31,9 @@ export class SignupUser {
     const isSame = password === passwordConfirm;
     if (isSame) return;
 
-    // TODO: make custom error
-    throw new Error("Password and password confirm are not the same");
+    throw new InvalidPasswordConfirmationException(
+      "Password and password confirm are not the same"
+    );
   }
 }
 
