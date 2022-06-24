@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "dev:podcastapp:backend": "NODE_ENV=dev ts-node-dev --ignore-watch node_modules ./src/apps/PodcastApp/backend/start.ts",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "commit": "build_commit"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.0.2",
