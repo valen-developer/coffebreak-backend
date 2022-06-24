@@ -1,4 +1,5 @@
 import { IvooxPodcastExtractor } from "../../../../context/PodcastApp/Podcast/infrastructure/IvooxPodcastExtractor";
+import { TempDirCleaner } from "../../../../context/PodcastApp/Shared/application/TempDirCleaner";
 import { BCrypt } from "../../../../context/PodcastApp/Shared/infrastructure/BCrypt";
 import { FormidableFormDataParser } from "../../../../context/PodcastApp/Shared/infrastructure/FormidableFormDataParser";
 import { FsFileUploader } from "../../../../context/PodcastApp/Shared/infrastructure/FsFileUploader";
@@ -21,6 +22,7 @@ export enum UtilDependencies {
   Crypt = "Crypt",
   JWT = "JWT",
   EventEmitter = "EventEmitter",
+  TempDirCleaner = "TempDirCleaner",
 }
 
 export const injectUtils = () => {
@@ -62,5 +64,10 @@ export const injectUtils = () => {
   container.register(
     UtilDependencies.EventEmitter,
     () => new NativeEventEmitter()
+  );
+
+  container.register(
+    UtilDependencies.TempDirCleaner,
+    () => new TempDirCleaner(container.get(UtilDependencies.CronJob))
   );
 };
