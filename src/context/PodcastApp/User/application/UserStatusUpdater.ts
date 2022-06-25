@@ -4,16 +4,16 @@ import { User } from "../domain/User.mode";
 export class UserStatusUpdater {
   constructor(private userRepository: UserRepository) {}
 
-  public async activateUser(uuid: string): Promise<void> {
+  public async activateUser(uuid: string): Promise<User> {
     const user = await this.userRepository.findByUuid(uuid);
     user.activate();
-    await this.userRepository.update(user);
+    return await this.userRepository.update(user);
   }
 
-  public async deactivateUser(uuid: string): Promise<void> {
+  public async deactivateUser(uuid: string): Promise<User> {
     const user = await this.userRepository.findByUuid(uuid);
     user.deactivate();
 
-    await this.userRepository.update(user);
+    return await this.userRepository.update(user);
   }
 }
