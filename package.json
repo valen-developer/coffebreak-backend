@@ -9,6 +9,11 @@
     "test": "jest",
     "prepare": "husky install"
   },
+  "husky": {
+    "hooks": {
+      "pre-push": "./.husky/pre-push"
+    }
+  },
   "devDependencies": {
     "@commitlint/cli": "^17.0.2",
     "@commitlint/config-angular": "^17.0.0",
