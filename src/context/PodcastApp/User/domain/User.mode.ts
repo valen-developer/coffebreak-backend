@@ -53,11 +53,11 @@ export class User {
   }
 
   public activate(): void {
-    this._status = new UserStatus("ACTIVE");
+    this._status = new UserStatus(USER_STATUS.ACTIVE);
   }
 
   public deactivate(): void {
-    this._status = new UserStatus("INACTIVE");
+    this._status = new UserStatus(USER_STATUS.INACTIVE);
   }
 }
 

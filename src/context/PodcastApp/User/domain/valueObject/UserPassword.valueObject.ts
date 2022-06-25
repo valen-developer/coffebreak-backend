@@ -1,4 +1,5 @@
 import { NotNullValueObject } from "../../../Shared/domain/valueObjects/NotNull.valueObject";
+import { InvalidPasswordException } from "../exceptions/InvalidPassword.exception";
 
 export class UserPassword extends NotNullValueObject<string> {
   constructor(value: string) {
@@ -11,29 +12,18 @@ export class UserPassword extends NotNullValueObject<string> {
   }
 
   private static isValidLong(value: string): void {
-    const MIN_LONG = 8;
-    const MAX_LONG = 20;
-
-    const isValid = value.length >= MIN_LONG && value.length <= MAX_LONG;
+    const isValid = InvalidPasswordException.isValidLong(value);
 
     if (isValid) return;
 
-    // TODO: make custom error
-    throw new Error(
-      `UserPassword is invalid. Length must be between ${MIN_LONG} and ${MAX_LONG}`
-    );
+    throw new InvalidPasswordException(value);
   }
 
   private static isValidComposed(value: string): void {
-    // should contain at least: one lowercase, one upper, one number
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
-    const isValid = regex.test(value);
+    const isValid = InvalidPasswordException.isValidComposed(value);
 
     if (isValid) return;
 
-    // TODO: make custom error
-    throw new Error(
-      `UserPassword is invalid. Password must contain at least: one lowercase, one upper, one number`
-    );
+    throw new InvalidPasswordException(value);
   }
 }

@@ -1,6 +1,10 @@
 import { NotNullValueObject } from "../../../Shared/domain/valueObjects/NotNull.valueObject";
+import { InvalidUserRole } from "../exceptions/InvalidUserRole.exception";
 
-export type USER_ROLE = "ADMIN" | "USER";
+export enum USER_ROLE {
+  ADMIN = "ADMIN",
+  USER = "USER",
+}
 
 export class UserRole extends NotNullValueObject<USER_ROLE> {
   constructor(value: USER_ROLE) {
@@ -18,7 +22,6 @@ export class UserRole extends NotNullValueObject<USER_ROLE> {
 
     if (isValid) return;
 
-    // TODO: make custom error
-    throw new Error(`UserRole is invalid.`);
+    throw new InvalidUserRole();
   }
 }

@@ -1,4 +1,5 @@
 import { NotNullValueObject } from "../../../Shared/domain/valueObjects/NotNull.valueObject";
+import { InvalidEmail } from "../exceptions/InvalidEmail.exception";
 
 export class UserEmail extends NotNullValueObject<string> {
   constructor(value: string) {
@@ -8,8 +9,7 @@ export class UserEmail extends NotNullValueObject<string> {
 
   private validate(): void {
     if (!UserEmail.isValid(this.value)) {
-      // TODO: make custom error
-      throw new Error("UserEmail is invalid");
+      throw new InvalidEmail();
     }
   }
 
