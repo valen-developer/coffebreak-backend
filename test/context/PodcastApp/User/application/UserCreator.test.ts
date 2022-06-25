@@ -13,9 +13,7 @@ describe("UserCreator", () => {
   // should be able to create a new user
   test("should be able to create a new user", async () => {
     await expect(
-      new UserCreator(new FakeUserRepository()).create(
-        UserStub.create().toDto()
-      )
+      new UserCreator(new FakeUserRepository()).create(UserStub.createDto())
     ).resolves.toBeInstanceOf(User);
   });
 
@@ -23,7 +21,7 @@ describe("UserCreator", () => {
   test("should throw an error if email is invalid", async () => {
     try {
       await new UserCreator(new FakeUserRepository()).create(
-        UserStub.create({ email: "invalid" }).toDto()
+        UserStub.createDto({ email: "invalid" })
       );
     } catch (error: any) {
       expect(error).toBeInstanceOf(InvalidEmail);
@@ -37,7 +35,7 @@ describe("UserCreator", () => {
 
     try {
       await new UserCreator(new FakeUserRepository()).create(
-        UserStub.create({ password: invalidLongPassword }).toDto()
+        UserStub.createDto({ password: invalidLongPassword })
       );
     } catch (error: any) {
       expect(error).toBeInstanceOf(InvalidPasswordException);
@@ -53,7 +51,7 @@ describe("UserCreator", () => {
 
     try {
       await new UserCreator(new FakeUserRepository()).create(
-        UserStub.create({ password: invalidComposedPassword }).toDto()
+        UserStub.createDto({ password: invalidComposedPassword })
       );
     } catch (error: any) {
       expect(error).toBeInstanceOf(InvalidPasswordException);
@@ -67,7 +65,7 @@ describe("UserCreator", () => {
   test("should throw an error if role is invalid", async () => {
     try {
       await new UserCreator(new FakeUserRepository()).create(
-        UserStub.create({ role: "invalid" as USER_ROLE }).toDto()
+        UserStub.createDto({ role: "invalid" as USER_ROLE })
       );
     } catch (error: any) {
       expect(error).toBeInstanceOf(InvalidUserRole);
@@ -79,7 +77,7 @@ describe("UserCreator", () => {
   test("should throw an error if status is invalid", async () => {
     try {
       await new UserCreator(new FakeUserRepository()).create(
-        UserStub.create({ status: "invalid" as USER_STATUS }).toDto()
+        UserStub.createDto({ status: "invalid" as USER_STATUS })
       );
     } catch (error: any) {
       expect(error).toBeInstanceOf(InvalidUserStatus);
