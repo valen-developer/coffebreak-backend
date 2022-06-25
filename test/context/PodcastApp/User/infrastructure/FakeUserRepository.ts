@@ -25,7 +25,7 @@ export class FakeUserRepository implements UserRepository {
   findByEmail(email: string): Promise<User> {
     const user = this.users.find((user) => user.email.value === email);
 
-    if (!user) throw new NotFoundUserException("User not found");
+    if (!user) throw new NotFoundUserException();
 
     return Promise.resolve(user);
   }
@@ -33,7 +33,7 @@ export class FakeUserRepository implements UserRepository {
   findByUuid(uuid: string): Promise<User> {
     const user = this.users.find((user) => user.uuid.value === uuid);
 
-    if (!user) throw new NotFoundUserException("User not found");
+    if (!user) throw new NotFoundUserException();
 
     return Promise.resolve(user);
   }
@@ -41,7 +41,7 @@ export class FakeUserRepository implements UserRepository {
   async update(user: User): Promise<User> {
     const userExists = this.findByUuid(user.uuid.value);
 
-    if (!userExists) throw new NotFoundUserException("User not found");
+    if (!userExists) throw new NotFoundUserException();
 
     await this.delete(user.uuid.value);
 
