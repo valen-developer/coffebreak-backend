@@ -1,6 +1,10 @@
 import { NotNullValueObject } from "../../../Shared/domain/valueObjects/NotNull.valueObject";
+import { InvalidUserStatus } from "../exceptions/InvalidUserStatues.exception";
 
-export type USER_STATUS = "ACTIVE" | "INACTIVE";
+export enum USER_STATUS {
+  ACTIVE = "ACTIVE",
+  INACTIVE = "INACTIVE",
+}
 
 export class UserStatus extends NotNullValueObject<USER_STATUS> {
   constructor(value: USER_STATUS) {
@@ -18,8 +22,7 @@ export class UserStatus extends NotNullValueObject<USER_STATUS> {
 
     if (isValid) return;
 
-    // TODO: make custom error
-    throw new Error(`UserStatus is invalid.`);
+    throw new InvalidUserStatus();
   }
 
   public isActive(): boolean {
