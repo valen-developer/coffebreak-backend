@@ -1,7 +1,8 @@
 import { NotFoundException } from "../../../Shared/domain/exceptions/NotFound.exception";
 
 export class NotFoundUserException extends NotFoundException {
-  constructor(message: string) {
+  constructor() {
+    const message = "User not found";
     super(message);
   }
 }
