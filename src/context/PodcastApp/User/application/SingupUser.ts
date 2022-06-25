@@ -5,6 +5,8 @@ import {
 import { InvalidPasswordConfirmationException } from "../domain/exceptions/InvalidPasswordConfirmation.exception";
 import { User } from "../domain/User.mode";
 import { UserPassword } from "../domain/valueObject/UserPassword.valueObject";
+import { USER_ROLE } from "../domain/valueObject/UserRole.valueObject";
+import { USER_STATUS } from "../domain/valueObject/UserStatus.valueObject";
 import { UserCreator } from "./UserCreator";
 
 export class SignupUser {
@@ -18,8 +20,8 @@ export class SignupUser {
       email: request.email,
       password: this.crypt.hash(request.password, CRYPT_SALT_ROUNDS),
       name: request.name,
-      role: "USER",
-      status: "INACTIVE",
+      role: USER_ROLE.USER,
+      status: USER_STATUS.INACTIVE,
     });
 
     return this.userCreator.create(user.toDto());
@@ -31,9 +33,7 @@ export class SignupUser {
     const isSame = password === passwordConfirm;
     if (isSame) return;
 
-    throw new InvalidPasswordConfirmationException(
-      "Password and password confirm are not the same"
-    );
+    throw new InvalidPasswordConfirmationException();
   }
 }
 
