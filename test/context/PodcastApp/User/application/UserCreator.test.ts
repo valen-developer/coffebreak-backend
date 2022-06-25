@@ -19,69 +19,59 @@ describe("UserCreator", () => {
 
   // should throw an error if email is invalid
   test("should throw an error if email is invalid", async () => {
-    try {
-      await new UserCreator(new FakeUserRepository()).create(
-        UserStub.createDto({ email: "invalid" })
-      );
-    } catch (error: any) {
-      expect(error).toBeInstanceOf(InvalidEmail);
-      expect(error.message).toBe(new InvalidEmail().message);
-    }
+    await new UserCreator(new FakeUserRepository())
+      .create(UserStub.createDto({ email: "invalid" }))
+      .catch((error) => {
+        expect(error).toBeInstanceOf(InvalidEmail);
+        expect(error.message).toBe(new InvalidEmail().message);
+      });
   });
 
   // should throw an error if password has invalid length
   test("should throw an error if password is invalid", async () => {
     const invalidLongPassword = "inv";
 
-    try {
-      await new UserCreator(new FakeUserRepository()).create(
-        UserStub.createDto({ password: invalidLongPassword })
-      );
-    } catch (error: any) {
-      expect(error).toBeInstanceOf(InvalidPasswordException);
-      expect(error.message).toBe(
-        new InvalidPasswordException(invalidLongPassword).message
-      );
-    }
+    await new UserCreator(new FakeUserRepository())
+      .create(UserStub.createDto({ password: invalidLongPassword }))
+      .catch((error) => {
+        expect(error).toBeInstanceOf(InvalidPasswordException);
+        expect(error.message).toBe(
+          new InvalidPasswordException(invalidLongPassword).message
+        );
+      });
   });
 
   // should throw an error if password has invalid composition
   test("should throw an error if password has invalid composition", async () => {
     const invalidComposedPassword = "invalidinvalid";
 
-    try {
-      await new UserCreator(new FakeUserRepository()).create(
-        UserStub.createDto({ password: invalidComposedPassword })
-      );
-    } catch (error: any) {
-      expect(error).toBeInstanceOf(InvalidPasswordException);
-      expect(error.message).toBe(
-        new InvalidPasswordException(invalidComposedPassword).message
-      );
-    }
+    await new UserCreator(new FakeUserRepository())
+      .create(UserStub.createDto({ password: invalidComposedPassword }))
+      .catch((error) => {
+        expect(error).toBeInstanceOf(InvalidPasswordException);
+        expect(error.message).toBe(
+          new InvalidPasswordException(invalidComposedPassword).message
+        );
+      });
   });
 
   // should throw an error if role is invalid
   test("should throw an error if role is invalid", async () => {
-    try {
-      await new UserCreator(new FakeUserRepository()).create(
-        UserStub.createDto({ role: "invalid" as USER_ROLE })
-      );
-    } catch (error: any) {
-      expect(error).toBeInstanceOf(InvalidUserRole);
-      expect(error.message).toBe(new InvalidUserRole().message);
-    }
+    await new UserCreator(new FakeUserRepository())
+      .create(UserStub.createDto({ role: "invalid" as USER_ROLE }))
+      .catch((error) => {
+        expect(error).toBeInstanceOf(InvalidUserRole);
+        expect(error.message).toBe(new InvalidUserRole().message);
+      });
   });
 
   // should throw an error if status is invalid
   test("should throw an error if status is invalid", async () => {
-    try {
-      await new UserCreator(new FakeUserRepository()).create(
-        UserStub.createDto({ status: "invalid" as USER_STATUS })
-      );
-    } catch (error: any) {
-      expect(error).toBeInstanceOf(InvalidUserStatus);
-      expect(error.message).toBe(new InvalidUserStatus().message);
-    }
+    await new UserCreator(new FakeUserRepository())
+      .create(UserStub.createDto({ status: "invalid" as USER_STATUS }))
+      .catch((error) => {
+        expect(error).toBeInstanceOf(InvalidUserStatus);
+        expect(error.message).toBe(new InvalidUserStatus().message);
+      });
   });
 });
