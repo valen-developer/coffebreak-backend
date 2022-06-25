@@ -5,6 +5,10 @@ import { User } from "../../../../../src/context/PodcastApp/User/domain/User.mod
 export class FakeUserRepository implements UserRepository {
   private users: User[] = [];
 
+  public clear(): void {
+    this.users = [];
+  }
+
   save(user: User): Promise<User> {
     // check if user already exists by uuid and email
     const userExists = this.users.find(
