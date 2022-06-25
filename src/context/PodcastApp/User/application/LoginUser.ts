@@ -14,30 +14,25 @@ export class LoginUser {
   ) {}
 
   public async login(email: string, password: string): Promise<LoginReponse> {
-    try {
-      const user = await this.userFinder.findByEmail(email);
+    const user = await this.userFinder.findByEmail(email);
 
-      this.validatePassword(password, user.password.value);
-      this.validateUser(user);
-      const jwt = this.generateJWT(user);
+    this.validatePassword(password, user.password.value);
+    this.validateUser(user);
+    const jwt = this.generateJWT(user);
 
-      return {
-        user: user.toDtoWidthoutPassword(),
-        token: jwt,
-      };
-    } catch (error) {
-      // TODO: make custom error
-      throw error;
-    }
+    return {
+      user: user.toDtoWidthoutPassword(),
+      token: jwt,
+    };
   }
 
   private validateUser(user: User): void {
     if (!user) {
-      throw new NotFoundUserException("User not found");
+      throw new NotFoundUserException();
     }
 
     if (!user.status.isActive()) {
-      throw new NotActiveUserException("User is not active");
+      throw new NotActiveUserException();
     }
   }
 
@@ -46,10 +41,11 @@ export class LoginUser {
 
     if (isValid) return;
 
-    throw new InvalidPasswordException("Password is not valid");
+    throw new InvalidPasswordException(value);
   }
 
   private generateJWT(user: User): string {
+    // TODO: add env secret jwt
     return this.jwt.sign(
       {
         uuid: user.uuid.value,
