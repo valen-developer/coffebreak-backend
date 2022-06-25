@@ -1,4 +1,5 @@
 import { faker } from "@faker-js/faker";
+import { InvalidPasswordException } from "../../User/domain/exceptions/InvalidPassword.exception";
 import { USER_ROLE } from "../../User/domain/valueObject/UserRole.valueObject";
 import { USER_STATUS } from "../../User/domain/valueObject/UserStatus.valueObject";
 
@@ -16,7 +17,8 @@ export class Fakerjs implements Faker {
   }
 
   password(): string {
-    return faker.internet.password();
+    const regex = InvalidPasswordException.regEx;
+    return faker.internet.password(15, false, /\w/, "A1");
   }
 
   name(): string {
