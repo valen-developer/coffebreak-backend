@@ -1,3 +1,4 @@
+import { InvalidException } from "../../../../context/PodcastApp/Shared/domain/exceptions/Invalid.exception";
 import { InvalidFormatException } from "../../../../context/PodcastApp/Shared/domain/exceptions/InvalidFormat.exception";
 import { NotFoundException } from "../../../../context/PodcastApp/Shared/domain/exceptions/NotFound.exception";
 import { NullException } from "../../../../context/PodcastApp/Shared/domain/exceptions/Null.exception";
@@ -16,6 +17,12 @@ export class HttpErrorManager {
       };
 
     if (error instanceof InvalidFormatException)
+      errorData = {
+        status: 400,
+        message: error.message,
+      };
+
+    if (error instanceof InvalidException)
       errorData = {
         status: 400,
         message: error.message,
