@@ -1,4 +1,3 @@
-import { ImageCreator } from "../../Image/application/ImageCreator";
 import { ImageUpdater } from "../../Image/application/ImageUpdater";
 import { FileUploader } from "../../Shared/domain/interfaces/FileUploader";
 import { FileData } from "../../Shared/domain/interfaces/FormDataParser.interface";
