@@ -1,3 +1,4 @@
+import passport from "passport";
 import { Router } from "express";
 import { ChangePasswordController } from "../controllers/Auth/ChangePassword.controller";
 import { LoginController } from "../controllers/Auth/Login.controller";
@@ -18,4 +19,10 @@ authRouter.put(
   "/password",
   [new ValidateJWTMiddlware().handle],
   new ChangePasswordController().run
+);
+
+// Passport
+authRouter.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
 );
