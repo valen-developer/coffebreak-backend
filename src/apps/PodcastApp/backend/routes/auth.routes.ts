@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { ChangePasswordController } from "../controllers/Auth/ChangePassword.controller";
 import { LoginController } from "../controllers/Auth/Login.controller";
 import { LoginWithTokenController } from "../controllers/Auth/LoginWithToken.controller";
 import { SignupController } from "../controllers/Auth/Signup.controller";
@@ -12,4 +13,9 @@ authRouter.post(
   "/login/token",
   [new ValidateJWTMiddlware().handle],
   new LoginWithTokenController().run
+);
+authRouter.put(
+  "/password",
+  [new ValidateJWTMiddlware().handle],
+  new ChangePasswordController().run
 );

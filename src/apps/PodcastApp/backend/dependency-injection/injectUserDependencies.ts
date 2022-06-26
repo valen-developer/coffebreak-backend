@@ -4,6 +4,7 @@ import { FileUploader } from "../../../../context/PodcastApp/Shared/domain/inter
 import { JWT } from "../../../../context/PodcastApp/Shared/domain/interfaces/JWT.interface";
 import { UUIDGenerator } from "../../../../context/PodcastApp/Shared/domain/interfaces/UuidGenerator";
 import { LoginUser } from "../../../../context/PodcastApp/User/application/LoginUser";
+import { PasswordChanger } from "../../../../context/PodcastApp/User/application/PasswordChanger";
 import { SignupUser } from "../../../../context/PodcastApp/User/application/SingupUser";
 import { UserCreator } from "../../../../context/PodcastApp/User/application/UserCreator";
 import { UserDeleter } from "../../../../context/PodcastApp/User/application/UserDeleter";
@@ -24,6 +25,7 @@ export const enum UserDependencies {
   UserDeleter = "UserDeleter",
   UserUpdater = "UserUpdater",
   UserStatusUpdater = "UserStatusUpdater",
+  PasswordChanger = "PasswordChanger",
 }
 
 export const injectUserDependencies = () => {
@@ -51,7 +53,11 @@ export const injectUserDependencies = () => {
   );
   container.register(
     UserDependencies.UserDeleter,
-    () => new UserDeleter(userRepository)
+    () =>
+      new UserDeleter(
+        userRepository,
+        container.get(ImageDependencies.ImageDeleter)
+      )
   );
   container.register(
     UserDependencies.UserFinder,
@@ -77,5 +83,10 @@ export const injectUserDependencies = () => {
   container.register(
     UserDependencies.UserStatusUpdater,
     (c) => new UserStatusUpdater(userRepository)
+  );
+
+  container.register(
+    UserDependencies.PasswordChanger,
+    () => new PasswordChanger(userRepository, crypt)
   );
 };
