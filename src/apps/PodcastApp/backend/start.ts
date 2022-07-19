@@ -1,8 +1,10 @@
+import { loadEnv } from "../../../helpers/loadEnv";
+loadEnv();
+
 import { EventEmitter } from "../../../context/PodcastApp/Shared/domain/interfaces/EventEmitter";
 import { Container } from "./dependency-injection/Container";
 import { UtilDependencies } from "./dependency-injection/injectUtils";
 import { PodcastBackendApp } from "./PodcastBackendApp";
-import { IOServer } from "./sockets/IOSocket";
 import { PodcastEpisodeSockets } from "./sockets/PodcastEpisodeSocktes";
 
 const startApp = async () => {

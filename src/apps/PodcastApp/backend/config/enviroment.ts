@@ -11,4 +11,9 @@ export const enviroment = {
     temp: path.join(__dirname, "../../../../../temp"),
     images: path.join(__dirname, "../../../../../images"),
   },
+  googleKeys: {
+    cliendId: process.env.GOOGLE_CLIENT_ID || "",
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+  },
+  webappUrl: process.env.WEBAPP_URL || "http://192.168.0.17:4200",
 };

@@ -12,7 +12,7 @@ export class FsFileUploader implements FileUploader {
   private _IMAGE_PATH = enviroment.dirs.images;
   private _TMP_PATH = enviroment.dirs.temp;
 
-  private _ALLOED_EXTENSIONS = ["jpg", "jpeg", "png"];
+  private _ALLOED_EXTENSIONS = ["jpg", "jpeg", "png", "webp"];
 
   constructor() {
     this.createImageFolder();

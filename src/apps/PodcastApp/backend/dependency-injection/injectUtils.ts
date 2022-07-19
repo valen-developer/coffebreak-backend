@@ -1,4 +1,5 @@
 import { IvooxPodcastExtractor } from "../../../../context/PodcastApp/Podcast/infrastructure/IvooxPodcastExtractor";
+import { ImageDownloader } from "../../../../context/PodcastApp/Shared/application/ImageDownloader";
 import { TempDirCleaner } from "../../../../context/PodcastApp/Shared/application/TempDirCleaner";
 import { BCrypt } from "../../../../context/PodcastApp/Shared/infrastructure/BCrypt";
 import { FormidableFormDataParser } from "../../../../context/PodcastApp/Shared/infrastructure/FormidableFormDataParser";
@@ -23,6 +24,7 @@ export enum UtilDependencies {
   JWT = "JWT",
   EventEmitter = "EventEmitter",
   TempDirCleaner = "TempDirCleaner",
+  ImageDownloader = "ImageDownloader",
 }
 
 export const injectUtils = () => {
@@ -69,5 +71,10 @@ export const injectUtils = () => {
   container.register(
     UtilDependencies.TempDirCleaner,
     () => new TempDirCleaner(container.get(UtilDependencies.CronJob))
+  );
+
+  container.register(
+    UtilDependencies.ImageDownloader,
+    () => new ImageDownloader(container.get(UtilDependencies.HttpClient))
   );
 };

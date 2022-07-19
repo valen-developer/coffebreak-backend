@@ -5,6 +5,7 @@ import { injectAll } from "./dependency-injection/injectAll";
 import { PodcastEpisodeDependencies } from "./dependency-injection/injectPodcastEpisodiesDependencies";
 import { connectMongo } from "./helpers/connectMongo";
 import { Server } from "./Server";
+import { PassportGoogleStategy } from "../../Shared/config/PassportGoogle";
 
 export class PodcastBackendApp {
   public server!: Server;
@@ -16,6 +17,7 @@ export class PodcastBackendApp {
     await this.upDB();
     this.injectDependencies();
     this.initCronJobs();
+    this.initPassport();
 
     return this.server.start();
   }
@@ -26,6 +28,10 @@ export class PodcastBackendApp {
 
   private async upDB(): Promise<void> {
     await connectMongo();
+  }
+
+  private initPassport(): void {
+    new PassportGoogleStategy().configurePassport();
   }
 
   private injectDependencies(): void {

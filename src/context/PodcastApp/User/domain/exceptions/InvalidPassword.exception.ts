@@ -15,7 +15,7 @@ export class InvalidPasswordException extends InvalidException {
     const isValidLong = InvalidPasswordException.isValidLong(value);
     const isValidComposed = InvalidPasswordException.isValidComposed(value);
 
-    const initMessage = `Password ${value} is invalid.`;
+    const initMessage = `User or password invalid.`;
     const invalidLongMessage = `Length must be between ${InvalidPasswordException.MIN_LENGTH} and ${InvalidPasswordException.MAX_LENGTH}`;
     const invalidComposedMessage = ` Password must contain at least: one lowercase, one upper, one number`;
 

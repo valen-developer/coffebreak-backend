@@ -1,11 +1,20 @@
-import { HttpClient } from "../domain/interfaces/HttpClient.interface";
+import {
+  HttpClient,
+  HttpOptions,
+} from "../domain/interfaces/HttpClient.interface";
 import fetch from "node-fetch";
 
 export class NodeFetchHttpClient implements HttpClient {
-  public async get<T>(url: string, responseSting = false): Promise<T> {
+  public async get<T>(url: string, opt: HttpOptions): Promise<T> {
+    const type = opt.responseType || "json";
+
     return fetch(url).then((response) => {
-      if (responseSting) {
+      if (type === "text") {
         return response.text();
+      }
+
+      if (type === "blob") {
+        return response.blob();
       }
 
       return response.json();

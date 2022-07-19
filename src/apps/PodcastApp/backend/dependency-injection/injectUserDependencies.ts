@@ -3,6 +3,8 @@ import { ICrypt } from "../../../../context/PodcastApp/Shared/domain/interfaces/
 import { FileUploader } from "../../../../context/PodcastApp/Shared/domain/interfaces/FileUploader";
 import { JWT } from "../../../../context/PodcastApp/Shared/domain/interfaces/JWT.interface";
 import { UUIDGenerator } from "../../../../context/PodcastApp/Shared/domain/interfaces/UuidGenerator";
+import { GoogleLogin } from "../../../../context/PodcastApp/User/application/GoogleLogin";
+import { GoogleSignup } from "../../../../context/PodcastApp/User/application/GoogleSignup";
 import { LoginUser } from "../../../../context/PodcastApp/User/application/LoginUser";
 import { PasswordChanger } from "../../../../context/PodcastApp/User/application/PasswordChanger";
 import { SignupUser } from "../../../../context/PodcastApp/User/application/SingupUser";
@@ -26,6 +28,8 @@ export const enum UserDependencies {
   UserUpdater = "UserUpdater",
   UserStatusUpdater = "UserStatusUpdater",
   PasswordChanger = "PasswordChanger",
+  GoogleSignup = "GoogleSignup",
+  GoogleLogin = "GoogleLogin",
 }
 
 export const injectUserDependencies = () => {
@@ -88,5 +92,22 @@ export const injectUserDependencies = () => {
   container.register(
     UserDependencies.PasswordChanger,
     () => new PasswordChanger(userRepository, crypt)
+  );
+
+  container.register(
+    UserDependencies.GoogleSignup,
+    (c) =>
+      new GoogleSignup(
+        userRepository,
+        c.get(UtilDependencies.ImageDownloader),
+        c.get(UtilDependencies.FileUploader),
+        c.get(ImageDependencies.ImageCreator),
+        uuidGenerator
+      )
+  );
+
+  container.register(
+    UserDependencies.GoogleLogin,
+    (c) => new GoogleLogin(c.get(UserDependencies.UserFinder), jwt)
   );
 };
