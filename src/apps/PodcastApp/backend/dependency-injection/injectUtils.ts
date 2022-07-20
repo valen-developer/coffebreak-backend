@@ -25,6 +25,7 @@ export enum UtilDependencies {
   EventEmitter = "EventEmitter",
   TempDirCleaner = "TempDirCleaner",
   ImageDownloader = "ImageDownloader",
+  FtpClient = "FtpClient",
 }
 
 export const injectUtils = () => {

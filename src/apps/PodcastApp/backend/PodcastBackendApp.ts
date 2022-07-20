@@ -6,6 +6,8 @@ import { PodcastEpisodeDependencies } from "./dependency-injection/injectPodcast
 import { connectMongo } from "./helpers/connectMongo";
 import { Server } from "./Server";
 import { PassportGoogleStategy } from "../../Shared/config/PassportGoogle";
+import { ArtistExtractoCrontab } from "../../../context/PodcastApp/Artist/application/ArtistExtractorCrontab";
+import { ArtistDependencies } from "./dependency-injection/injectArtistDependencies";
 
 export class PodcastBackendApp {
   public server!: Server;
@@ -45,6 +47,11 @@ export class PodcastBackendApp {
       PodcastEpisodeDependencies.PodcastExtractorCronTab
     );
 
+    const artistExtractorJob = container.get<ArtistExtractoCrontab>(
+      ArtistDependencies.ArtistExtractorCrontab
+    );
+
     podcastExtractorJob.run();
+    artistExtractorJob.run();
   }
 }

@@ -6,7 +6,7 @@ import fetch from "node-fetch";
 
 export class NodeFetchHttpClient implements HttpClient {
   public async get<T>(url: string, opt: HttpOptions): Promise<T> {
-    const type = opt.responseType || "json";
+    const type = opt?.responseType || "json";
 
     return fetch(url).then((response) => {
       if (type === "text") {

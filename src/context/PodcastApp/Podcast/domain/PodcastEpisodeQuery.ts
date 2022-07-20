@@ -6,4 +6,5 @@ export interface PodcastEpisodeQuery {
   description_contains?: string;
   duration_lte?: number;
   duration_gte?: number;
+  episode_equals?: number;
 }

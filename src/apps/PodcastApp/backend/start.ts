@@ -6,6 +6,8 @@ import { Container } from "./dependency-injection/Container";
 import { UtilDependencies } from "./dependency-injection/injectUtils";
 import { PodcastBackendApp } from "./PodcastBackendApp";
 import { PodcastEpisodeSockets } from "./sockets/PodcastEpisodeSocktes";
+import { ArtistDependencies } from "./dependency-injection/injectArtistDependencies";
+import { ArtistExtractor } from "../../../context/PodcastApp/Artist/domain/interfaces/ArtistExtractor.interface";
 
 const startApp = async () => {
   try {

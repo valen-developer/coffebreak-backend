@@ -1,3 +1,4 @@
+import { injectArtistDependencies } from "./injectArtistDependencies";
 import { injectImageDependencies } from "./injectImageDependencies";
 import { injectPlaylistDependencies } from "./injectPlaylistDependencies";
 import { injectPodcastEpisodiesDependencies } from "./injectPodcastEpisodiesDependencies";
@@ -14,4 +15,5 @@ export const injectAll = () => {
   injectPodcastEpisodiesDependencies();
   injectPlaylistDependencies();
   injectUserDependencies();
+  injectArtistDependencies();
 };
