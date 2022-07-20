@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { artistRouter } from "./artist.routes";
 import { authRouter } from "./auth.routes";
 import { imageRouter } from "./image.routes";
 import { playlistRouter } from "./playlist.routes";
@@ -16,3 +17,5 @@ router.use("/image", imageRouter);
 router.use("/auth", authRouter);
 
 router.use("/user", userRouter);
+
+router.use("/artist", artistRouter);

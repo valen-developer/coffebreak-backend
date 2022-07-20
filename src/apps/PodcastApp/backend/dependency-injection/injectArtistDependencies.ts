@@ -1,18 +1,21 @@
 import { ArtistCreator } from "../../../../context/PodcastApp/Artist/application/ArtistCreator";
 import { ArtistCreatorForExtraction } from "../../../../context/PodcastApp/Artist/application/ArtistCreatorForExtraction";
 import { ArtistExtractoCrontab } from "../../../../context/PodcastApp/Artist/application/ArtistExtractorCrontab";
+import { ArtistFinder } from "../../../../context/PodcastApp/Artist/application/ArtistFinder";
 import { ArtistUpdater } from "../../../../context/PodcastApp/Artist/application/ArtistUpdater";
 import { ArtistExtractor } from "../../../../context/PodcastApp/Artist/domain/interfaces/ArtistExtractor.interface";
 import { FtpArtistExtractor } from "../../../../context/PodcastApp/Artist/infrastructure/FtpArtistExtractor";
 import { MongoArtistRepository } from "../../../../context/PodcastApp/Artist/infrastructure/MongoArtistRepository/MongoArtistRepository";
 import { PodcastEpisodeFinder } from "../../../../context/PodcastApp/Podcast/application/PodcastEpisodeFinder";
 import { CronJob } from "../../../../context/PodcastApp/Shared/domain/interfaces/Cronjob.interface";
+import { QueryBuilder } from "../../../../context/PodcastApp/Shared/domain/interfaces/QueryBuilder.interface";
 import { Container } from "./Container";
 import { PodcastEpisodeDependencies } from "./injectPodcastEpisodiesDependencies";
 import { UtilDependencies } from "./injectUtils";
 
 export const enum ArtistDependencies {
   ArtistExtractor = "ArtistExtractor",
+  ArtistFinder = "ArtistFinder",
   ArtistCreator = "ArtistCreator",
   ArtistUpdater = "ArtistUpdater",
   ArtistRepository = "ArtistRepository",
@@ -29,6 +32,19 @@ export const injectArtistDependencies = () => {
   container.register(
     ArtistDependencies.ArtistRepository,
     () => artistRepository
+  );
+
+  // finder
+  container.register(
+    ArtistDependencies.ArtistFinder,
+    () =>
+      new ArtistFinder(
+        artistRepository,
+        container.get<QueryBuilder>(UtilDependencies.QueryBuilder),
+        container.get<PodcastEpisodeFinder>(
+          PodcastEpisodeDependencies.PodcastEpisodeFinder
+        )
+      )
   );
 
   // creator

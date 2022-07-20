@@ -7,6 +7,7 @@ import { GoogleLogin } from "../../../../context/PodcastApp/User/application/Goo
 import { GoogleSignup } from "../../../../context/PodcastApp/User/application/GoogleSignup";
 import { LoginUser } from "../../../../context/PodcastApp/User/application/LoginUser";
 import { PasswordChanger } from "../../../../context/PodcastApp/User/application/PasswordChanger";
+import { PasswordRecover } from "../../../../context/PodcastApp/User/application/PasswordRecover";
 import { SignupUser } from "../../../../context/PodcastApp/User/application/SingupUser";
 import { UserCreator } from "../../../../context/PodcastApp/User/application/UserCreator";
 import { UserDeleter } from "../../../../context/PodcastApp/User/application/UserDeleter";
@@ -30,6 +31,7 @@ export const enum UserDependencies {
   PasswordChanger = "PasswordChanger",
   GoogleSignup = "GoogleSignup",
   GoogleLogin = "GoogleLogin",
+  PasswordRecover = "PasswordRecover",
 }
 
 export const injectUserDependencies = () => {
@@ -109,5 +111,10 @@ export const injectUserDependencies = () => {
   container.register(
     UserDependencies.GoogleLogin,
     (c) => new GoogleLogin(c.get(UserDependencies.UserFinder), jwt)
+  );
+
+  container.register(
+    UserDependencies.PasswordRecover,
+    (c) => new PasswordRecover(userRepository, crypt)
   );
 };

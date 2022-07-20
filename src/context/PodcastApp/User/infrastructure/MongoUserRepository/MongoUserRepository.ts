@@ -1,3 +1,4 @@
+import { NotFoundUserException } from "../../domain/exceptions/NotUserFound.exception";
 import { UserRepository } from "../../domain/interfaces/UserRepository.interface";
 import { User, UserDto } from "../../domain/User.mode";
 import { MongoUser } from "./MongoUserSchema";
@@ -23,11 +24,7 @@ export class MongoUserRepository implements UserRepository {
 
   public async findByUuid(uuid: string): Promise<User> {
     const userDto: UserDto = await MongoUser.findOne({ uuid });
-
-    if (!userDto) {
-      // TODO: make custom error
-      throw new Error("User not found");
-    }
+    if (!userDto) throw new NotFoundUserException();
 
     return new User(userDto);
   }

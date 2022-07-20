@@ -3,8 +3,7 @@ import { InvalidPasswordConfirmationException } from "../domain/exceptions/Inval
 import { NotFoundUserException } from "../domain/exceptions/NotUserFound.exception";
 import { UserRepository } from "../domain/interfaces/UserRepository.interface";
 import { User } from "../domain/User.mode";
-import { UserFinder } from "./UserFinder";
-import { UserUpdater } from "./UserUpdater";
+import { USER_STATUS } from "../domain/valueObject/UserStatus.valueObject";
 
 export class PasswordChanger {
   constructor(private userRepository: UserRepository, private crypt: ICrypt) {}
@@ -22,6 +21,7 @@ export class PasswordChanger {
     const userUpdated = new User({
       ...user.toDto(),
       password: encryptedPassword,
+      status: USER_STATUS.ACTIVE,
     });
 
     await this.userRepository.update(userUpdated);

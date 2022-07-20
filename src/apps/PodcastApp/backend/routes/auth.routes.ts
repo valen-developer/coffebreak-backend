@@ -1,16 +1,13 @@
-import passport from "passport";
 import { Router } from "express";
+import passport from "passport";
 import { ChangePasswordController } from "../controllers/Auth/ChangePassword.controller";
+import { GoogleSignupController } from "../controllers/Auth/GoogleSignup.controller";
 import { LoginController } from "../controllers/Auth/Login.controller";
 import { LoginWithTokenController } from "../controllers/Auth/LoginWithToken.controller";
+import { RecoverPassowordController } from "../controllers/Auth/RecoverPassword.controller";
 import { SignupController } from "../controllers/Auth/Signup.controller";
-import { ValidateJWTMiddlware } from "../middlewares/ValidateJWT.middleware";
-import { UserDependencies } from "../dependency-injection/injectUserDependencies";
-import { UserFinder } from "../../../../context/PodcastApp/User/application/UserFinder";
-import { Container } from "../dependency-injection/Container";
-import { GoogleLogin } from "../../../../context/PodcastApp/User/application/GoogleLogin";
-import { GoogleSignupController } from "../controllers/Auth/GoogleSignup.controller";
 import { PassportGoogleCallbackMiddleware } from "../middlewares/PassportGoogleCallback.middleware";
+import { ValidateJWTMiddlware } from "../middlewares/ValidateJWT.middleware";
 
 export const authRouter = Router();
 
@@ -26,6 +23,7 @@ authRouter.put(
   [new ValidateJWTMiddlware().handle],
   new ChangePasswordController().run
 );
+authRouter.put("/password/recovery", new RecoverPassowordController().run);
 
 // Passport
 authRouter.get(
