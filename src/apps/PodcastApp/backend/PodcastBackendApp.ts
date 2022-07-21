@@ -8,6 +8,8 @@ import { Server } from "./Server";
 import { PassportGoogleStategy } from "../../Shared/config/PassportGoogle";
 import { ArtistExtractoCrontab } from "../../../context/PodcastApp/Artist/application/ArtistExtractorCrontab";
 import { ArtistDependencies } from "./dependency-injection/injectArtistDependencies";
+import { TmpFolderCleanerCronjob } from "./helpers/TmpCleanerCronjob";
+import { UtilDependencies } from "./dependency-injection/injectUtils";
 
 export class PodcastBackendApp {
   public server!: Server;
@@ -51,7 +53,12 @@ export class PodcastBackendApp {
       ArtistDependencies.ArtistExtractorCrontab
     );
 
+    const tmpCleanerJob = container.get<TmpFolderCleanerCronjob>(
+      UtilDependencies.TmpCleanerCronjob
+    );
+
     podcastExtractorJob.run();
     artistExtractorJob.run();
+    tmpCleanerJob.run();
   }
 }

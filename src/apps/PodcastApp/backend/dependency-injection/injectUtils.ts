@@ -14,6 +14,7 @@ import { NodeCronJob } from "../../../../context/PodcastApp/Shared/infrastructur
 import { NodeFetchHttpClient } from "../../../../context/PodcastApp/Shared/infrastructure/NodeFetchHttpClient";
 import { enviroment } from "../config/enviroment";
 import { Container } from "./Container";
+import { TmpFolderCleanerCronjob } from "../helpers/TmpCleanerCronjob";
 
 export enum UtilDependencies {
   CronJob = "CronJob",
@@ -30,6 +31,7 @@ export enum UtilDependencies {
   ImageDownloader = "ImageDownloader",
   FtpClient = "FtpClient",
   Mailer = "Mailer",
+  TmpCleanerCronjob = "TmpCleanerCronjob",
 }
 
 export const injectUtils = () => {
@@ -95,5 +97,10 @@ export const injectUtils = () => {
   container.register(
     UtilDependencies.Mailer,
     () => new NodeMailer(mailerTransport)
+  );
+
+  container.register(
+    UtilDependencies.TmpCleanerCronjob,
+    () => new TmpFolderCleanerCronjob(container.get(UtilDependencies.CronJob))
   );
 };

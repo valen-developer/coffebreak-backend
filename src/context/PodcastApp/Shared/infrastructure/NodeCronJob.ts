@@ -15,8 +15,12 @@ export class NodeCronJob implements CronJob {
     if (!this.time || !this.callback)
       throw new Error("CronJob not properly configured");
 
-    cron.schedule(this.time, this.callback).start();
+    // timezone: Madrid
+    cron
+      .schedule(this.time, this.callback, {
+        timezone: "Europe/Madrid",
+      })
+      .start();
     cron.getTasks();
-    
   }
 }
