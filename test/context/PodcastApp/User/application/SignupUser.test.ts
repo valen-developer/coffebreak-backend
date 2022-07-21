@@ -6,6 +6,7 @@
 */
 
 import { BCrypt } from "../../../../../src/context/PodcastApp/Shared/infrastructure/BCrypt";
+import { NativeEventEmitter } from "../../../../../src/context/PodcastApp/Shared/infrastructure/NativeEventEmitter";
 import { SignupUser } from "../../../../../src/context/PodcastApp/User/application/SingupUser";
 import { UserCreator } from "../../../../../src/context/PodcastApp/User/application/UserCreator";
 import { InvalidPasswordConfirmationException } from "../../../../../src/context/PodcastApp/User/domain/exceptions/InvalidPasswordConfirmation.exception";
@@ -19,7 +20,8 @@ describe("SignupUser", () => {
     await expect(
       new SignupUser(
         new UserCreator(new FakeUserRepository()),
-        new BCrypt()
+        new BCrypt(),
+        new NativeEventEmitter()
       ).signup(UserStub.signupDto())
     ).resolves.toBeInstanceOf(User);
   });
@@ -27,7 +29,8 @@ describe("SignupUser", () => {
   test(" Password and password confirmation should be the same ", async () => {
     const signupper = new SignupUser(
       new UserCreator(new FakeUserRepository()),
-      new BCrypt()
+      new BCrypt(),
+      new NativeEventEmitter()
     );
 
     await expect(
@@ -40,7 +43,8 @@ describe("SignupUser", () => {
   test(" User should be inactive ", async () => {
     const signupper = new SignupUser(
       new UserCreator(new FakeUserRepository()),
-      new BCrypt()
+      new BCrypt(),
+      new NativeEventEmitter()
     );
 
     const user = await signupper.signup(UserStub.signupDto());

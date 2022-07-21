@@ -6,9 +6,11 @@
  * should receive a userDto without password and token when login
  */
 
+import { EventEmitter } from "../../../../../src/context/PodcastApp/Shared/domain/interfaces/EventEmitter";
 import { BCrypt } from "../../../../../src/context/PodcastApp/Shared/infrastructure/BCrypt";
 import { Fakerjs } from "../../../../../src/context/PodcastApp/Shared/infrastructure/Fakerjs";
 import { JsonWebTokenJWT } from "../../../../../src/context/PodcastApp/Shared/infrastructure/JsonWebTokenJWT";
+import { NativeEventEmitter } from "../../../../../src/context/PodcastApp/Shared/infrastructure/NativeEventEmitter";
 import { LoginUser } from "../../../../../src/context/PodcastApp/User/application/LoginUser";
 import { SignupUser } from "../../../../../src/context/PodcastApp/User/application/SingupUser";
 import { UserCreator } from "../../../../../src/context/PodcastApp/User/application/UserCreator";
@@ -28,7 +30,8 @@ beforeAll(async () => {
   password = new Fakerjs().password();
   userStubbed = await new SignupUser(
     new UserCreator(userRepository),
-    new BCrypt()
+    new BCrypt(),
+    new NativeEventEmitter()
   ).signup(UserStub.signupDto({ password, passwordConfirmation: password }));
   userStubbed.activate();
   userRepository.update(userStubbed);
