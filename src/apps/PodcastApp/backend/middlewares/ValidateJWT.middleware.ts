@@ -24,7 +24,8 @@ export class ValidateJWTMiddlware implements Middleware {
       const isValid = await jwt.verify(token, JWT_CONFIG.secret);
       if (!isValid) throw new Error("Invalid token");
 
-      const { uuid } = jwt.decode(token);
+      const decoded = jwt.decode(token);
+      const { uuid } = decoded;
       req.body.userTokenUuid = uuid;
 
       // get user from token
@@ -32,7 +33,10 @@ export class ValidateJWTMiddlware implements Middleware {
       const user = await userFinder.findByUuid(uuid);
 
       if (!user) throw new Error("User not found");
-      req.body.loggedUser = user;
+      req.body = {
+        ...req.body,
+        session: { user },
+      };
 
       next();
     } catch (error) {

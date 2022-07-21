@@ -15,8 +15,7 @@ export class MongoUserRepository implements UserRepository {
     const userDto: UserDto = await MongoUser.findOne({ email });
 
     if (!userDto) {
-      // TODO: make custom error
-      throw new Error("User not found");
+      throw new NotFoundUserException();
     }
 
     return new User(userDto);

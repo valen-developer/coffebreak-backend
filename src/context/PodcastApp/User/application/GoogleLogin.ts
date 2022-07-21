@@ -1,4 +1,4 @@
-import { JWT } from "../../Shared/domain/interfaces/JWT.interface";
+import { JWT, JWT_CONFIG } from "../../Shared/domain/interfaces/JWT.interface";
 import { NotFoundUserException } from "../domain/exceptions/NotUserFound.exception";
 import { LoginReponse } from "./LoginUser";
 import { UserFinder } from "./UserFinder";
@@ -14,7 +14,7 @@ export class GoogleLogin {
       {
         uuid: user.uuid.value,
       },
-      "secret"
+      JWT_CONFIG.secret
     );
 
     return {

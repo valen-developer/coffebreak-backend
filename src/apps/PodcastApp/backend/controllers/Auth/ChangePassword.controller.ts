@@ -9,7 +9,7 @@ import { Controller } from "../Controller.interface";
 export class ChangePasswordController implements Controller {
   public async run(req: Request, res: Response): Promise<void> {
     const { password, passwordConfirmation } = req.body;
-    const user: User = req.body.loggedUser;
+    const user: User = req.body.session.user;
 
     try {
       const passwordChanger = Container.getInstance().get<PasswordChanger>(

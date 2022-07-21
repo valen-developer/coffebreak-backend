@@ -6,6 +6,7 @@ import { LoginController } from "../controllers/Auth/Login.controller";
 import { LoginWithTokenController } from "../controllers/Auth/LoginWithToken.controller";
 import { RecoverPassowordController } from "../controllers/Auth/RecoverPassword.controller";
 import { SignupController } from "../controllers/Auth/Signup.controller";
+import { ValidateUserController } from "../controllers/Auth/ValidateUser.controller";
 import { PassportGoogleCallbackMiddleware } from "../middlewares/PassportGoogleCallback.middleware";
 import { ValidateJWTMiddlware } from "../middlewares/ValidateJWT.middleware";
 
@@ -24,6 +25,11 @@ authRouter.put(
   new ChangePasswordController().run
 );
 authRouter.put("/password/recovery", new RecoverPassowordController().run);
+authRouter.put(
+  "/validate",
+  [new ValidateJWTMiddlware().handle],
+  new ValidateUserController().run
+);
 
 // Passport
 authRouter.get(

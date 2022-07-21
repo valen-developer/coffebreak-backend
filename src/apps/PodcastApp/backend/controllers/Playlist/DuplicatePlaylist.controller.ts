@@ -8,7 +8,7 @@ import { Controller } from "../Controller.interface";
 
 export class DuplicatePlaylistController implements Controller {
   public async run(req: Request, res: Response): Promise<void> {
-    const loggedUser: User = req.body.loggedUser;
+    const loggedUser: User = req.body.session.user;
     const { uuid } = req.params;
 
     try {

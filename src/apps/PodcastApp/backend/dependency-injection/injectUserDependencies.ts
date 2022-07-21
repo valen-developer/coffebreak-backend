@@ -1,19 +1,23 @@
 import { ImageUpdater } from "../../../../context/PodcastApp/Image/application/ImageUpdater";
 import { ICrypt } from "../../../../context/PodcastApp/Shared/domain/interfaces/Crypt.interface";
+import { EventEmitter } from "../../../../context/PodcastApp/Shared/domain/interfaces/EventEmitter";
 import { FileUploader } from "../../../../context/PodcastApp/Shared/domain/interfaces/FileUploader";
 import { JWT } from "../../../../context/PodcastApp/Shared/domain/interfaces/JWT.interface";
+import { Mailer } from "../../../../context/PodcastApp/Shared/domain/interfaces/Mailer.interface";
 import { UUIDGenerator } from "../../../../context/PodcastApp/Shared/domain/interfaces/UuidGenerator";
 import { GoogleLogin } from "../../../../context/PodcastApp/User/application/GoogleLogin";
 import { GoogleSignup } from "../../../../context/PodcastApp/User/application/GoogleSignup";
 import { LoginUser } from "../../../../context/PodcastApp/User/application/LoginUser";
 import { PasswordChanger } from "../../../../context/PodcastApp/User/application/PasswordChanger";
 import { PasswordRecover } from "../../../../context/PodcastApp/User/application/PasswordRecover";
+import { RegisterEmailSender } from "../../../../context/PodcastApp/User/application/RegisterEmailSender";
 import { SignupUser } from "../../../../context/PodcastApp/User/application/SingupUser";
 import { UserCreator } from "../../../../context/PodcastApp/User/application/UserCreator";
 import { UserDeleter } from "../../../../context/PodcastApp/User/application/UserDeleter";
 import { UserFinder } from "../../../../context/PodcastApp/User/application/UserFinder";
 import { UserStatusUpdater } from "../../../../context/PodcastApp/User/application/UserStatusUpdater";
 import { UserUpdater } from "../../../../context/PodcastApp/User/application/UserUpdater";
+import { UserValidator } from "../../../../context/PodcastApp/User/application/UserValidator";
 import { UserRepository } from "../../../../context/PodcastApp/User/domain/interfaces/UserRepository.interface";
 import { Container } from "./Container";
 import { ImageDependencies } from "./injectImageDependencies";
@@ -32,6 +36,8 @@ export const enum UserDependencies {
   GoogleSignup = "GoogleSignup",
   GoogleLogin = "GoogleLogin",
   PasswordRecover = "PasswordRecover",
+  UserValidator = "UserValidator",
+  RegisterEmailSender = "RegisterEmailSender",
 }
 
 export const injectUserDependencies = () => {
@@ -78,7 +84,12 @@ export const injectUserDependencies = () => {
 
   container.register(
     UserDependencies.SignupUser,
-    (c) => new SignupUser(c.get(UserDependencies.UserCreator), crypt)
+    (c) =>
+      new SignupUser(
+        c.get(UserDependencies.UserCreator),
+        crypt,
+        container.get<EventEmitter>(UtilDependencies.EventEmitter)
+      )
   );
 
   container.register(
@@ -115,6 +126,26 @@ export const injectUserDependencies = () => {
 
   container.register(
     UserDependencies.PasswordRecover,
-    (c) => new PasswordRecover(userRepository, crypt)
+    (c) =>
+      new PasswordRecover(
+        userRepository,
+        crypt,
+        container.get<EventEmitter>(UtilDependencies.EventEmitter)
+      )
+  );
+
+  container.register(
+    UserDependencies.UserValidator,
+    (c) => new UserValidator(userRepository)
+  );
+
+  container.register(
+    UserDependencies.RegisterEmailSender,
+    (c) =>
+      new RegisterEmailSender(
+        container.get<EventEmitter>(UtilDependencies.EventEmitter),
+        container.get<Mailer>(UtilDependencies.Mailer),
+        container.get<JWT>(UtilDependencies.JWT)
+      )
   );
 };

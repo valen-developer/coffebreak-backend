@@ -15,5 +15,12 @@ export const enviroment = {
     cliendId: process.env.GOOGLE_CLIENT_ID || "",
     clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
   },
+  mailer: {
+    mail: process.env.MAILER_MAIL || "",
+    password: process.env.MAILER_PASSWORD || "",
+    port: process.env.MAILER_PORT || "",
+    service: process.env.MAILER_SERVICE || "",
+    host: process.env.MAILER_HOST || "",
+  },
   webappUrl: process.env.WEBAPP_URL || "http://192.168.0.17:4200",
 };

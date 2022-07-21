@@ -1,5 +1,5 @@
 import { ICrypt } from "../../Shared/domain/interfaces/Crypt.interface";
-import { JWT } from "../../Shared/domain/interfaces/JWT.interface";
+import { JWT, JWT_CONFIG } from "../../Shared/domain/interfaces/JWT.interface";
 import { InvalidPasswordException } from "../domain/exceptions/InvalidPassword.exception";
 import { NotActiveUserException } from "../domain/exceptions/NotActiveUser.exception";
 import { NotFoundUserException } from "../domain/exceptions/NotUserFound.exception";
@@ -50,7 +50,7 @@ export class LoginUser {
       {
         uuid: user.uuid.value,
       },
-      "secret"
+      JWT_CONFIG.secret
     );
   }
 }

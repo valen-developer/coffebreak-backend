@@ -1,6 +1,8 @@
 import { IvooxPodcastExtractor } from "../../../../context/PodcastApp/Podcast/infrastructure/IvooxPodcastExtractor";
 import { ImageDownloader } from "../../../../context/PodcastApp/Shared/application/ImageDownloader";
 import { TempDirCleaner } from "../../../../context/PodcastApp/Shared/application/TempDirCleaner";
+import { TransporterMailer } from "../../../../context/PodcastApp/Shared/domain/interfaces/Mailer.interface";
+import { NodeMailer } from "../../../../context/PodcastApp/Shared/infrastructure/NodeMailer";
 import { BCrypt } from "../../../../context/PodcastApp/Shared/infrastructure/BCrypt";
 import { FormidableFormDataParser } from "../../../../context/PodcastApp/Shared/infrastructure/FormidableFormDataParser";
 import { FsFileUploader } from "../../../../context/PodcastApp/Shared/infrastructure/FsFileUploader";
@@ -10,6 +12,7 @@ import { NanoUuidGenerator } from "../../../../context/PodcastApp/Shared/infrast
 import { NativeEventEmitter } from "../../../../context/PodcastApp/Shared/infrastructure/NativeEventEmitter";
 import { NodeCronJob } from "../../../../context/PodcastApp/Shared/infrastructure/NodeCronJob";
 import { NodeFetchHttpClient } from "../../../../context/PodcastApp/Shared/infrastructure/NodeFetchHttpClient";
+import { enviroment } from "../config/enviroment";
 import { Container } from "./Container";
 
 export enum UtilDependencies {
@@ -26,6 +29,7 @@ export enum UtilDependencies {
   TempDirCleaner = "TempDirCleaner",
   ImageDownloader = "ImageDownloader",
   FtpClient = "FtpClient",
+  Mailer = "Mailer",
 }
 
 export const injectUtils = () => {
@@ -77,5 +81,19 @@ export const injectUtils = () => {
   container.register(
     UtilDependencies.ImageDownloader,
     () => new ImageDownloader(container.get(UtilDependencies.HttpClient))
+  );
+
+  const mailerTransport: TransporterMailer = {
+    host: enviroment.mailer.host,
+    secure: true,
+    auth: {
+      pass: enviroment.mailer.password,
+      user: enviroment.mailer.mail,
+    },
+    port: Number(enviroment.mailer.port),
+  };
+  container.register(
+    UtilDependencies.Mailer,
+    () => new NodeMailer(mailerTransport)
   );
 };

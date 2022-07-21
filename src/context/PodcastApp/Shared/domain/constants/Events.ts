@@ -5,4 +5,7 @@ export const enum Events {
 
   NEW_EPISODE = "newEpisode",
   NEW_CHANNEL = "newChannel",
+
+  USER_SIGNUP = "userSignup",
+  USER_RECOVERY_PASSWORD = "userRecoveryPassword",
 }

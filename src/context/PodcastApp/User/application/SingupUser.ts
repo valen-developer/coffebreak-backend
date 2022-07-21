@@ -1,7 +1,10 @@
+import { Events } from "../../Shared/domain/constants/Events";
 import {
   CRYPT_SALT_ROUNDS,
   ICrypt,
 } from "../../Shared/domain/interfaces/Crypt.interface";
+import { EventEmitter } from "../../Shared/domain/interfaces/EventEmitter";
+import { Mailer } from "../../Shared/domain/interfaces/Mailer.interface";
 import { InvalidPasswordConfirmationException } from "../domain/exceptions/InvalidPasswordConfirmation.exception";
 import { User } from "../domain/User.mode";
 import { UserPassword } from "../domain/valueObject/UserPassword.valueObject";
@@ -10,7 +13,11 @@ import { USER_STATUS } from "../domain/valueObject/UserStatus.valueObject";
 import { UserCreator } from "./UserCreator";
 
 export class SignupUser {
-  constructor(private userCreator: UserCreator, private crypt: ICrypt) {}
+  constructor(
+    private userCreator: UserCreator,
+    private crypt: ICrypt,
+    private eventEmiter: EventEmitter
+  ) {}
 
   public async signup(request: SingupRequest): Promise<User> {
     this.chekcPassword(request.password, request.passwordConfirmation);
@@ -23,6 +30,8 @@ export class SignupUser {
       role: USER_ROLE.USER,
       status: USER_STATUS.INACTIVE,
     });
+
+    this.eventEmiter.emit(Events.USER_SIGNUP, user);
 
     return this.userCreator.create(user.toDto());
   }

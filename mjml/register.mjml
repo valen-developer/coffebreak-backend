@@ -1,0 +1,63 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-all padding="0px"></mj-all>
+      <mj-class name="preheader" color="#000000" font-size="11px" font-family="Ubuntu, Helvetica, Arial, sans-serif" padding="0px"></mj-class>
+    </mj-attributes>
+    <mj-style inline="inline">a { text-decoration: none; color: inherit; }</mj-style>
+  </mj-head>
+
+
+  <mj-body background-color="#0e0e0f">
+    <mj-section background-color="#18181d" padding="10px 0">
+      
+      <mj-column width="100%" >
+        <mj-text align="center" color="#ffffff" font-size="20px" font-weight="bold" font-family="Lato, Helvetica, Arial, sans-serif" padding="18px 0px">Coffebreak: Señal y ruido</mj-text>
+      </mj-column>
+    </mj-section>
+
+
+    <mj-section background-color="#25252c" padding-top="20px">
+      <mj-column width="100%">
+        <mj-image src="https://img-static.ivoox.com/index.php?w=145&h=145&url=https://static-1.ivoox.com/canales/6/8/2/5/7381453715286_XXL.jpg" alt="logo" width="192px" padding="10px 25px" border-radius="10px" ></mj-image>
+        <mj-text align="center" color="#0ef13f" font-size="25px" font-family="Lato, Helvetica, Arial, sans-serif" padding="10px 25px"><strong>Hola {{Nombre}}
+            <br />
+            <br />
+            Bienvenido a la app de Coffebreak
+            </strong></mj-text>
+        <mj-text align="center" color="#838586" font-size="18px" font-family="Lato, Helvetica, Arial, sans-serif" padding="10px 30px"><strong>Trabajaremos intensamente para que puedas disfrutar del mejor podcast de ciencia.</strong></mj-text>
+      </mj-column>
+    </mj-section>
+
+
+    <mj-section background-color="#25252c" padding="20px 0">
+      <mj-column>
+        <mj-image src="https://cdn-icons.flaticon.com/png/512/3158/premium/3158661.png?token=exp=1658362679~hmac=9cf9c8d0f186ae64ddc0b05cd05e33e0" alt="New York" width="100px" padding="0 25px"></mj-image>
+        <mj-text align="center" color="#72e08a" font-size="20px" font-family="Lato, Helvetica, Arial, sans-serif" vertical-align="top" padding="20px 25px"><strong>Escucha</strong> <br />
+          <p style="font-size: 15px;color:#838586;">Cuando quieras, donde quieras</p>
+        </mj-text>
+      </mj-column>
+      <mj-column>
+        <mj-image src="https://cdn-icons.flaticon.com/png/512/720/premium/720245.png?token=exp=1658362718~hmac=7a77d60950c2f40e094462bc30cad87c" alt="London" width="100px" padding="0 25px"></mj-image>
+        <mj-text align="center" color="#72e08a" font-size="20px" font-family="Lato, Helvetica, Arial, sans-serif" vertical-align="top" padding="20px 25px"><strong>Configura</strong> <br />
+          <p style="font-size: 15px;color:#838586;">Playlists, canales, temporizador...</p>
+        </mj-text>
+      </mj-column>
+      <mj-column>
+        <mj-image src="https://cdn-icons.flaticon.com/png/512/719/premium/719731.png?token=exp=1658362746~hmac=7fac39a618e2ddcad5fd2ca342922b92" alt="Berlin" width="100px" padding="0 25px"></mj-image>
+        <mj-text align="center" color="#72e08a" font-size="20px" font-family="Lato, Helvetica, Arial, sans-serif" vertical-align="top" padding="20px 25px"><strong>Comparte</strong> <br />
+          <p style="font-size: 15px;color:#838586;">El mejor regalo para la gente que quieres</p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+
+    <mj-section background-color="#18181d" padding="10px">
+        <mj-column>
+            <mj-button>Activa tu cuenta</mj-button>
+        </mj-column>
+    </mj-section>
+
+
+  </mj-body>
+</mjml>

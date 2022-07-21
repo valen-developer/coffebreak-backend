@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { UserStatusUpdater } from "../../../../../context/PodcastApp/User/application/UserStatusUpdater";
+import { UserValidator } from "../../../../../context/PodcastApp/User/application/UserValidator";
+import { User } from "../../../../../context/PodcastApp/User/domain/User.mode";
 import { Container } from "../../dependency-injection/Container";
 import { UserDependencies } from "../../dependency-injection/injectUserDependencies";
 import { HttpErrorManager } from "../../helpers/HttpErrorManager";
@@ -7,24 +8,21 @@ import { Controller } from "../Controller.interface";
 
 export class ValidateUserController implements Controller {
   public async run(req: Request, res: Response): Promise<void> {
-    const { userTokenUuid } = req.body;
+    const user = req.body.session.user as User;
 
     try {
       const container = Container.getInstance();
-      const userStatusUpdater = container.get<UserStatusUpdater>(
-        UserDependencies.UserStatusUpdater
-      );
 
-      await userStatusUpdater.activateUser(userTokenUuid);
+      await container
+        .get<UserValidator>(UserDependencies.UserValidator)
+        .validateUser(user);
 
-      res.status(201).json({ ok: true });
+      res.status(201).json({
+        ok: true,
+      });
     } catch (error) {
       const { status, message } = new HttpErrorManager().manage(error);
-
-      res.status(status).json({
-        ok: false,
-        message,
-      });
+      res.status(status).json({ ok: false, message });
     }
   }
 }

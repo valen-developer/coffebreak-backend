@@ -7,7 +7,7 @@ import { Controller } from "../Controller.interface";
 
 export class LoginWithTokenController implements Controller {
   public async run(req: Request, res: Response): Promise<void> {
-    const loggedUser = req.body.loggedUser as User;
+    const loggedUser = req.body.session.user as User;
 
     try {
       if (!loggedUser) {
