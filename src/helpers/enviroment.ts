@@ -1,6 +1,6 @@
-import path from 'path';
+import * as path from 'path';
 
-export const enviroment = {
+export const enviroment = () => ({
   port: process.env.PORT || 3000,
   db: {
     uri: process.env.DB_URI || 'mongodb://localhost:27017/coffebreak',
@@ -8,8 +8,8 @@ export const enviroment = {
     password: process.env.PASSWORD_DB || 'admin',
   },
   dirs: {
-    temp: path.join(__dirname, '../../../../../temp'),
-    images: path.join(__dirname, '../../../../../images'),
+    temp: path.join(__dirname, '../../temp'),
+    images: path.join(__dirname, '../../images'),
   },
   googleKeys: {
     cliendId: process.env.GOOGLE_CLIENT_ID || '',
@@ -23,4 +23,4 @@ export const enviroment = {
     host: process.env.MAILER_HOST || '',
   },
   webappUrl: process.env.WEBAPP_URL || 'http://192.168.0.17:4200',
-};
+});

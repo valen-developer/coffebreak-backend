@@ -1,5 +1,5 @@
-import { Artist, ArtistDTO } from "../domain/Artist.model";
-import { ArtistRepository } from "../domain/interfaces/ArtistRepository.interface";
+import { Artist, ArtistDTO } from '../domain/Artist.model';
+import { ArtistRepository } from '../domain/interfaces/ArtistRepository.interface';
 
 export class ArtistCreator {
   constructor(private artistRepository: ArtistRepository) {}

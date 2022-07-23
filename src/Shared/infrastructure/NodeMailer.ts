@@ -1,11 +1,11 @@
-import nodemailer from "nodemailer";
-import Mail from "nodemailer/lib/mailer";
+import * as nodemailer from 'nodemailer';
+import Mail from 'nodemailer/lib/mailer';
 
 import {
   Mailer,
   SendMailParams,
   TransporterMailer,
-} from "../domain/interfaces/Mailer.interface";
+} from '../domain/interfaces/Mailer.interface';
 
 export class NodeMailer extends Mailer {
   private transporter: Mail;
@@ -27,7 +27,7 @@ export class NodeMailer extends Mailer {
       })
       .then(() => true)
       .catch((error) => {
-        console.log("🚀 -> NodeMailer -> error", error);
+        console.log('🚀 -> NodeMailer -> error', error);
 
         return false;
       });

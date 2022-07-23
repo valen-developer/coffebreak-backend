@@ -1,9 +1,34 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
+import { ArtistModule } from './Artist/artist.module';
+import { ImageModule } from './Image/image.module';
+import { PlaylistModule } from './Playlist/playlist.module';
+import { PodcastEpisodeModule } from './Podcast/podcast-episode.module';
+import { SharedModule } from './Shared/shared.module';
+import { UserModule } from './User/user.module';
+
+const EntitiesModules = [
+  ArtistModule,
+  ImageModule,
+  PlaylistModule,
+  PodcastEpisodeModule,
+  SharedModule,
+  UserModule,
+];
+
+const ConfigModules = [
+  ConfigModule.forRoot({
+    envFilePath: ['.env', '.env.local'],
+    isGlobal: true,
+  }),
+];
+
 @Module({
-  imports: [],
+  imports: [...EntitiesModules, ...ConfigModules],
   controllers: [AppController],
   providers: [AppService],
 })

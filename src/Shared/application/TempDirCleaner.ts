@@ -5,7 +5,7 @@ import { enviroment } from 'src/helpers/enviroment';
 import { CronJob } from '../domain/interfaces/Cronjob.interface';
 
 export class TempDirCleaner {
-  private _TMP_PATH = enviroment.dirs.temp;
+  private _TMP_PATH = enviroment().dirs.temp;
 
   constructor(private cron: CronJob) {
     this.runCrontab();

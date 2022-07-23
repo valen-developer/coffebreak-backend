@@ -1,5 +1,5 @@
-import { enviroment } from "../../apps/PodcastApp/backend/config/enviroment";
-import { User } from "../../context/PodcastApp/User/domain/User.mode";
+import { User } from 'src/User/domain/User.mode';
+import { enviroment } from '../enviroment';
 
 export const registerHTML = (user: User, token: string): string => {
   return `
@@ -336,7 +336,9 @@ export const registerHTML = (user: User, token: string): string => {
                                   "
                                 >
                                   <strong
-                                    >Hey, ${user.name.value}<br /><br />Bienvenido a la
+                                    >Hey, ${
+                                      user.name.value
+                                    }<br /><br />Bienvenido a la
                                     app de Coffebreak</strong
                                   >
                                 </div>
@@ -833,7 +835,9 @@ export const registerHTML = (user: User, token: string): string => {
                                         "
                                       >
                                         <a
-                                          href="${enviroment.webappUrl}/auth/validate?token=${token}"
+                                          href="${
+                                            enviroment().webappUrl
+                                          }/auth/validate?token=${token}"
                                           style="
                                             text-decoration: none;
                                             color: white;

@@ -44,7 +44,7 @@ export class FormidableFormDataParser implements FormDataParser {
   }
 
   private getTempDirPath(): string {
-    const tempPath = enviroment.dirs.temp;
+    const tempPath = enviroment().dirs.temp;
 
     // check if exists or create
     if (!fs.existsSync(tempPath)) {

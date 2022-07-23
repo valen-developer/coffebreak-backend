@@ -1,12 +1,14 @@
-import fs from 'fs';
+import * as fs from 'fs';
 import path from 'path';
-import { enviroment } from 'src/helpers/enviroment';
+import { enviroment as enviromentFn } from 'src/helpers/enviroment';
 
 import { InvalidImageExtension } from '../../Image/domain/exceptions/InvalidImageExtension.exception';
 import { NullException } from '../domain/exceptions/Null.exception';
 
 import { FileUploader } from '../domain/interfaces/FileUploader';
 import { FileData } from '../domain/interfaces/FormDataParser.interface';
+
+const enviroment = enviromentFn();
 
 export class FsFileUploader implements FileUploader {
   private _IMAGE_PATH = enviroment.dirs.images;

@@ -55,10 +55,7 @@ const providers: Provider[] = [
     provide: JWT,
     useClass: JsonWebTokenJWT,
   },
-  {
-    provide: Mailer,
-    useClass: NodeMailer,
-  },
+
   {
     provide: QueryBuilder,
     useClass: MongoQueryBuilder,
@@ -69,7 +66,26 @@ const providers: Provider[] = [
   },
 ];
 
+const NodeMailerFactory = (): Mailer => {
+  return new NodeMailer({
+    auth: {
+      user: process.env.MAIL_USER ?? 'admin',
+      pass: process.env.MAIL_PASSWORD ?? 'admin',
+    },
+    host: process.env.MAIL_HOST ?? 'smtp.gmail.com',
+    port: Number(process.env.MAIL_PORT ?? 465),
+    secure: true,
+  });
+};
+
+const providerWithFactory: Provider[] = [
+  {
+    provide: Mailer,
+    useFactory: NodeMailerFactory,
+  },
+];
+
 @Module({
-  providers: [...providers],
+  providers: [...providers, ...providerWithFactory],
 })
 export class SharedModule {}

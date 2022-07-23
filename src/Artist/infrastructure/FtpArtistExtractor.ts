@@ -43,7 +43,7 @@ export class FtpArtistExtractor extends ArtistExtractor {
   }
 
   private saveTmpFile(url: string): Promise<string> {
-    const tmpFile = path.join(enviroment.dirs.temp, 'cbinfo.txt');
+    const tmpFile = path.join(enviroment().dirs.temp, 'cbinfo.txt');
     const wget = spawn('wget', ['--output-document', `${tmpFile}`, url]);
 
     return new Promise((resolve, reject) => {

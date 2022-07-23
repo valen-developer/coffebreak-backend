@@ -26,7 +26,7 @@ export class RegisterEmailSender {
     const html = registerHTML(user, token);
 
     await this.mailer.sendMail({
-      from: enviroment.mailer.mail,
+      from: enviroment().mailer.mail,
       to: user.email.value,
       subject: 'Coffebreak - Confirma tu cuenta',
       html,

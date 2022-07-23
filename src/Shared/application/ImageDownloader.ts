@@ -24,7 +24,7 @@ export class ImageDownloader {
   private async saveTmpFile(
     blob: Blob,
   ): Promise<{ path: string; name: string }> {
-    const tmpDir = enviroment.dirs.temp;
+    const tmpDir = enviroment().dirs.temp;
 
     const ext = this.extractExtension(blob.type);
     const name = `${Date.now()}.${ext}`;
