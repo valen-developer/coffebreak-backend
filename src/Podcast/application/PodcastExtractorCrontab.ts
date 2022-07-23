@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common';
 import { asyncForeach } from 'src/helpers/functions/asyncForeach.function';
 import { Events } from '../../Shared/domain/constants/Events';
 import { CronJob } from '../../Shared/domain/interfaces/Cronjob.interface';
@@ -8,6 +9,7 @@ import { PodcastEpisodeRepository } from '../domain/interfaces/PodcastEpisodeRep
 import { PodcastExtractor } from '../domain/interfaces/PodcastExtractor.interface';
 import { PodcastEpisodeFinder } from './PodcastEpisodeFinder';
 
+@Injectable()
 export class PodcastExtractorCrontab {
   constructor(
     private httpClient: HttpClient,

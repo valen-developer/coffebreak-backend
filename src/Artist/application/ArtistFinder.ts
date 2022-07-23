@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common';
 import { asyncMap } from 'src/helpers/functions/asyncMap.function';
 import { PodcastEpisodeFinder } from '../../Podcast/application/PodcastEpisodeFinder';
 import { PodcastEpisode } from '../../Podcast/domain/PodcastEpisode.model';
@@ -6,6 +7,7 @@ import { Artist } from '../domain/Artist.model';
 import { ArtistQuery } from '../domain/ArtistQuery';
 import { ArtistRepository } from '../domain/interfaces/ArtistRepository.interface';
 
+@Injectable()
 export class ArtistFinder {
   constructor(
     private artistRepository: ArtistRepository,

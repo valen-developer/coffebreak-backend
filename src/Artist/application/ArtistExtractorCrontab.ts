@@ -1,15 +1,17 @@
-import { CronJob } from "../../Shared/domain/interfaces/Cronjob.interface";
-import { ArtistExtractor } from "../domain/interfaces/ArtistExtractor.interface";
+import { Injectable } from '@nestjs/common';
+import { CronJob } from '../../Shared/domain/interfaces/Cronjob.interface';
+import { ArtistExtractor } from '../domain/interfaces/ArtistExtractor.interface';
 
+@Injectable()
 export class ArtistExtractoCrontab {
   constructor(
     private cron: CronJob,
-    private artistExtractor: ArtistExtractor
+    private artistExtractor: ArtistExtractor,
   ) {}
 
   public run(): Promise<void> {
     this.extract();
-    this.cron.schedule("10 */2 * * * 5", async () => {
+    this.cron.schedule('10 */2 * * * 5', async () => {
       await this.extract();
     });
 
@@ -19,7 +21,7 @@ export class ArtistExtractoCrontab {
   }
 
   public async extract(): Promise<void> {
-    console.log("extracting artists");
+    console.log('extracting artists');
     const artists = await this.artistExtractor.extract();
   }
 }

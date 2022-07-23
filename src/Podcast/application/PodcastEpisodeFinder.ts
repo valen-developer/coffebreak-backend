@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common';
 import { Nullable } from 'src/helpers/types/Nullable.type';
 import { Paginator } from '../../Shared/domain/interfaces/Paginator.interface';
 import { QueryBuilder } from '../../Shared/domain/interfaces/QueryBuilder.interface';
@@ -9,6 +10,7 @@ import {
 } from '../domain/PodcastEpisode.model';
 import { PodcastEpisodeQuery } from '../domain/PodcastEpisodeQuery';
 
+@Injectable()
 export class PodcastEpisodeFinder {
   constructor(
     private podcastEpisodeRepository: PodcastEpisodeRepository,

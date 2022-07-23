@@ -14,7 +14,9 @@ import { PodcastDuration } from '../domain/valueObjects/PodcastDuration.valueObj
 import { PodcastImageUrl } from '../domain/valueObjects/PodcastImageUrl.valueObject';
 import { PodcastPubDate } from '../domain/valueObjects/PodcastPubDate.valueObject';
 import { PodcastTitle } from '../domain/valueObjects/PodcastTitle.valueObject';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class IvooxPodcastExtractor implements PodcastExtractor {
   private _IVOOX_PODCAST_URL =
     'https://www.ivoox.com/feed_fg_f1172891_filtro_1.xml';

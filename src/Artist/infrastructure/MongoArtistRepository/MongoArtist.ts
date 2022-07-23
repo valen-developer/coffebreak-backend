@@ -1,20 +1,30 @@
-import mongoose, { Schema } from "mongoose";
+import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
-const MongoArtist = new Schema({
-  uuid: {
+export type MongoArtistDocument = MongoArtistModel & Document;
+
+export const ARTIST_NAME = 'artist';
+
+@Schema({})
+export class MongoArtistModel {
+  @Prop({
     type: String,
     required: true,
     unique: true,
-  },
-  name: {
+  })
+  uuid: string;
+
+  @Prop({
     type: String,
     required: true,
-    unique: true,
-  },
-  episodes: [Number],
-});
+  })
+  name: string;
 
-export const MongoArtistSchema: mongoose.Model<any, any, any> = mongoose.model(
-  "artist",
-  MongoArtist
-);
+  @Prop({
+    type: [Number],
+    default: [],
+  })
+  episodes: [number];
+}
+
+export const MongoArtistSchema = SchemaFactory.createForClass(MongoArtistModel);

@@ -9,7 +9,9 @@ import { ArtistExtractor } from '../domain/interfaces/ArtistExtractor.interface'
 import { ArtistCreatorForExtraction } from '../application/ArtistCreatorForExtraction';
 import { asyncMap } from 'src/helpers/functions/asyncMap.function';
 import { enviroment } from 'src/helpers/enviroment';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class FtpArtistExtractor extends ArtistExtractor {
   private _ftpArtisUrl = 'ftp://ftp.iac.es/pub/pcoffeebreak/cbinfo.txt';
 

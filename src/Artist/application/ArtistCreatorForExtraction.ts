@@ -1,14 +1,16 @@
-import { QueryBuilder } from "../../Shared/domain/interfaces/QueryBuilder.interface";
-import { UUIDGenerator } from "../../Shared/domain/interfaces/UuidGenerator";
-import { Artist } from "../domain/Artist.model";
-import { ArtistQuery } from "../domain/ArtistQuery";
-import { ArtistRepository } from "../domain/interfaces/ArtistRepository.interface";
+import { Injectable } from '@nestjs/common';
+import { QueryBuilder } from '../../Shared/domain/interfaces/QueryBuilder.interface';
+import { UUIDGenerator } from '../../Shared/domain/interfaces/UuidGenerator';
+import { Artist } from '../domain/Artist.model';
+import { ArtistQuery } from '../domain/ArtistQuery';
+import { ArtistRepository } from '../domain/interfaces/ArtistRepository.interface';
 
+@Injectable()
 export class ArtistCreatorForExtraction {
   constructor(
     private artistRepository: ArtistRepository,
     private queryBuilder: QueryBuilder,
-    private uuidGenerator: UUIDGenerator
+    private uuidGenerator: UUIDGenerator,
   ) {}
 
   public async create(name: string): Promise<Artist> {
@@ -17,7 +19,7 @@ export class ArtistCreatorForExtraction {
     };
     // check if exist by name
     const artists = await this.artistRepository.filter(
-      this.queryBuilder.build(query)
+      this.queryBuilder.build(query),
     );
     const hasArtist = artists.length > 0;
 

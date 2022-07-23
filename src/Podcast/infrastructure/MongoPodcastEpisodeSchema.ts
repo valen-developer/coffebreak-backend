@@ -1,40 +1,59 @@
-import mongoose from "mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
-const { Schema } = mongoose;
+export type MongoEpisodeDocument = MongoPodcastEpisodeModel & Document;
+export const EPISODE_NAME = 'episode';
 
-const PodcastEpisodeSchema = new Schema({
-  uuid: {
+@Schema()
+export class MongoPodcastEpisodeModel {
+  @Prop({
     type: String,
     required: true,
     unique: true,
-  },
-  title: {
+  })
+  uuid: string;
+
+  @Prop({
     type: String,
     required: true,
-  },
-  description: {
+  })
+  title: string;
+
+  @Prop({
     type: String,
     required: true,
-  },
-  imageUrl: {
+  })
+  description: string;
+
+  @Prop({
     type: String,
-  },
-  audioUrl: {
+  })
+  imageUrl: string;
+
+  @Prop({
     type: String,
     required: true,
-  },
-  pubDate: {
+  })
+  audioUrl: string;
+
+  @Prop({
     type: Date,
     required: true,
-  },
-  duration: {
+  })
+  pubDate: Date;
+
+  @Prop({
     type: Number,
     required: true,
-  },
-  episode: {
-    type: Number,
-  },
-});
+  })
+  duration: number;
 
-export const MongoPodcastEpisodeSchema: mongoose.Model<any, any, any> =
-  mongoose.model("episode", PodcastEpisodeSchema);
+  @Prop({
+    type: Number,
+  })
+  episode: number;
+}
+
+export const MongoEpisodeSchema = SchemaFactory.createForClass(
+  MongoPodcastEpisodeModel,
+);

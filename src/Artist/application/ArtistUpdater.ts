@@ -1,6 +1,8 @@
-import { Artist } from "../domain/Artist.model";
-import { ArtistRepository } from "../domain/interfaces/ArtistRepository.interface";
+import { Injectable } from '@nestjs/common';
+import { Artist } from '../domain/Artist.model';
+import { ArtistRepository } from '../domain/interfaces/ArtistRepository.interface';
 
+@Injectable()
 export class ArtistUpdater {
   constructor(private artistRepository: ArtistRepository) {}
 

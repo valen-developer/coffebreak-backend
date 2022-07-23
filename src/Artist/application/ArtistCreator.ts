@@ -1,6 +1,8 @@
+import { Injectable } from '@nestjs/common';
 import { Artist, ArtistDTO } from '../domain/Artist.model';
 import { ArtistRepository } from '../domain/interfaces/ArtistRepository.interface';
 
+@Injectable()
 export class ArtistCreator {
   constructor(private artistRepository: ArtistRepository) {}
 
