@@ -1,4 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { InvalidPasswordConfirmationException } from 'src/User/domain/exceptions/InvalidPasswordConfirmation.exception';
+import { UserRepository } from 'src/User/domain/interfaces/UserRepository.interface';
+import { User } from 'src/User/domain/User.mode';
+import { UserPassword } from 'src/User/domain/valueObject/UserPassword.valueObject';
+import { USER_STATUS } from 'src/User/domain/valueObject/UserStatus.valueObject';
 import { Events } from '../../Shared/domain/constants/Events';
 import { InvalidException } from '../../Shared/domain/exceptions/Invalid.exception';
 import {
@@ -6,11 +11,6 @@ import {
   ICrypt,
 } from '../../Shared/domain/interfaces/Crypt.interface';
 import { EventEmitter } from '../../Shared/domain/interfaces/EventEmitter';
-import { InvalidPasswordConfirmationException } from '../domain/exceptions/InvalidPasswordConfirmation.exception';
-import { UserRepository } from '../domain/interfaces/UserRepository.interface';
-import { User } from '../domain/User.mode';
-import { UserPassword } from '../domain/valueObject/UserPassword.valueObject';
-import { USER_STATUS } from '../domain/valueObject/UserStatus.valueObject';
 
 @Injectable()
 export class PasswordRecover {

@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import { ArtistModule } from './Artist/artist.module';
+import { AuthModule } from './Auth/auth.module';
 import { enviroment } from './helpers/enviroment';
 import { ImageModule } from './Image/image.module';
 import { PlaylistModule } from './Playlist/playlist.module';
@@ -14,12 +15,13 @@ import { SharedModule } from './Shared/shared.module';
 import { UserModule } from './User/user.module';
 
 const EntitiesModules = [
+  SharedModule,
+  AuthModule,
   ArtistModule,
   UserModule,
   ImageModule,
   PlaylistModule,
   PodcastEpisodeModule,
-  SharedModule,
 ];
 
 const ConfigModules = [

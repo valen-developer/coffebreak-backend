@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import { InvalidPasswordConfirmationException } from 'src/User/domain/exceptions/InvalidPasswordConfirmation.exception';
+import { NotFoundUserException } from 'src/User/domain/exceptions/NotUserFound.exception';
+import { UserRepository } from 'src/User/domain/interfaces/UserRepository.interface';
+import { User } from 'src/User/domain/User.mode';
+import { USER_STATUS } from 'src/User/domain/valueObject/UserStatus.valueObject';
 import { ICrypt } from '../../Shared/domain/interfaces/Crypt.interface';
-import { InvalidPasswordConfirmationException } from '../domain/exceptions/InvalidPasswordConfirmation.exception';
-import { NotFoundUserException } from '../domain/exceptions/NotUserFound.exception';
-import { UserRepository } from '../domain/interfaces/UserRepository.interface';
-import { User } from '../domain/User.mode';
-import { USER_STATUS } from '../domain/valueObject/UserStatus.valueObject';
 
 @Injectable()
 export class PasswordChanger {

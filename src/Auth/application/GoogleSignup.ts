@@ -1,12 +1,12 @@
+import { UserRepository } from 'src/User/domain/interfaces/UserRepository.interface';
+import { User } from 'src/User/domain/User.mode';
+import { UserPassword } from 'src/User/domain/valueObject/UserPassword.valueObject';
+import { USER_ROLE } from 'src/User/domain/valueObject/UserRole.valueObject';
+import { USER_STATUS } from 'src/User/domain/valueObject/UserStatus.valueObject';
 import { ImageCreator } from '../../Image/application/ImageCreator';
 import { ImageDownloader } from '../../Shared/application/ImageDownloader';
 import { FileUploader } from '../../Shared/domain/interfaces/FileUploader';
 import { UUIDGenerator } from '../../Shared/domain/interfaces/UuidGenerator';
-import { UserRepository } from '../domain/interfaces/UserRepository.interface';
-import { User } from '../domain/User.mode';
-import { UserPassword } from '../domain/valueObject/UserPassword.valueObject';
-import { USER_ROLE } from '../domain/valueObject/UserRole.valueObject';
-import { USER_STATUS } from '../domain/valueObject/UserStatus.valueObject';
 
 export class GoogleSignup {
   constructor(

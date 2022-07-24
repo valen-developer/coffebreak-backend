@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
+import { UserCreator } from 'src/User/application/UserCreator';
+import { InvalidPasswordConfirmationException } from 'src/User/domain/exceptions/InvalidPasswordConfirmation.exception';
+import { User } from 'src/User/domain/User.mode';
+import { UserPassword } from 'src/User/domain/valueObject/UserPassword.valueObject';
+import { USER_ROLE } from 'src/User/domain/valueObject/UserRole.valueObject';
+import { USER_STATUS } from 'src/User/domain/valueObject/UserStatus.valueObject';
 import { Events } from '../../Shared/domain/constants/Events';
 import {
   CRYPT_SALT_ROUNDS,
   ICrypt,
 } from '../../Shared/domain/interfaces/Crypt.interface';
 import { EventEmitter } from '../../Shared/domain/interfaces/EventEmitter';
-import { InvalidPasswordConfirmationException } from '../domain/exceptions/InvalidPasswordConfirmation.exception';
-import { User } from '../domain/User.mode';
-import { UserPassword } from '../domain/valueObject/UserPassword.valueObject';
-import { USER_ROLE } from '../domain/valueObject/UserRole.valueObject';
-import { USER_STATUS } from '../domain/valueObject/UserStatus.valueObject';
-import { UserCreator } from './UserCreator';
 
 @Injectable()
 export class SignupUser {
