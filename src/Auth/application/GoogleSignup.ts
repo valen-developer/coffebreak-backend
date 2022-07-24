@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common';
 import { UserRepository } from 'src/User/domain/interfaces/UserRepository.interface';
 import { User } from 'src/User/domain/User.mode';
 import { UserPassword } from 'src/User/domain/valueObject/UserPassword.valueObject';
@@ -8,6 +9,7 @@ import { ImageDownloader } from '../../Shared/application/ImageDownloader';
 import { FileUploader } from '../../Shared/domain/interfaces/FileUploader';
 import { UUIDGenerator } from '../../Shared/domain/interfaces/UuidGenerator';
 
+@Injectable()
 export class GoogleSignup {
   constructor(
     private userRepository: UserRepository,

@@ -1,8 +1,10 @@
+import { Injectable } from '@nestjs/common';
 import { JWT, JWT_CONFIG } from '../../Shared/domain/interfaces/JWT.interface';
 import { UserFinder } from '../../User/application/UserFinder';
 import { NotFoundUserException } from '../../User/domain/exceptions/NotUserFound.exception';
 import { LoginReponse } from './LoginUser';
 
+@Injectable()
 export class GoogleLogin {
   constructor(private userFinder: UserFinder, private jwt: JWT) {}
 

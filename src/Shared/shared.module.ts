@@ -1,4 +1,6 @@
 import { Module, Provider } from '@nestjs/common';
+import { ImageDownloader } from './application/ImageDownloader';
+import { TempDirCleaner } from './application/TempDirCleaner';
 import { CronJob } from './domain/interfaces/Cronjob.interface';
 import { ICrypt } from './domain/interfaces/Crypt.interface';
 import { EventEmitter } from './domain/interfaces/EventEmitter';
@@ -66,6 +68,8 @@ const providers: Provider[] = [
   },
 ];
 
+const useCases = [ImageDownloader];
+
 const NodeMailerFactory = (): Mailer => {
   return new NodeMailer({
     auth: {
@@ -86,7 +90,7 @@ const providerWithFactory: Provider[] = [
 ];
 
 @Module({
-  providers: [...providers, ...providerWithFactory],
-  exports: [...providers, ...providerWithFactory],
+  providers: [...providers, ...providerWithFactory, ...useCases],
+  exports: [...providers, ...providerWithFactory, ...useCases],
 })
 export class SharedModule {}

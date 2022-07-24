@@ -30,16 +30,23 @@ export class IvooxPodcastExtractor implements PodcastExtractor {
   ): Promise<any[]> {
     this.uuidGenerator = uuidGenerator;
 
-    const dataAsString = await httpClient.get<string>(this._IVOOX_PODCAST_URL, {
-      responseType: 'text',
-    });
+    try {
+      const dataAsString = await httpClient.get<string>(
+        this._IVOOX_PODCAST_URL,
+        {
+          responseType: 'text',
+        },
+      );
 
-    const data = await this.parseXml(dataAsString);
-    const episodes = this.buildPodcastEpisode(data);
+      const data = await this.parseXml(dataAsString);
+      const episodes = this.buildPodcastEpisode(data);
 
-    const filteredByDate = this.filterByDate(episodes, from);
+      const filteredByDate = this.filterByDate(episodes, from);
 
-    return filteredByDate;
+      return filteredByDate;
+    } catch (error) {
+      return [];
+    }
   }
 
   private async parseXml(xml: string): Promise<IvooxResponse> {
