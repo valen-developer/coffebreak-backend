@@ -1,4 +1,9 @@
-import { Module, Provider } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  Provider,
+  RequestMethod,
+} from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { ImageModule } from 'src/Image/image.module';
@@ -6,6 +11,7 @@ import { EventEmitter } from 'src/Shared/domain/interfaces/EventEmitter';
 import { JWT } from 'src/Shared/domain/interfaces/JWT.interface';
 import { Mailer } from 'src/Shared/domain/interfaces/Mailer.interface';
 import { NativeEventEmitter } from 'src/Shared/infrastructure/NativeEventEmitter';
+import { ValidateJWTMiddleware } from 'src/Shared/middlewares/ValidateJWT.middleware';
 import { SharedModule } from 'src/Shared/shared.module';
 import { LoginUser } from './application/LoginUser';
 import { PasswordChanger } from './application/PasswordChanger';
@@ -55,4 +61,14 @@ const useCases = [
   providers: [...providers, ...useCases],
   exports: [...providers, ...useCases],
 })
-export class UserModule {}
+export class UserModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(ValidateJWTMiddleware)
+      .exclude({
+        path: '(.*)/login',
+        method: RequestMethod.POST,
+      })
+      .forRoutes(AuthController);
+  }
+}

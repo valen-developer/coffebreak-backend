@@ -9,6 +9,7 @@ import { ImageDuplicator } from './application/ImageDuplicator';
 import { ImageFinder } from './application/ImageFinder';
 import { ImageUpdater } from './application/ImageUpdater';
 import { ImageRepository } from './domain/interfaces/ImageRepository.interface';
+import { ImageController } from './image.controller';
 import { MongoImageRepository } from './infrastructure/MongoImageRepository/MongoImageRepository';
 import {
   IMAGE_NAME,
@@ -31,6 +32,7 @@ const useCases = [
 ];
 
 @Module({
+  controllers: [ImageController],
   imports: [
     SharedModule,
     MongooseModule.forFeature([{ name: IMAGE_NAME, schema: MongoImageSchema }]),
