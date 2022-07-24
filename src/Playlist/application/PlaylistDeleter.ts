@@ -10,6 +10,7 @@ export class PlaylistDeleter {
   ) {}
 
   public async delete(uuid: string): Promise<void> {
+    //TODO: check if user is owner of playlist
     await this.playlistRepository.delete(uuid);
     await this.imageDeleter.deleteByEntityUuid(uuid);
   }

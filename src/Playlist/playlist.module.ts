@@ -68,18 +68,4 @@ const useCases = [
   ],
   providers: [...providers, ...useCases],
 })
-export class PlaylistModule {
-  configure(consumer: MiddlewareConsumer): void {
-    consumer
-      .apply(ValidateJWTMiddleware)
-      .forRoutes(ProtectedPlaylistFinderController);
-    consumer.apply(ValidateJWTMiddleware).forRoutes(PlaylistCreatorController);
-
-    consumer
-      .apply(ValidateJWTMiddleware)
-      .forRoutes(ProtectedPlaylistUpdaterController);
-    consumer
-      .apply(ValidateJWTMiddleware)
-      .forRoutes(ProtectedPlaylistDeleteController);
-  }
-}
+export class PlaylistModule {}

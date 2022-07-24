@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DeepOptional } from 'src/helpers/types/DeepOptional';
 import { InvalidException } from 'src/Shared/domain/exceptions/Invalid.exception';
+import { User } from 'src/User/domain/User.mode';
 import { ImageUpdater } from '../../Image/application/ImageUpdater';
 import { FileUploader } from '../../Shared/domain/interfaces/FileUploader';
 import { FileData } from '../../Shared/domain/interfaces/FormDataParser.interface';
@@ -20,6 +21,7 @@ export class PlaylistUpdater {
 
   public async update(
     playlistDto: DeepOptional<PlaylistDTO>,
+    owner: User,
     image?: FileData,
   ): Promise<void> {
     if (!playlistDto.uuid)
@@ -29,6 +31,10 @@ export class PlaylistUpdater {
       playlistDto.uuid,
     );
     if (!playlist) throw new NotFoundPlaylistException('Playlist not found');
+
+    const isOwner = playlist.getOwn().value === owner.uuid.value;
+    if (!isOwner)
+      throw new InvalidException('You are not the owner of this playlist');
 
     const updatedPlaylist = new Playlist({
       uuid: playlist.uuid.value,

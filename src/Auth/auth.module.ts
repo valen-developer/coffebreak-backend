@@ -42,14 +42,6 @@ const useCases: Provider[] = [
 })
 export class AuthModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(ValidateJWTMiddleware)
-      .exclude({
-        path: '(.*)/login',
-        method: RequestMethod.POST,
-      })
-      .forRoutes(AuthController);
-
     consumer.apply(GoogleCallbackMiddleware).forRoutes({
       path: '/auth/google/callback',
       method: RequestMethod.GET,

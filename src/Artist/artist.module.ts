@@ -15,7 +15,6 @@ import { ExtractArtistStarter } from './infrastructure/ExtractArtistStarter';
 import { FtpArtistExtractor } from './infrastructure/FtpArtistExtractor';
 import {
   ARTIST_NAME,
-  MongoArtistModel,
   MongoArtistSchema,
 } from './infrastructure/MongoArtistRepository/MongoArtist';
 import { MongoArtistRepository } from './infrastructure/MongoArtistRepository/MongoArtistRepository';

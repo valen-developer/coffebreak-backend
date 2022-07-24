@@ -4,8 +4,10 @@ import {
   Post,
   Req,
   UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
 import { Request } from 'express';
+import { JWTGuard } from 'src/Auth/infrastructure/JWT.guard';
 import { FormDataParser } from 'src/Shared/domain/interfaces/FormDataParser.interface';
 import {
   CreatePlaylistParams,
@@ -28,6 +30,7 @@ export class PlaylistCreatorController {
   ) {}
 
   @Post()
+  @UseGuards(JWTGuard)
   public async createPlaylist(@Req() req: Request): Promise<PlaylistDTO> {
     const user = req.body.session?.user;
 
@@ -46,6 +49,7 @@ export class PlaylistCreatorController {
   }
 
   @Post('tematic')
+  @UseGuards(JWTGuard)
   public async createTematicPlaylist(@Req() request: any): Promise<void> {
     const { fields, files } =
       await this.formDataParser.parse<TematicPlaylistCreatorParams>(request);
@@ -57,6 +61,7 @@ export class PlaylistCreatorController {
   }
 
   @Post('duplicate/:uuid')
+  @UseGuards(JWTGuard)
   public async duplicatePlaylist(
     @Param('uuid') uuid: string,
     @Req() req: any,
