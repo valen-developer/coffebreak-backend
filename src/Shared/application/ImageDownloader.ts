@@ -1,10 +1,12 @@
-import fs from 'fs';
-import path from 'path';
+import { Injectable } from '@nestjs/common';
+import * as fs from 'fs';
+import * as path from 'path';
 import { enviroment } from 'src/helpers/enviroment';
 import { FileData } from '../domain/interfaces/FormDataParser.interface';
 
 import { HttpClient } from '../domain/interfaces/HttpClient.interface';
 
+@Injectable()
 export class ImageDownloader {
   constructor(private http: HttpClient) {}
 

@@ -68,7 +68,7 @@ const providers: Provider[] = [
   },
 ];
 
-const useCases = [ImageDownloader];
+const useCases: Provider[] = [ImageDownloader, TempDirCleaner];
 
 const NodeMailerFactory = (): Mailer => {
   return new NodeMailer({

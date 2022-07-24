@@ -24,19 +24,23 @@ export class GoogleOAuthController {
     const SUCCESS_URL = `${enviroment.webappUrl}/auth/rrss/success`;
     const FAILURE_URL = `${enviroment.webappUrl}/auth/rrss/failure`;
 
-    const sessionUser = req.user;
+    try {
+      const sessionUser = req.user;
 
-    if (!sessionUser) {
+      if (!sessionUser) {
+        res.redirect(FAILURE_URL);
+        return;
+      }
+
+      const { email } = sessionUser as {
+        email: string;
+      };
+
+      const { token } = await this.googleLogin.login({ email });
+
+      res.redirect(`${SUCCESS_URL}?token=${token}`);
+    } catch (error) {
       res.redirect(FAILURE_URL);
-      return;
     }
-
-    const { email } = sessionUser as {
-      email: string;
-    };
-
-    const { token } = await this.googleLogin.login({ email });
-
-    res.redirect(`${SUCCESS_URL}?token=${token}`);
   }
 }
