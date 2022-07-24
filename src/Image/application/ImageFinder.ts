@@ -1,14 +1,16 @@
-import { NotFoundImageException } from "../domain/exceptions/NotFoundImage.exception";
-import { Image } from "../domain/Image.model";
-import { ImageRepository } from "../domain/interfaces/ImageRepository.interface";
+import { Injectable } from '@nestjs/common';
+import { NotFoundImageException } from '../domain/exceptions/NotFoundImage.exception';
+import { Image } from '../domain/Image.model';
+import { ImageRepository } from '../domain/interfaces/ImageRepository.interface';
 
+@Injectable()
 export class ImageFinder {
   constructor(private imageRepository: ImageRepository) {}
 
   public async findByUuid(uuid: string): Promise<Image> {
     const image = await this.imageRepository.findByUuid(uuid);
 
-    if (!image) throw new NotFoundImageException("Image not found");
+    if (!image) throw new NotFoundImageException('Image not found');
 
     return image;
   }

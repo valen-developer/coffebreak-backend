@@ -1,7 +1,9 @@
-import jwt from "jsonwebtoken";
+import { Injectable } from '@nestjs/common';
+import * as jwt from 'jsonwebtoken';
 
-import { JWT } from "../domain/interfaces/JWT.interface";
+import { JWT } from '../domain/interfaces/JWT.interface';
 
+@Injectable()
 export class JsonWebTokenJWT implements JWT {
   sign(payload: any, secret: string, options?: Object | undefined): string {
     return jwt.sign(payload, secret, options);

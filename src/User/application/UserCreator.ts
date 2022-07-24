@@ -1,6 +1,8 @@
-import { UserRepository } from "../domain/interfaces/UserRepository.interface";
-import { User, UserDto } from "../domain/User.mode";
+import { Injectable } from '@nestjs/common';
+import { UserRepository } from '../domain/interfaces/UserRepository.interface';
+import { User, UserDto } from '../domain/User.mode';
 
+@Injectable()
 export class UserCreator {
   constructor(private userRepository: UserRepository) {}
 

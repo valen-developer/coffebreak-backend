@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common';
 import { enviroment } from 'src/helpers/enviroment';
 import { registerHTML } from 'src/helpers/templates/registerHTML.template';
 import { Events } from '../../Shared/domain/constants/Events';
@@ -6,6 +7,7 @@ import { JWT, JWT_CONFIG } from '../../Shared/domain/interfaces/JWT.interface';
 import { Mailer } from '../../Shared/domain/interfaces/Mailer.interface';
 import { User } from '../domain/User.mode';
 
+@Injectable()
 export class RegisterEmailSender {
   constructor(
     private eventEmitter: EventEmitter,

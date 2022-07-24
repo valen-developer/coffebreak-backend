@@ -1,6 +1,8 @@
-import { Image, ImageDTO } from "../domain/Image.model";
-import { ImageRepository } from "../domain/interfaces/ImageRepository.interface";
+import { Injectable } from '@nestjs/common';
+import { Image, ImageDTO } from '../domain/Image.model';
+import { ImageRepository } from '../domain/interfaces/ImageRepository.interface';
 
+@Injectable()
 export class ImageCreator {
   constructor(private imageRepository: ImageRepository) {}
 

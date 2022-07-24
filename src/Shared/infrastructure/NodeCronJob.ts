@@ -1,7 +1,9 @@
-import { CronJob } from "../domain/interfaces/Cronjob.interface";
+import { CronJob } from '../domain/interfaces/Cronjob.interface';
 
-import cron from "node-cron";
+import * as cron from 'node-cron';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class NodeCronJob implements CronJob {
   private time!: string;
   private callback!: () => void;
@@ -13,12 +15,12 @@ export class NodeCronJob implements CronJob {
 
   public start(): void {
     if (!this.time || !this.callback)
-      throw new Error("CronJob not properly configured");
+      throw new Error('CronJob not properly configured');
 
     // timezone: Madrid
     cron
       .schedule(this.time, this.callback, {
-        timezone: "Europe/Madrid",
+        timezone: 'Europe/Madrid',
       })
       .start();
     cron.getTasks();

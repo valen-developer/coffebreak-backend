@@ -1,19 +1,21 @@
 import {
   HttpClient,
   HttpOptions,
-} from "../domain/interfaces/HttpClient.interface";
-import fetch from "node-fetch";
+} from '../domain/interfaces/HttpClient.interface';
+import fetch from 'node-fetch';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class NodeFetchHttpClient implements HttpClient {
   public async get<T>(url: string, opt: HttpOptions): Promise<T> {
-    const type = opt?.responseType || "json";
+    const type = opt?.responseType || 'json';
 
     return fetch(url).then((response) => {
-      if (type === "text") {
+      if (type === 'text') {
         return response.text();
       }
 
-      if (type === "blob") {
+      if (type === 'blob') {
         return response.blob();
       }
 

@@ -86,7 +86,7 @@ const providerWithFactory: Provider[] = [
 ];
 
 @Module({
-  exports: [...providers, ...providerWithFactory],
   providers: [...providers, ...providerWithFactory],
+  exports: [...providers, ...providerWithFactory],
 })
 export class SharedModule {}

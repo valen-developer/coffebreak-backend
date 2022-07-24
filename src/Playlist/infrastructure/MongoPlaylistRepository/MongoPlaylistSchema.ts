@@ -1,28 +1,40 @@
-import mongoose, { Schema } from "mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
-const PlaylistSchema = new Schema({
-  uuid: {
+export type MongoPlaylistDocument = MongoPlaylistModel & Document;
+export const PLAYLIST_NAME = 'playlist';
+
+@Schema()
+export class MongoPlaylistModel {
+  @Prop({
     type: String,
     required: true,
     unique: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  own: {
-    type: String,
-  },
-  episodes: [
-    {
-      type: String,
-    },
-  ],
-});
+  })
+  uuid: string;
 
-export const MongoPlaylistSchema: mongoose.Model<any, any, any> =
-  mongoose.model("playlist", PlaylistSchema);
+  @Prop({
+    type: String,
+    required: true,
+  })
+  name: string;
+
+  @Prop({
+    type: String,
+    required: true,
+  })
+  description: string;
+
+  @Prop({
+    type: String,
+  })
+  own: string;
+
+  @Prop({
+    type: [String],
+  })
+  episodes: string[];
+}
+
+export const MongoPlaylistSchema =
+  SchemaFactory.createForClass(MongoPlaylistModel);

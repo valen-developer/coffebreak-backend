@@ -1,16 +1,19 @@
-import { ICrypt } from "../../Shared/domain/interfaces/Crypt.interface";
-import { JWT, JWT_CONFIG } from "../../Shared/domain/interfaces/JWT.interface";
-import { InvalidPasswordException } from "../domain/exceptions/InvalidPassword.exception";
-import { NotActiveUserException } from "../domain/exceptions/NotActiveUser.exception";
-import { NotFoundUserException } from "../domain/exceptions/NotUserFound.exception";
-import { User, UserDto } from "../domain/User.mode";
-import { UserFinder } from "./UserFinder";
+import { Injectable } from '@nestjs/common';
 
+import { ICrypt } from '../../Shared/domain/interfaces/Crypt.interface';
+import { JWT, JWT_CONFIG } from '../../Shared/domain/interfaces/JWT.interface';
+import { InvalidPasswordException } from '../domain/exceptions/InvalidPassword.exception';
+import { NotActiveUserException } from '../domain/exceptions/NotActiveUser.exception';
+import { NotFoundUserException } from '../domain/exceptions/NotUserFound.exception';
+import { User, UserDto } from '../domain/User.mode';
+import { UserFinder } from './UserFinder';
+
+@Injectable()
 export class LoginUser {
   constructor(
     private userFinder: UserFinder,
     private crypt: ICrypt,
-    private jwt: JWT
+    private jwt: JWT,
   ) {}
 
   public async login(email: string, password: string): Promise<LoginReponse> {
@@ -50,12 +53,12 @@ export class LoginUser {
       {
         uuid: user.uuid.value,
       },
-      JWT_CONFIG.secret
+      JWT_CONFIG.secret,
     );
   }
 }
 
 export interface LoginReponse {
-  user: Omit<UserDto, "password">;
+  user: Omit<UserDto, 'password'>;
   token: string;
 }

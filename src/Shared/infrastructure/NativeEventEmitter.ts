@@ -1,7 +1,9 @@
-import { EventEmitter } from "stream";
-import { Events } from "../domain/constants/Events";
-import { EventEmitter as AbstractEventEmitter } from "../domain/interfaces/EventEmitter";
+import { Injectable } from '@nestjs/common';
+import { EventEmitter } from 'stream';
+import { Events } from '../domain/constants/Events';
+import { EventEmitter as AbstractEventEmitter } from '../domain/interfaces/EventEmitter';
 
+@Injectable()
 export class NativeEventEmitter implements AbstractEventEmitter {
   private _eventEmitter: EventEmitter;
 

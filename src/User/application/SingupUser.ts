@@ -1,22 +1,23 @@
-import { Events } from "../../Shared/domain/constants/Events";
+import { Injectable } from '@nestjs/common';
+import { Events } from '../../Shared/domain/constants/Events';
 import {
   CRYPT_SALT_ROUNDS,
   ICrypt,
-} from "../../Shared/domain/interfaces/Crypt.interface";
-import { EventEmitter } from "../../Shared/domain/interfaces/EventEmitter";
-import { Mailer } from "../../Shared/domain/interfaces/Mailer.interface";
-import { InvalidPasswordConfirmationException } from "../domain/exceptions/InvalidPasswordConfirmation.exception";
-import { User } from "../domain/User.mode";
-import { UserPassword } from "../domain/valueObject/UserPassword.valueObject";
-import { USER_ROLE } from "../domain/valueObject/UserRole.valueObject";
-import { USER_STATUS } from "../domain/valueObject/UserStatus.valueObject";
-import { UserCreator } from "./UserCreator";
+} from '../../Shared/domain/interfaces/Crypt.interface';
+import { EventEmitter } from '../../Shared/domain/interfaces/EventEmitter';
+import { InvalidPasswordConfirmationException } from '../domain/exceptions/InvalidPasswordConfirmation.exception';
+import { User } from '../domain/User.mode';
+import { UserPassword } from '../domain/valueObject/UserPassword.valueObject';
+import { USER_ROLE } from '../domain/valueObject/UserRole.valueObject';
+import { USER_STATUS } from '../domain/valueObject/UserStatus.valueObject';
+import { UserCreator } from './UserCreator';
 
+@Injectable()
 export class SignupUser {
   constructor(
     private userCreator: UserCreator,
     private crypt: ICrypt,
-    private eventEmiter: EventEmitter
+    private eventEmiter: EventEmitter,
   ) {}
 
   public async signup(request: SingupRequest): Promise<User> {

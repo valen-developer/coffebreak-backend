@@ -1,21 +1,23 @@
-import { Events } from "../../Shared/domain/constants/Events";
-import { InvalidException } from "../../Shared/domain/exceptions/Invalid.exception";
+import { Injectable } from '@nestjs/common';
+import { Events } from '../../Shared/domain/constants/Events';
+import { InvalidException } from '../../Shared/domain/exceptions/Invalid.exception';
 import {
   CRYPT_SALT_ROUNDS,
   ICrypt,
-} from "../../Shared/domain/interfaces/Crypt.interface";
-import { EventEmitter } from "../../Shared/domain/interfaces/EventEmitter";
-import { InvalidPasswordConfirmationException } from "../domain/exceptions/InvalidPasswordConfirmation.exception";
-import { UserRepository } from "../domain/interfaces/UserRepository.interface";
-import { User } from "../domain/User.mode";
-import { UserPassword } from "../domain/valueObject/UserPassword.valueObject";
-import { USER_STATUS } from "../domain/valueObject/UserStatus.valueObject";
+} from '../../Shared/domain/interfaces/Crypt.interface';
+import { EventEmitter } from '../../Shared/domain/interfaces/EventEmitter';
+import { InvalidPasswordConfirmationException } from '../domain/exceptions/InvalidPasswordConfirmation.exception';
+import { UserRepository } from '../domain/interfaces/UserRepository.interface';
+import { User } from '../domain/User.mode';
+import { UserPassword } from '../domain/valueObject/UserPassword.valueObject';
+import { USER_STATUS } from '../domain/valueObject/UserStatus.valueObject';
 
+@Injectable()
 export class PasswordRecover {
   constructor(
     private userRepository: UserRepository,
     private crypt: ICrypt,
-    private eventEmitter: EventEmitter
+    private eventEmitter: EventEmitter,
   ) {}
 
   public async recovery(params: PasswordRecoverParams): Promise<void> {
@@ -40,7 +42,7 @@ export class PasswordRecover {
   private checkParams(params: PasswordRecoverParams): void {
     const { password, passwordConfirmation, email } = params;
     if (!password || !passwordConfirmation || !email)
-      throw new InvalidException("Missing params");
+      throw new InvalidException('Missing params');
   }
 
   private checkPassword(password: string, passwordConfirmation: string): void {

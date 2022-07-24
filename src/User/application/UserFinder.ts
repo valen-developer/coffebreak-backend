@@ -1,7 +1,9 @@
-import { NotFoundUserException } from "../domain/exceptions/NotUserFound.exception";
-import { UserRepository } from "../domain/interfaces/UserRepository.interface";
-import { User } from "../domain/User.mode";
+import { Injectable } from '@nestjs/common';
+import { NotFoundUserException } from '../domain/exceptions/NotUserFound.exception';
+import { UserRepository } from '../domain/interfaces/UserRepository.interface';
+import { User } from '../domain/User.mode';
 
+@Injectable()
 export class UserFinder {
   constructor(private userRepository: UserRepository) {}
 

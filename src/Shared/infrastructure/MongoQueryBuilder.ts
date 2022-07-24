@@ -1,5 +1,7 @@
-import { QueryBuilder } from "../domain/interfaces/QueryBuilder.interface";
+import { Injectable } from '@nestjs/common';
+import { QueryBuilder } from '../domain/interfaces/QueryBuilder.interface';
 
+@Injectable()
 export class MongoQueryBuilder implements QueryBuilder {
   public build(query: any): any {
     const filter: any = {};
@@ -10,38 +12,38 @@ export class MongoQueryBuilder implements QueryBuilder {
 
       if (!this.isValidValue(value)) return;
 
-      const property = keyOption.split("_")[0];
+      const property = keyOption.split('_')[0];
 
-      if (keyOption.includes("contains")) {
-        filter[property] = { $regex: `.*${value.trim()}.*`, $options: "i" };
+      if (keyOption.includes('contains')) {
+        filter[property] = { $regex: `.*${value.trim()}.*`, $options: 'i' };
       }
 
-      if (keyOption.includes("equal")) {
+      if (keyOption.includes('equal')) {
         filter[property] = { $eq: value };
       }
 
-      if (keyOption.includes("starts_with")) {
-        filter[property] = { $regex: `^${value}.*`, $options: "i" };
+      if (keyOption.includes('starts_with')) {
+        filter[property] = { $regex: `^${value}.*`, $options: 'i' };
       }
 
-      if (keyOption.includes("ends_with")) {
-        filter[property] = { $regex: `.*${value}$`, $options: "i" };
+      if (keyOption.includes('ends_with')) {
+        filter[property] = { $regex: `.*${value}$`, $options: 'i' };
       }
 
-      if (keyOption.includes("gt")) {
+      if (keyOption.includes('gt')) {
         filter[property] = { ...filter[property], $gt: value };
       }
 
-      if (keyOption.includes("lt")) {
+      if (keyOption.includes('lt')) {
         filter[property] = { ...filter[property], $lt: value };
       }
 
-      if (keyOption.includes("gte")) {
+      if (keyOption.includes('gte')) {
         filter[property] = { ...filter[property], $gte: value };
         delete filter[property].$gt;
       }
 
-      if (keyOption.includes("lte")) {
+      if (keyOption.includes('lte')) {
         filter[property] = { ...filter[property], $lte: value };
         delete filter[property].$lt;
       }

@@ -1,9 +1,11 @@
+import { Injectable } from '@nestjs/common';
 import { asyncForeach } from 'src/helpers/functions/asyncForeach.function';
 import { FileUploader } from '../../Shared/domain/interfaces/FileUploader';
 import { Image } from '../domain/Image.model';
 
 import { ImageRepository } from '../domain/interfaces/ImageRepository.interface';
 
+@Injectable()
 export class ImageDeleter {
   constructor(
     private imageRepository: ImageRepository,

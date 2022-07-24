@@ -1,10 +1,13 @@
 import { faker } from '@faker-js/faker';
+import { Injectable } from '@nestjs/common';
+
 import { InvalidPasswordException } from '../../User/domain/exceptions/InvalidPassword.exception';
 import { USER_ROLE } from '../../User/domain/valueObject/UserRole.valueObject';
 import { USER_STATUS } from '../../User/domain/valueObject/UserStatus.valueObject';
 
 import { Faker } from '../domain/interfaces/Faker.interface';
 
+@Injectable()
 export class Fakerjs implements Faker {
   userStatus(): USER_STATUS {
     const statuses: USER_STATUS[] = [USER_STATUS.ACTIVE, USER_STATUS.INACTIVE];

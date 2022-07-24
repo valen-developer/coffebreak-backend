@@ -1,10 +1,12 @@
-import { ImageDeleter } from "../../Image/application/ImageDeleter";
-import { UserRepository } from "../domain/interfaces/UserRepository.interface";
+import { Injectable } from '@nestjs/common';
+import { ImageDeleter } from '../../Image/application/ImageDeleter';
+import { UserRepository } from '../domain/interfaces/UserRepository.interface';
 
+@Injectable()
 export class UserDeleter {
   constructor(
     private userRepository: UserRepository,
-    private imageDeleter: ImageDeleter
+    private imageDeleter: ImageDeleter,
   ) {}
 
   public async delete(uuid: string): Promise<void> {

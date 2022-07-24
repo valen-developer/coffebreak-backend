@@ -1,25 +1,27 @@
-import { FileUploader } from "../../Shared/domain/interfaces/FileUploader";
-import { UUIDGenerator } from "../../Shared/domain/interfaces/UuidGenerator";
-import { Image } from "../domain/Image.model";
-import { ImageRepository } from "../domain/interfaces/ImageRepository.interface";
+import { Injectable } from '@nestjs/common';
+import { FileUploader } from '../../Shared/domain/interfaces/FileUploader';
+import { UUIDGenerator } from '../../Shared/domain/interfaces/UuidGenerator';
+import { Image } from '../domain/Image.model';
+import { ImageRepository } from '../domain/interfaces/ImageRepository.interface';
 
+@Injectable()
 export class ImageDuplicator {
   constructor(
     private imageRepository: ImageRepository,
     private uuidGenerator: UUIDGenerator,
-    private fileUploader: FileUploader
+    private fileUploader: FileUploader,
   ) {}
 
   public async duplicate(
     imageUuid: string,
     entityUuid: string,
-    newName: string
+    newName: string,
   ): Promise<Image> {
     const image = await this.imageRepository.findByUuid(imageUuid);
 
     const newPath = await this.fileUploader.duplicateImage(
       image.path.value,
-      newName
+      newName,
     );
 
     const newImage = new Image({

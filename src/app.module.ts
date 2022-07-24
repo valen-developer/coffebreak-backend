@@ -15,14 +15,13 @@ import { UserModule } from './User/user.module';
 
 const EntitiesModules = [
   ArtistModule,
+  UserModule,
   ImageModule,
   PlaylistModule,
   PodcastEpisodeModule,
   SharedModule,
-  UserModule,
 ];
 
-console.log(enviroment());
 const ConfigModules = [
   ConfigModule.forRoot({
     envFilePath: ['.env', '.env.local'],

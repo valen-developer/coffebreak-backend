@@ -1,22 +1,29 @@
-import mongoose, { Schema } from "mongoose";
+import { Document } from 'mongoose';
+import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 
-const ImageSchema = new Schema({
-  uuid: {
+export type MongoImageDocument = Document;
+export const IMAGE_NAME = 'image';
+
+@Schema()
+export class MongoImageModel {
+  @Prop({
     type: String,
     required: true,
     unique: true,
-  },
-  entityUuid: {
-    type: String,
-    required: true,
-  },
-  path: {
-    type: String,
-    required: true,
-  },
-});
+  })
+  uuid: string;
 
-export const MongoImageSchema: mongoose.Model<any, any, any> = mongoose.model(
-  "image",
-  ImageSchema
-);
+  @Prop({
+    type: String,
+    required: true,
+  })
+  entityUuid: string;
+
+  @Prop({
+    type: String,
+    required: true,
+  })
+  path: string;
+}
+
+export const MongoImageSchema = SchemaFactory.createForClass(MongoImageModel);

@@ -1,5 +1,7 @@
-import formidable from 'formidable';
-import fs from 'fs';
+import { Injectable } from '@nestjs/common';
+import * as formidable from 'formidable';
+import * as fs from 'fs';
+
 import { enviroment } from 'src/helpers/enviroment';
 import { cleanArray } from 'src/helpers/functions/cleanArray.function';
 
@@ -8,6 +10,7 @@ import {
   FormDataResponse,
 } from '../domain/interfaces/FormDataParser.interface';
 
+@Injectable()
 export class FormidableFormDataParser implements FormDataParser {
   public parse<T>(req: any): Promise<FormDataResponse<T>> {
     return new Promise((resolve, reject) => {

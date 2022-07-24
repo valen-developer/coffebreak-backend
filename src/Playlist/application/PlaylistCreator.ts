@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common';
 import { Nullable } from 'src/helpers/types/Nullable.type';
 import { ImageCreator } from '../../Image/application/ImageCreator';
 import { FileUploader } from '../../Shared/domain/interfaces/FileUploader';
@@ -6,6 +7,7 @@ import { UUIDGenerator } from '../../Shared/domain/interfaces/UuidGenerator';
 import { PlaylistRepository } from '../domain/interfaces/PlaylistRepository.interface';
 import { Playlist } from '../domain/Playlist.model';
 
+@Injectable()
 export class PlaylistCreator {
   constructor(
     private playlistRepository: PlaylistRepository,
@@ -51,7 +53,7 @@ export class PlaylistCreator {
   }
 }
 
-interface CreatePlaylistParams {
+export interface CreatePlaylistParams {
   uuid: string;
   name: string;
   description: string;

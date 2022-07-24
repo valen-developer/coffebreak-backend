@@ -1,5 +1,6 @@
+import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
-import path from 'path';
+import * as path from 'path';
 import { enviroment as enviromentFn } from 'src/helpers/enviroment';
 
 import { InvalidImageExtension } from '../../Image/domain/exceptions/InvalidImageExtension.exception';
@@ -10,6 +11,7 @@ import { FileData } from '../domain/interfaces/FormDataParser.interface';
 
 const enviroment = enviromentFn();
 
+@Injectable()
 export class FsFileUploader implements FileUploader {
   private _IMAGE_PATH = enviroment.dirs.images;
   private _TMP_PATH = enviroment.dirs.temp;

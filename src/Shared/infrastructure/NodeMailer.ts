@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import Mail from 'nodemailer/lib/mailer';
 
@@ -7,6 +8,7 @@ import {
   TransporterMailer,
 } from '../domain/interfaces/Mailer.interface';
 
+@Injectable()
 export class NodeMailer extends Mailer {
   private transporter: Mail;
 

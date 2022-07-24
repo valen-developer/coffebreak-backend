@@ -1,9 +1,11 @@
+import { Injectable } from '@nestjs/common';
 import { ImageDuplicator } from '../../Image/application/ImageDuplicator';
 import { ImageFinder } from '../../Image/application/ImageFinder';
 import { UUIDGenerator } from '../../Shared/domain/interfaces/UuidGenerator';
 import { PlaylistRepository } from '../domain/interfaces/PlaylistRepository.interface';
 import { Playlist } from '../domain/Playlist.model';
 
+@Injectable()
 export class PlaylistDuplicator {
   constructor(
     private playlistRepository: PlaylistRepository,

@@ -1,7 +1,9 @@
-import { UUIDGenerator } from "../../Shared/domain/interfaces/UuidGenerator";
-import { Image } from "../domain/Image.model";
-import { ImageRepository } from "../domain/interfaces/ImageRepository.interface";
+import { Injectable } from '@nestjs/common';
+import { UUIDGenerator } from '../../Shared/domain/interfaces/UuidGenerator';
+import { Image } from '../domain/Image.model';
+import { ImageRepository } from '../domain/interfaces/ImageRepository.interface';
 
+@Injectable()
 export class ImageUpdater {
   constructor(private imageRepository: ImageRepository) {}
 
@@ -12,7 +14,7 @@ export class ImageUpdater {
   public async replaceForEntity(
     entityUuid: string,
     imagePath: string,
-    imageUuid: string
+    imageUuid: string,
   ): Promise<Image> {
     await this.imageRepository.deleteByEntityUuid(entityUuid);
 

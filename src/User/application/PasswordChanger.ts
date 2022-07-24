@@ -1,10 +1,12 @@
-import { ICrypt } from "../../Shared/domain/interfaces/Crypt.interface";
-import { InvalidPasswordConfirmationException } from "../domain/exceptions/InvalidPasswordConfirmation.exception";
-import { NotFoundUserException } from "../domain/exceptions/NotUserFound.exception";
-import { UserRepository } from "../domain/interfaces/UserRepository.interface";
-import { User } from "../domain/User.mode";
-import { USER_STATUS } from "../domain/valueObject/UserStatus.valueObject";
+import { Injectable } from '@nestjs/common';
+import { ICrypt } from '../../Shared/domain/interfaces/Crypt.interface';
+import { InvalidPasswordConfirmationException } from '../domain/exceptions/InvalidPasswordConfirmation.exception';
+import { NotFoundUserException } from '../domain/exceptions/NotUserFound.exception';
+import { UserRepository } from '../domain/interfaces/UserRepository.interface';
+import { User } from '../domain/User.mode';
+import { USER_STATUS } from '../domain/valueObject/UserStatus.valueObject';
 
+@Injectable()
 export class PasswordChanger {
   constructor(private userRepository: UserRepository, private crypt: ICrypt) {}
 
@@ -29,7 +31,7 @@ export class PasswordChanger {
 
   private isPasswordMatch(
     password: string,
-    passwordConfirmation: string
+    passwordConfirmation: string,
   ): void {
     const isMatch = password === passwordConfirmation;
 
