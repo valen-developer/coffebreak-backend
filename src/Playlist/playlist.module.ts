@@ -19,6 +19,7 @@ import { PlaylistFinder } from './application/PlaylistFinder';
 import { PlaylistTematicCreator } from './application/PlaylistTematicCreator';
 import { PlaylistUpdater } from './application/PlaylistUpdater';
 import { PlaylistRepository } from './domain/interfaces/PlaylistRepository.interface';
+import { ExtractEpisodeJobStarter } from './infrastructure/ExtractEpisodeJobStarter';
 import { MongoPlaylistRepository } from './infrastructure/MongoPlaylistRepository/MongoPlaylistRepository';
 import {
   MongoPlaylistSchema,
@@ -45,6 +46,7 @@ const useCases = [
   PlaylistFinder,
   PlaylistTematicCreator,
   PlaylistUpdater,
+  ExtractEpisodeJobStarter,
 ];
 
 @Module({

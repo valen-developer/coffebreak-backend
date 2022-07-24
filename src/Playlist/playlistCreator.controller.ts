@@ -1,4 +1,11 @@
-import { Controller, Param, Post, Req } from '@nestjs/common';
+import {
+  Controller,
+  Param,
+  Post,
+  Req,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { Request } from 'express';
 import { FormDataParser } from 'src/Shared/domain/interfaces/FormDataParser.interface';
 import {
   CreatePlaylistParams,
@@ -21,14 +28,21 @@ export class PlaylistCreatorController {
   ) {}
 
   @Post()
-  public async createPlaylist(@Req() request: any): Promise<void> {
-    const { fields, files } =
-      await this.formDataParser.parse<CreatePlaylistParams>(request);
+  public async createPlaylist(@Req() req: Request): Promise<PlaylistDTO> {
+    const user = req.body.session?.user;
 
-    await this.playlistCreator.create({
+    if (!user) throw new UnauthorizedException();
+
+    const { fields, files } =
+      await this.formDataParser.parse<CreatePlaylistParams>(req);
+
+    const newPlaylist = await this.playlistCreator.create({
       ...fields,
+      own: user.uuid.value,
       fileData: files[0],
     });
+
+    return newPlaylist.toDTO();
   }
 
   @Post('tematic')

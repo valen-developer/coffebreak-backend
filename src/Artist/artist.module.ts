@@ -11,6 +11,7 @@ import { ArtistUpdater } from './application/ArtistUpdater';
 import { ArtistController } from './artist.controller';
 import { ArtistExtractor } from './domain/interfaces/ArtistExtractor.interface';
 import { ArtistRepository } from './domain/interfaces/ArtistRepository.interface';
+import { ExtractArtistStarter } from './infrastructure/ExtractArtistStarter';
 import { FtpArtistExtractor } from './infrastructure/FtpArtistExtractor';
 import {
   ARTIST_NAME,
@@ -36,6 +37,7 @@ const useCases = [
   ArtistExtractoCrontab,
   ArtistFinder,
   ArtistUpdater,
+  ExtractArtistStarter,
 ];
 
 @Module({
