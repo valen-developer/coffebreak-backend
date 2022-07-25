@@ -1,6 +1,5 @@
 export interface Paginator<T> {
-  from?: number;
-  limit?: number;
+  page?: number;
   sort_by?: keyof T;
-  order?: "asc" | "desc";
+  order?: 'asc' | 'desc';
 }

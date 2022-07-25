@@ -3,6 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 import { Nullable } from 'src/helpers/types/Nullable.type';
+import { Paginated } from 'src/helpers/types/Paginated';
+import { PAGE_SIZE } from 'src/Shared/constansts/PageSize.constant';
 import { Paginator } from '../../Shared/domain/interfaces/Paginator.interface';
 import { PodcastEpisodeRepository } from '../domain/interfaces/PodcastEpisodeRepository.interface';
 import {
@@ -29,12 +31,15 @@ export class MongoPodcastEpisodeRepository implements PodcastEpisodeRepository {
     query: any,
     paginator: Paginator<PodcastEpisodeDTO>,
   ): Promise<PodcastEpisode[]> {
-    const { from, limit, sort_by, order } = paginator;
+    const { page, sort_by, order } = paginator;
+    const pageSize = PAGE_SIZE;
+    const skip = page ? (page - 1) * pageSize : 0;
+    const limit = page ? pageSize : Infinity;
 
     const episodesObjects: Nullable<PodcastEpisodeDTO[]> =
       await this.MongoPodcastEpisodeSchema.find(query)
-        .skip(from ?? 0)
-        .limit(limit ?? 1000)
+        .skip(skip)
+        .limit(limit)
         .sort({ [sort_by ?? 'pubDate']: order ?? 'asc' })
         .then((episodes) => episodes as unknown as PodcastEpisodeDTO[]);
 
@@ -43,6 +48,26 @@ export class MongoPodcastEpisodeRepository implements PodcastEpisodeRepository {
         (episodeObject) => new PodcastEpisode(episodeObject),
       ) ?? []
     );
+  }
+
+  public async paginatedFilter(
+    query: any,
+    paginator: Paginator<PodcastEpisodeDTO>,
+  ): Promise<Paginated<PodcastEpisode[], 'episodes'>> {
+    const pageSize = PAGE_SIZE;
+    const episodes = await this.filter(query, paginator);
+    const count = await this.count(query);
+
+    const pages = Math.ceil(count / pageSize);
+
+    return {
+      episodes,
+      pages,
+    };
+  }
+
+  public async count(query: any): Promise<number> {
+    return this.MongoPodcastEpisodeSchema.countDocuments(query);
   }
 
   /* It's finding the last published episode. */

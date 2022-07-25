@@ -20,6 +20,9 @@ export class ArtistCreatorForExtraction {
     // check if exist by name
     const artists = await this.artistRepository.filter(
       this.queryBuilder.build(query),
+      {
+        sort_by: 'name',
+      },
     );
     const hasArtist = artists.length > 0;
 

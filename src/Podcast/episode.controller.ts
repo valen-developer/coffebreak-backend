@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Paginated } from 'src/helpers/types/Paginated';
 import { Union } from 'src/helpers/types/Union.type';
 import { Paginator } from 'src/Shared/domain/interfaces/Paginator.interface';
 import { PodcastEpisodeFinder } from './application/PodcastEpisodeFinder';
@@ -12,12 +13,18 @@ export class PodcastEpisodeController {
   @Post('filter')
   public async filter(
     @Body() body: Union<PodcastEpisodeQuery, Paginator<PodcastEpisodeDTO>>,
-  ): Promise<PodcastEpisodeDTO[]> {
+  ): Promise<Paginated<PodcastEpisodeDTO[], 'episodes'>> {
     const query = { ...body };
     const paginator = { ...body };
 
-    const episodes = await this.episodeFinder.filter(query, paginator);
+    const { episodes, pages } = await this.episodeFinder.filterPaginated(
+      query,
+      paginator,
+    );
 
-    return episodes.map((ep) => ep.toDTO());
+    return {
+      episodes: episodes.map((ep) => ep.toDTO()),
+      pages,
+    };
   }
 }

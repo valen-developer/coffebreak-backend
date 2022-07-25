@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Nullable } from 'src/helpers/types/Nullable.type';
+import { Paginated } from 'src/helpers/types/Paginated';
 import { Paginator } from '../../Shared/domain/interfaces/Paginator.interface';
 import { QueryBuilder } from '../../Shared/domain/interfaces/QueryBuilder.interface';
 import { NotFoundEpisodeException } from '../domain/exceptions/NotFoundEpisode.exception';
@@ -43,6 +44,18 @@ export class PodcastEpisodeFinder {
     const queryBuilt = this.queryBuilder.build(query);
 
     return await this.podcastEpisodeRepository.filter(queryBuilt, paginator);
+  }
+
+  public async filterPaginated(
+    query: PodcastEpisodeQuery,
+    paginator: Paginator<PodcastEpisodeDTO> = {},
+  ): Promise<Paginated<PodcastEpisode[], 'episodes'>> {
+    const queryBuilt = this.queryBuilder.build(query);
+
+    return await this.podcastEpisodeRepository.paginatedFilter(
+      queryBuilt,
+      paginator,
+    );
   }
 
   public async findByArray(uuids: string[]): Promise<PodcastEpisode[]> {

@@ -49,6 +49,97 @@ export class IvooxPodcastExtractor implements PodcastExtractor {
     }
   }
 
+  public extractTracks(
+    description: string,
+  ): { time: string; trackName: string }[] {
+    const replaceAll = (str: string, find: RegExp, replace: string) => {
+      return str.replace(new RegExp(find.source, 'g'), replace);
+    };
+
+    description = replaceAll(description, /.*En el episodio de hoy:/, ';');
+    description = replaceAll(description, /Contertulios/, ';');
+    // replace . with ;
+    description = replaceAll(description, /\./g, ';');
+
+    description = replaceAll(description, /&aacute;/g, 'a');
+    description = replaceAll(description, /&eacute;/g, 'e');
+    description = replaceAll(description, /&iacute;/g, 'i');
+    description = replaceAll(description, /&oacute;/g, 'o');
+    description = replaceAll(description, /&uacute;/g, 'u');
+    description = replaceAll(description, /&ntilde;/g, 'ñ');
+
+    const tracks1 = description.split(';').map((track) => {
+      // regex2 = (min dd:dd:dd)
+      const regex2 = /\((min.*[0-9:]+)\)/i;
+      const match2 = track.match(regex2);
+
+      if (!match2) return null;
+
+      // extract digits after "("
+      let digits = match2[0]
+        .replace('min ', '')
+        .replace('(', '')
+        .replace(')', '');
+
+      let time = digits;
+      let trackName = track.split('(')[0];
+
+      return {
+        time,
+        trackName,
+      };
+    });
+
+    const tracks = description.split(';').map((track) => {
+      let regex = /\(([0-9:]+)\)/i;
+      let match = track.match(regex);
+
+      if (!match) return null;
+
+      let time = match[1];
+      let trackName = track.replace(regex, '');
+
+      return {
+        time,
+        trackName,
+      };
+    });
+
+    const totalTracks = cleanArray([...tracks1, ...tracks]);
+
+    const fixedTracks: any[] = [];
+    totalTracks.forEach((track) => {
+      // if track.time is 00:00 -> 00:00:00
+      const time =
+        track.time.length <= 3
+          ? `00:00:${track.time}`
+          : track.time.length <= 5
+          ? `00:${track.time}`
+          : track.time;
+
+      const [hours, minutes, seconds] = time.split(':').map((t) => {
+        return t.length === 1 ? `0${t}` : t;
+      });
+
+      const fixedTime = `${hours}:${minutes}:${seconds}`;
+      const trackName = track.trackName;
+
+      // check if exist time in track
+      const found = fixedTracks.find((fixedTrack) => {
+        return fixedTrack.time === fixedTime;
+      });
+
+      if (found) return null;
+
+      fixedTracks.push({
+        time: fixedTime,
+        trackName,
+      });
+    });
+
+    return cleanArray(fixedTracks);
+  }
+
   private async parseXml(xml: string): Promise<IvooxResponse> {
     return new Promise((resolve, reject) => {
       parseString(xml, (err, result) => {
