@@ -1,4 +1,7 @@
 import { Module, Provider } from '@nestjs/common';
+
+import { enviroment as enviromentFn } from 'src/helpers/enviroment';
+
 import { ImageDownloader } from './application/ImageDownloader';
 import { TempDirCleaner } from './application/TempDirCleaner';
 import { CronJob } from './domain/interfaces/Cronjob.interface';
@@ -71,13 +74,15 @@ const providers: Provider[] = [
 const useCases: Provider[] = [ImageDownloader, TempDirCleaner];
 
 const NodeMailerFactory = (): Mailer => {
+  const enviroment = enviromentFn();
+
   return new NodeMailer({
     auth: {
-      user: process.env.MAIL_USER ?? 'admin',
-      pass: process.env.MAIL_PASSWORD ?? 'admin',
+      user: enviroment.mailer.mail,
+      pass: enviroment.mailer.password,
     },
-    host: process.env.MAIL_HOST ?? 'smtp.gmail.com',
-    port: Number(process.env.MAIL_PORT ?? 465),
+    host: enviroment.mailer.host,
+    port: Number(enviroment.mailer.port),
     secure: true,
   });
 };

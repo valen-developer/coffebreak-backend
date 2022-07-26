@@ -3,8 +3,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { ImageModule } from 'src/Image/image.module';
 import { SharedModule } from 'src/Shared/shared.module';
-import { RegisterEmailSender } from './application/RegisterEmailSender';
+import { OnPasswordRecoveryEmailSender } from './application/OnPasswordRecoveryEmailSender';
+import { OnSignupEmailSender } from './application/OnSignupEmailSender';
 import { UserCreator } from './application/UserCreator';
+import { UserDeleter } from './application/UserDeleter';
 import { UserFinder } from './application/UserFinder';
 import { UserStatusUpdater } from './application/UserStatusUpdater';
 import { UserUpdater } from './application/UserUpdater';
@@ -15,6 +17,7 @@ import {
   MongoUserSchema,
   USER_NAME,
 } from './infrastructure/MongoUserRepository/MongoUserSchema';
+import { UserController } from './user.controller';
 
 const providers: Provider[] = [
   {
@@ -29,11 +32,13 @@ const useCases = [
   UserUpdater,
   UserValidator,
   UserStatusUpdater,
-  RegisterEmailSender,
+  UserDeleter,
+  OnSignupEmailSender,
+  OnPasswordRecoveryEmailSender,
 ];
 
 @Module({
-  controllers: [],
+  controllers: [UserController],
   imports: [
     SharedModule,
     ImageModule,

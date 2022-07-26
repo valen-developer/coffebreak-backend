@@ -8,16 +8,25 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { Request } from 'express';
+import { UserValidator } from 'src/User/application/UserValidator';
 import { User, UserDto } from '../User/domain/User.mode';
 import { LoginReponse, LoginUser } from './application/LoginUser';
 import { PasswordChanger } from './application/PasswordChanger';
+import {
+  PasswordRecover,
+  PasswordRecoverParams,
+} from './application/PasswordRecover';
+import { SignupUser, SingupRequest } from './application/SingupUser';
 import { JWTGuard } from './infrastructure/JWT.guard';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private userLogin: LoginUser,
+    private signupper: SignupUser,
+    private passwordRecover: PasswordRecover,
     private passwordChanger: PasswordChanger,
+    private userValidator: UserValidator,
   ) {}
 
   @Post('login/token')
@@ -63,5 +72,31 @@ export class AuthController {
       passwordConfirmation,
       userUuid: user.uuid.value,
     });
+  }
+
+  @Put('recovery')
+  public async recoveryPassword(
+    @Body() body: PasswordRecoverParams,
+  ): Promise<void> {
+    await this.passwordRecover.recovery(body);
+  }
+
+  @Put('validate')
+  @UseGuards(JWTGuard)
+  public async validate(
+    @Body() body: { session: { user: User } },
+  ): Promise<void> {
+    const user = body.session?.user;
+
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+
+    await this.userValidator.validateUser(user);
+  }
+
+  @Post('signup')
+  public async signup(@Body() body: SingupRequest): Promise<void> {
+    await this.signupper.signup(body);
   }
 }

@@ -6,19 +6,17 @@ import { EventEmitter } from '../../Shared/domain/interfaces/EventEmitter';
 import { JWT, JWT_CONFIG } from '../../Shared/domain/interfaces/JWT.interface';
 import { Mailer } from '../../Shared/domain/interfaces/Mailer.interface';
 import { User } from '../domain/User.mode';
+import { UserDeleter } from './UserDeleter';
 
 @Injectable()
-export class RegisterEmailSender {
+export class OnSignupEmailSender {
   constructor(
     private eventEmitter: EventEmitter,
+    private userDeleter: UserDeleter,
     private mailer: Mailer,
     private jwt: JWT,
   ) {
     this.eventEmitter.on(Events.USER_SIGNUP, (user: User) => {
-      this.emit(user);
-    });
-
-    this.eventEmitter.on(Events.USER_RECOVERY_PASSWORD, (user: User) => {
       this.emit(user);
     });
   }
@@ -27,11 +25,15 @@ export class RegisterEmailSender {
     const token = this.jwt.sign({ uuid: user.uuid.value }, JWT_CONFIG.secret);
     const html = registerHTML(user, token);
 
-    await this.mailer.sendMail({
-      from: enviroment().mailer.mail,
-      to: user.email.value,
-      subject: 'Coffebreak - Confirma tu cuenta',
-      html,
-    });
+    try {
+      await this.mailer.sendMail({
+        from: enviroment().mailer.mail,
+        to: user.email.value,
+        subject: 'Coffebreak - Confirma tu cuenta',
+        html,
+      });
+    } catch (error) {
+      this.userDeleter.delete(user.uuid.value);
+    }
   }
 }

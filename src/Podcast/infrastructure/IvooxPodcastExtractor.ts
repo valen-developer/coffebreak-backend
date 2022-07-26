@@ -204,12 +204,24 @@ export class IvooxPodcastExtractor implements PodcastExtractor {
 
   private getEpisodeNumber(title: string): Nullable<number> {
     let regex = /Ep[0-9]+/i;
-    let match = title.match(regex);
+    let match1 = title.match(regex);
 
+    let regex2 = /Ep\s+[0-9]+/i;
+    let match2 = title.match(regex2);
+
+    const is351 = title.includes('115');
+    if (is351) {
+      console.log('es');
+    }
+
+    const hasMatch = match1 || match2;
+    if (!hasMatch) return null;
+
+    const match = match1 ? match1[0] : match2 ? match2[0] : null;
     if (!match) return null;
 
-    // extract digits after "Ep"
-    let digits = match[0].substring(2);
+    // remove all non-numeric characters
+    let digits = match.replace(/Ep\s+/i, '');
 
     // remove all non-digits
     digits = digits.replace(/\D/g, '');
