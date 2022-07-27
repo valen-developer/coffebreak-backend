@@ -17,5 +17,12 @@ jobs:
       - name: check who am i
         run: echo "I am $(whoami)"
 
+      - name: decrypt env secret
+        run: ./.decode_env.sh
+        env: 
+          ENV_PASSPHRASE: ${{ ENV_PASSPHRASE }}
+
       - name: build containers
         run: docker-compose -f docker-compose.dev.yml up -d
+
+      
