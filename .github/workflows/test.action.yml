@@ -1,0 +1,18 @@
+
+
+name: test
+on:
+  push:
+    branches:
+      - main
+    tags: 
+      - coffebreak
+      - local
+jobs:
+  test1:    
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3   
+
+      - name: build containers
+        run: docker-compose -f docker-compose.dev.yml up -d
