@@ -14,5 +14,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3   
 
+      - name: check who am i
+        run: echo "I am $(whoami)"
+
       - name: build containers
         run: docker-compose -f docker-compose.dev.yml up -d
