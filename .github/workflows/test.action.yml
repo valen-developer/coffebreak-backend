@@ -20,7 +20,7 @@ jobs:
       - name: decrypt env secret
         run: ./.decode_env.sh
         env: 
-          ENV_PASSPHRASE: ${{ ENV_PASSPHRASE }}
+          ENV_PASSPHRASE: ${{ secrets.ENV_PASSPHRASE }}
 
       - name: build containers
         run: docker-compose -f docker-compose.dev.yml up -d
