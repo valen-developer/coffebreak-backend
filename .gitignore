@@ -34,7 +34,16 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
+.env.local
+.env.dev
+.env.production
+.env.staging
 .env
+
+
+
+
+
 
 /images
 /images/*

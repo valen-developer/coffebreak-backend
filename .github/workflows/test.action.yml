@@ -8,6 +8,11 @@ on:
     tags: 
       - coffebreak
       - local
+
+env:
+  enviroment: dev
+
+
 jobs:
   test1:    
     runs-on: self-hosted
@@ -21,6 +26,7 @@ jobs:
         run: ./.decode_env.sh
         env: 
           ENV_PASSPHRASE: ${{ secrets.ENV_PASSPHRASE }}
+          ENVIROMENT: ${{ env.enviroment }}
 
       - name: build containers
         run: docker-compose -f docker-compose.dev.yml up -d
