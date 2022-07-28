@@ -11,6 +11,10 @@ services:
     ports:
       - 3000:3000
     restart: always
+    networks:
+      coffebreak:
+        aliases:
+          - backend
 
   mongo:
     image: mongo
@@ -20,4 +24,10 @@ services:
       - 27017:27017
     env_file:
       - .env
+    networks:
+      coffebreak:
+        aliases:
+          - mongo
 
+networks:
+  coffebreak:
