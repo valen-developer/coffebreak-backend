@@ -8,7 +8,11 @@ const logger = new Logger('Main');
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    cors: true,
+    cors: {
+      origin: '*',
+      methods: '*',
+      allowedHeaders: '*',
+    },
   });
 
   // set api prefix
