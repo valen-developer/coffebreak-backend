@@ -7,6 +7,7 @@ import { PodcastEpisodeFinder } from './application/PodcastEpisodeFinder';
 import { PodcastExtractorCrontab } from './application/PodcastExtractorCrontab';
 import { PodcastEpisodeRepository } from './domain/interfaces/PodcastEpisodeRepository.interface';
 import { PodcastExtractor } from './domain/interfaces/PodcastExtractor.interface';
+import { EpisodeNotificationGateway } from './episode-notification.gateway';
 import { PodcastEpisodeController } from './episode.controller';
 import { IvooxPodcastExtractor } from './infrastructure/IvooxPodcastExtractor';
 import { MongoPodcastEpisodeRepository } from './infrastructure/MongoPodcastEpisodeRepository';
@@ -26,7 +27,11 @@ const providers: Provider[] = [
   },
 ];
 
-const useCases = [PodcastEpisodeFinder, PodcastExtractorCrontab];
+const useCases = [
+  PodcastEpisodeFinder,
+  PodcastExtractorCrontab,
+  EpisodeNotificationGateway,
+];
 
 @Module({
   controllers: [PodcastEpisodeController],

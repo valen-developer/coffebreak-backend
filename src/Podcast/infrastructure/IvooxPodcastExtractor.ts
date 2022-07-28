@@ -209,11 +209,6 @@ export class IvooxPodcastExtractor implements PodcastExtractor {
     let regex2 = /Ep\s+[0-9]+/i;
     let match2 = title.match(regex2);
 
-    const is351 = title.includes('115');
-    if (is351) {
-      console.log('es');
-    }
-
     const hasMatch = match1 || match2;
     if (!hasMatch) return null;
 

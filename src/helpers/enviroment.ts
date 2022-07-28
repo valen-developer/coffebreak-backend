@@ -3,9 +3,10 @@ import * as path from 'path';
 export const enviroment = () => ({
   port: process.env.PORT || 3000,
   db: {
-    uri: process.env.DB_URI || 'mongodb://localhost:27017/coffebreak',
-    user: process.env.USER_DB || 'admin',
-    password: process.env.PASSWORD_DB || 'admin',
+    uri: process.env.DB_URI || 'mongodb://localhost:27017',
+    user: process.env.MONGO_INITDB_ROOT_USERNAME || 'admin',
+    password: process.env.MONGO_INITDB_ROOT_PASSWORD || 'admin',
+    name: process.env.MONGO_INITDB_DATABASE || 'coffebreak',
   },
   dirs: {
     temp: path.join(__dirname, '../../temp'),

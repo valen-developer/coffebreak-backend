@@ -30,6 +30,7 @@ const ConfigModules = [
     isGlobal: true,
   }),
   MongooseModule.forRoot(enviroment().db.uri, {
+    dbName: enviroment().db.name,
     authSource: 'admin',
     auth: {
       username: enviroment().db.user,
