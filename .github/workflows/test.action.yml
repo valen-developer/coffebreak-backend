@@ -30,5 +30,9 @@ jobs:
 
       - name: build containers
         run: docker-compose -f docker-compose.dev.yml up -d
+        env:
+          ENVIROMENT: ${{ env.enviroment }}
+
+
 
       

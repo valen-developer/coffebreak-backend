@@ -3,6 +3,15 @@
 version: '3'
 
 services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.${ ENVIRONMENT }
+    image: backend:latest
+    ports:
+      - 3000:3000
+    restart: always
+
   mongo:
     image: mongo
     container_name: coffebreak-mongo
