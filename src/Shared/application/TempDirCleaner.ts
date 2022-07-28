@@ -26,6 +26,10 @@ export class TempDirCleaner {
 
   public clean(): void {
     logger.log('clean tmp dir');
+
+    const exists = fs.existsSync(this._TMP_PATH);
+    if (!exists) fs.mkdirSync(this._TMP_PATH);
+
     const files = fs.readdirSync(this._TMP_PATH);
     files.forEach((file) => {
       fs.unlinkSync(path.join(this._TMP_PATH, file));
