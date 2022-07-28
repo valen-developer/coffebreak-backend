@@ -6,10 +6,8 @@ services:
   backend:
     build:
       context: .
-      dockerfile: Dockerfile.$ENVIRONMENT
+      dockerfile: Dockerfile.$ENVIROMENT
     image: backend:latest
-    env_file:
-      - .env
     ports:
       - 3000:3000
     restart: always
