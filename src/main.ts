@@ -1,5 +1,6 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
 import { ErrorInterceptor } from './Shared/interceptors/Error.interceptor';
@@ -14,6 +15,14 @@ async function bootstrap() {
       allowedHeaders: '*',
     },
   });
+
+  const config = new DocumentBuilder()
+    .setTitle('Coffebreak API')
+    .setDescription('API for Coffebreak: science podcast')
+    .setVersion('1.0')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
 
   // set api prefix
   app.setGlobalPrefix('api');
