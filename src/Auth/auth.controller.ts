@@ -7,6 +7,9 @@ import {
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
+
+import { ApiTags, ApiResponse, ApiBody } from '@nestjs/swagger';
+
 import { Request } from 'express';
 import { UserValidator } from 'src/User/application/UserValidator';
 import { User, UserDto } from '../User/domain/User.mode';
@@ -18,8 +21,14 @@ import {
 } from './application/PasswordRecover';
 import { SignupUser, SingupRequest } from './application/SingupUser';
 import { JWTGuard } from './infrastructure/JWT.guard';
+import { LoginResponseSwaggerModel } from './infrastructure/SwaggerDoc/LoginResponseSwaggerModel';
+import { PasswordChangeBodySwagger } from './infrastructure/SwaggerDoc/PasswordChangeBodySwagger';
+import { PasswordRecoverBodySwagger } from './infrastructure/SwaggerDoc/PasswordRecoverBodySwagger';
+import { SignupBodySwagger } from './infrastructure/SwaggerDoc/SignupBodySwagger';
+import { UserWithoutPasswordSwaggerModel } from './infrastructure/SwaggerDoc/UserWithoutPasswordSwaggerModel';
 
 @Controller('auth')
+@ApiTags('Auth')
 export class AuthController {
   constructor(
     private userLogin: LoginUser,
@@ -30,6 +39,7 @@ export class AuthController {
   ) {}
 
   @Post('login/token')
+  @ApiResponse({ status: 200, type: UserWithoutPasswordSwaggerModel })
   @UseGuards(JWTGuard)
   public async loginWithToken(
     @Req() req: Request,
@@ -43,6 +53,7 @@ export class AuthController {
   }
 
   @Post('login')
+  @ApiResponse({ status: 200, type: LoginResponseSwaggerModel })
   public async login(
     @Body() body: { email: string; password: string },
   ): Promise<LoginReponse> {
@@ -52,6 +63,8 @@ export class AuthController {
   }
 
   @Put('password')
+  @ApiBody({ type: PasswordChangeBodySwagger })
+  @ApiResponse({ status: 201 })
   @UseGuards(JWTGuard)
   public async changePassword(
     @Body()
@@ -75,6 +88,8 @@ export class AuthController {
   }
 
   @Put('recovery')
+  @ApiBody({ type: PasswordRecoverBodySwagger })
+  @ApiResponse({ status: 201 })
   public async recoveryPassword(
     @Body() body: PasswordRecoverParams,
   ): Promise<void> {
@@ -82,6 +97,7 @@ export class AuthController {
   }
 
   @Put('validate')
+  @ApiResponse({ status: 201 })
   @UseGuards(JWTGuard)
   public async validate(
     @Body() body: { session: { user: User } },
@@ -96,6 +112,8 @@ export class AuthController {
   }
 
   @Post('signup')
+  @ApiBody({ type: SignupBodySwagger })
+  @ApiResponse({ status: 201 })
   public async signup(@Body() body: SingupRequest): Promise<void> {
     await this.signupper.signup(body);
   }
