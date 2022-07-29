@@ -16,19 +16,20 @@ async function bootstrap() {
     },
   });
 
+  // set api prefix
+  app.setGlobalPrefix('api');
+
+  // global interceptors
+  app.useGlobalInterceptors(new ErrorInterceptor());
+
   const config = new DocumentBuilder()
+    .addTag('api')
     .setTitle('Coffebreak API')
     .setDescription('API for Coffebreak: science podcast')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-
-  // set api prefix
-  app.setGlobalPrefix('api');
-
-  // global interceptors
-  app.useGlobalInterceptors(new ErrorInterceptor());
 
   await app.listen(process.env.PORT ?? 3000);
 
