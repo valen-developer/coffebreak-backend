@@ -4,6 +4,7 @@ import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { Paginated } from 'src/helpers/types/Paginated';
 import { Union } from 'src/helpers/types/Union.type';
 import { PodcastEpisodeDTO } from 'src/Podcast/domain/PodcastEpisode.model';
+import { PodcastEpisodeSwaggerModel } from 'src/Podcast/infrastructure/PodcastEpisodeSwaggerModel';
 import { Paginator } from 'src/Shared/domain/interfaces/Paginator.interface';
 import { ArtistFinder } from './application/ArtistFinder';
 import { ArtistDTO } from './domain/Artist.model';
@@ -34,6 +35,11 @@ export class ArtistController {
   }
 
   @Get(':uuid/episodes')
+  @ApiResponse({
+    status: 200,
+    type: [PodcastEpisodeSwaggerModel],
+    description: 'list of episodes linked to an artist',
+  })
   public async getEpisodes(
     @Param('uuid') uuid: string,
   ): Promise<PodcastEpisodeDTO[]> {
