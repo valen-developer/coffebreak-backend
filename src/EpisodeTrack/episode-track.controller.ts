@@ -1,12 +1,17 @@
 import { Controller, Get, Param } from '@nestjs/common';
+import { ApiTags, ApiResponse } from '@nestjs/swagger';
+
 import { EpisodeTrackFinder } from './application/EpisodeTrackFinder';
-import { EpisodeTrack, EpisodeTrackDto } from './domain/EpisodeTrack.model';
+import { EpisodeTrackDto } from './domain/EpisodeTrack.model';
+import { EpisodeTrackSwaggerModel } from './infrastructure/EpisodeTrackSwaggerModel';
 
 @Controller('episode-track')
+@ApiTags('EpisodeTrack')
 export class EpisodeTrackController {
   constructor(private trackFinder: EpisodeTrackFinder) {}
 
   @Get('episode/:episodeUuid')
+  @ApiResponse({ status: 200, type: EpisodeTrackSwaggerModel })
   public async findByEpisode(
     @Param('episodeUuid') episodeUuid: string,
   ): Promise<EpisodeTrackDto[]> {
