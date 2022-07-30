@@ -32,7 +32,7 @@ export class PassportGoogleStategy implements OnApplicationBootstrap {
         {
           clientID: enviroment.googleKeys.cliendId,
           clientSecret: enviroment.googleKeys.clientSecret,
-          callbackURL: 'http://localhost:3000/api/auth/google/callback',
+          callbackURL: enviroment.googleSingin.callbackUrl,
           passReqToCallback: true,
           scope: ['profile', 'email'],
         },

@@ -24,4 +24,9 @@ export const enviroment = () => ({
     host: process.env.MAILER_HOST || '',
   },
   webappUrl: process.env.WEBAPP_URL || 'http://192.168.0.17:4200',
+  googleSingin: {
+    callbackUrl:
+      process.env.GOOGLE_CALLBACK_URL ||
+      'http://localhost:3000/auth/google/callback',
+  },
 });
