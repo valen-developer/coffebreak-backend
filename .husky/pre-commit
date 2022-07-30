@@ -2,6 +2,19 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "Running pre-commit hooks..."
+
+
+
+# encode .env -> .env.gpg
+./.encode_env.sh
+# build commit with that .env.gpg and set commit message 
+git add .env*.gpg
+
+
 
 
 
