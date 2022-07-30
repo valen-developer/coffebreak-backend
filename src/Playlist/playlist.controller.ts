@@ -10,10 +10,14 @@ import {
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
+
+import { ApiTags, ApiResponse, ApiBody, ApiConsumes } from '@nestjs/swagger';
+
 import { Request } from 'express';
 import { JWTGuard } from 'src/Auth/infrastructure/JWT.guard';
 import { DeepOptional } from 'src/helpers/types/DeepOptional';
 import { PodcastEpisodeDTO } from 'src/Podcast/domain/PodcastEpisode.model';
+import { PodcastEpisodeSwaggerModel } from 'src/Podcast/infrastructure/PodcastEpisodeSwaggerModel';
 import { FormDataParser } from 'src/Shared/domain/interfaces/FormDataParser.interface';
 import { User } from 'src/User/domain/User.mode';
 import {
@@ -31,8 +35,13 @@ import {
 import { PlaylistUpdater } from './application/PlaylistUpdater';
 import { PlaylistDTO } from './domain/Playlist.model';
 import { PlaylistQuery } from './domain/PlaylistQuery';
+import { CreateChannelBodySwagger } from './infrastructure/SwaggerDoc/CreateChannelBodySwagger';
+import { CreatePlaylistBodySwagger } from './infrastructure/SwaggerDoc/CreatePlaylistBodySwagger';
+import { PlaylistSwaggerModel } from './infrastructure/SwaggerDoc/PlaylistSwaggerModel';
+import { UpdatePlaylistBodySwagger } from './infrastructure/SwaggerDoc/UpdatePlaylistBodySwagger';
 
 @Controller('playlist')
+@ApiTags('Playlist')
 export class PlaylistController {
   constructor(
     private formDataParser: FormDataParser,
@@ -46,6 +55,7 @@ export class PlaylistController {
   ) {}
 
   @Get('channels')
+  @ApiResponse({ status: 200, type: [PlaylistSwaggerModel] })
   public async getChannels(): Promise<PlaylistDTO[]> {
     const playlists = await this.playlistFinder.getChannels();
 
@@ -53,6 +63,7 @@ export class PlaylistController {
   }
 
   @Get(':uuid/episodes')
+  @ApiResponse({ status: 200, type: [PodcastEpisodeSwaggerModel] })
   public async getEpisodes(
     @Param('uuid') uuid: string,
   ): Promise<PodcastEpisodeDTO[]> {
@@ -62,6 +73,7 @@ export class PlaylistController {
   }
 
   @Get(':uuid')
+  @ApiResponse({ status: 200, type: PlaylistSwaggerModel })
   public async getPlaylist(@Param('uuid') uuid: string): Promise<PlaylistDTO> {
     const playlist = await this.playlistFinder.getPlaylist(uuid);
 
@@ -69,6 +81,7 @@ export class PlaylistController {
   }
 
   @Get('own')
+  @ApiResponse({ status: 200, type: [PlaylistSwaggerModel] })
   @UseGuards(JWTGuard)
   public async getPlaylistByOwner(@Req() request: any): Promise<PlaylistDTO[]> {
     const user: User = request?.body?.session?.user;
@@ -78,6 +91,7 @@ export class PlaylistController {
   }
 
   @Post('search')
+  @ApiResponse({ status: 200, type: [PlaylistSwaggerModel] })
   @UseGuards(JWTGuard)
   public async searchPlaylists(
     @Req() request: any,
@@ -95,7 +109,12 @@ export class PlaylistController {
     return playlists.map((playlist) => playlist.toDTO());
   }
 
+  // POST
+
   @Post()
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({ type: CreatePlaylistBodySwagger })
+  @ApiResponse({ status: 200, type: PlaylistSwaggerModel })
   @UseGuards(JWTGuard)
   public async createPlaylist(@Req() req: Request): Promise<PlaylistDTO> {
     const user = req.body.session?.user;
@@ -115,6 +134,9 @@ export class PlaylistController {
   }
 
   @Post('tematic')
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({ type: CreateChannelBodySwagger })
+  @ApiResponse({ status: 201 })
   @UseGuards(JWTGuard)
   public async createTematicPlaylist(@Req() request: any): Promise<void> {
     const { fields, files } =
@@ -127,6 +149,7 @@ export class PlaylistController {
   }
 
   @Post('duplicate/:uuid')
+  @ApiResponse({ status: 200, type: PlaylistSwaggerModel })
   @UseGuards(JWTGuard)
   public async duplicatePlaylist(
     @Param('uuid') uuid: string,
@@ -143,6 +166,9 @@ export class PlaylistController {
   }
 
   @Put(':uuid')
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({ type: UpdatePlaylistBodySwagger })
+  @ApiResponse({ status: 201 })
   @UseGuards(JWTGuard)
   public async updatePlaylist(
     @Param('uuid') uuid: string,
@@ -158,6 +184,14 @@ export class PlaylistController {
   }
 
   @Post('/:uuid/episode/add')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        episodeUuid: { type: 'string' },
+      },
+    },
+  })
   @UseGuards(JWTGuard)
   public async addEpisode(
     @Param('uuid') playlistUuid: string,
@@ -173,6 +207,14 @@ export class PlaylistController {
   }
 
   @Post('/:uuid/episode/remove')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        episodeUuid: { type: 'string' },
+      },
+    },
+  })
   @UseGuards(JWTGuard)
   public async removeEpisode(
     @Param('uuid') playlistUuid: string,

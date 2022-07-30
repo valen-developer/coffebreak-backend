@@ -1,17 +1,10 @@
-import {
-  Body,
-  Controller,
-  Param,
-  Put,
-  Req,
-  UnauthorizedException,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Param, Put, Req, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiBody, ApiResponse } from '@nestjs/swagger';
+
 import { Request } from 'express';
 import { JWTGuard } from 'src/Auth/infrastructure/JWT.guard';
 import { FormDataParser } from 'src/Shared/domain/interfaces/FormDataParser.interface';
 import { UserUpdater } from './application/UserUpdater';
-import { User } from './domain/User.mode';
 
 @Controller('user')
 export class UserController {
