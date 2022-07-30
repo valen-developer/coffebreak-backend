@@ -14,7 +14,7 @@ env:
 
 
 jobs:
-  test1:    
+  deploy:    
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3   
