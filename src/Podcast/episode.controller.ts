@@ -1,15 +1,16 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Post } from '@nestjs/common';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { PodcastEpisodeSwaggerModel } from './infrastructure/PodcastEpisodeSwaggerModel';
 import { Paginated } from 'src/helpers/types/Paginated';
 import { Union } from 'src/helpers/types/Union.type';
 import { Paginator } from 'src/Shared/domain/interfaces/Paginator.interface';
 import { PodcastEpisodeFinder } from './application/PodcastEpisodeFinder';
 import { PodcastEpisodeDTO } from './domain/PodcastEpisode.model';
 import { PodcastEpisodeQuery } from './domain/PodcastEpisodeQuery';
+import { PodcastEpisodeSwaggerModel } from './infrastructure/PodcastEpisodeSwaggerModel';
 
 @Controller('episode')
+@ApiBearerAuth()
 @ApiTags('Episode')
 export class PodcastEpisodeController {
   constructor(private episodeFinder: PodcastEpisodeFinder) {}

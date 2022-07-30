@@ -1,5 +1,5 @@
 import { Controller, Param, Put, Req, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiBody, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiBody, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 
 import { Request } from 'express';
 import { JWTGuard } from 'src/Auth/infrastructure/JWT.guard';
@@ -8,6 +8,7 @@ import { UserUpdater } from './application/UserUpdater';
 import { UpdateUserBodySwagger } from './infrastructure/UpdateUserBodySwagger';
 
 @Controller('user')
+@ApiBearerAuth()
 @ApiTags('User')
 export class UserController {
   constructor(

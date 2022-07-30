@@ -11,7 +11,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
-import { ApiTags, ApiResponse, ApiBody, ApiConsumes } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiResponse,
+  ApiBody,
+  ApiConsumes,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 
 import { Request } from 'express';
 import { JWTGuard } from 'src/Auth/infrastructure/JWT.guard';
@@ -41,6 +47,7 @@ import { PlaylistSwaggerModel } from './infrastructure/SwaggerDoc/PlaylistSwagge
 import { UpdatePlaylistBodySwagger } from './infrastructure/SwaggerDoc/UpdatePlaylistBodySwagger';
 
 @Controller('playlist')
+@ApiBearerAuth()
 @ApiTags('Playlist')
 export class PlaylistController {
   constructor(
@@ -72,14 +79,6 @@ export class PlaylistController {
     return playlists.map((playlist) => playlist.toDTO());
   }
 
-  @Get(':uuid')
-  @ApiResponse({ status: 200, type: PlaylistSwaggerModel })
-  public async getPlaylist(@Param('uuid') uuid: string): Promise<PlaylistDTO> {
-    const playlist = await this.playlistFinder.getPlaylist(uuid);
-
-    return playlist.toDTO();
-  }
-
   @Get('own')
   @ApiResponse({ status: 200, type: [PlaylistSwaggerModel] })
   @UseGuards(JWTGuard)
@@ -88,6 +87,14 @@ export class PlaylistController {
     const playlists = await this.playlistFinder.getyByOwn(user.uuid.value);
 
     return playlists.map((playlist) => playlist.toDTO());
+  }
+
+  @Get(':uuid')
+  @ApiResponse({ status: 200, type: PlaylistSwaggerModel })
+  public async getPlaylist(@Param('uuid') uuid: string): Promise<PlaylistDTO> {
+    const playlist = await this.playlistFinder.getPlaylist(uuid);
+
+    return playlist.toDTO();
   }
 
   @Post('search')

@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Res } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
 import { Response } from 'express';
 import { existsSync } from 'fs';
@@ -8,6 +8,7 @@ import { ImageFinder } from './application/ImageFinder';
 import { NotFoundImageException } from './domain/exceptions/NotFoundImage.exception';
 
 @Controller('image')
+@ApiBearerAuth()
 @ApiTags('image')
 export class ImageController {
   constructor(private imageFinder: ImageFinder) {}

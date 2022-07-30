@@ -10,6 +10,7 @@ export class JWTGuard implements CanActivate {
   public async canActivate(context: ExecutionContext): Promise<boolean> {
     const req = context.switchToHttp().getRequest();
     try {
+      const headers = req.headers;
       // extract Bearer token from Authorization header (format Bearer <token>)
       const token = req.headers.authorization?.split(' ')[1];
 

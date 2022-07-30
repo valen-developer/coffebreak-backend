@@ -8,7 +8,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
-import { ApiTags, ApiResponse, ApiBody } from '@nestjs/swagger';
+import { ApiTags, ApiResponse, ApiBody, ApiBearerAuth } from '@nestjs/swagger';
 
 import { Request } from 'express';
 import { UserValidator } from 'src/User/application/UserValidator';
@@ -26,8 +26,10 @@ import { PasswordChangeBodySwagger } from './infrastructure/SwaggerDoc/PasswordC
 import { PasswordRecoverBodySwagger } from './infrastructure/SwaggerDoc/PasswordRecoverBodySwagger';
 import { SignupBodySwagger } from './infrastructure/SwaggerDoc/SignupBodySwagger';
 import { UserWithoutPasswordSwaggerModel } from '../User/infrastructure/UserWithoutPasswordSwaggerModel';
+import { LoginBodySwagger } from './infrastructure/SwaggerDoc/LoginBodySwagger';
 
 @Controller('auth')
+@ApiBearerAuth()
 @ApiTags('Auth')
 export class AuthController {
   constructor(
@@ -53,6 +55,7 @@ export class AuthController {
   }
 
   @Post('login')
+  @ApiBody({ type: LoginBodySwagger })
   @ApiResponse({ status: 200, type: LoginResponseSwaggerModel })
   public async login(
     @Body() body: { email: string; password: string },

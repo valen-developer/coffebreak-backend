@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 
 import { Paginated } from 'src/helpers/types/Paginated';
 import { Union } from 'src/helpers/types/Union.type';
@@ -12,6 +12,7 @@ import { ArtistQuery } from './domain/ArtistQuery';
 import { ArtistSwaggerModel } from './infrastructure/ArtistSwaggerModel';
 
 @Controller('artist')
+@ApiBearerAuth()
 @ApiTags('Artist')
 export class ArtistController {
   constructor(private artistFinder: ArtistFinder) {}

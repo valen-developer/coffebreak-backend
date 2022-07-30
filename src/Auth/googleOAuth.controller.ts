@@ -1,10 +1,12 @@
-import { Controller, Get, Next, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Next, Req, Res } from '@nestjs/common';
+import { ApiExcludeController } from '@nestjs/swagger';
 
 import * as passport from 'passport';
 import { enviroment as enviromentFn } from 'src/helpers/enviroment';
 import { GoogleLogin } from './application/GoogleLogin';
 
 @Controller('auth/google')
+@ApiExcludeController()
 export class GoogleOAuthController {
   constructor(private googleLogin: GoogleLogin) {}
 

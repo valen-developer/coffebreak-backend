@@ -1,11 +1,12 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 
 import { EpisodeTrackFinder } from './application/EpisodeTrackFinder';
 import { EpisodeTrackDto } from './domain/EpisodeTrack.model';
 import { EpisodeTrackSwaggerModel } from './infrastructure/EpisodeTrackSwaggerModel';
 
 @Controller('episode-track')
+@ApiBearerAuth()
 @ApiTags('EpisodeTrack')
 export class EpisodeTrackController {
   constructor(private trackFinder: EpisodeTrackFinder) {}
