@@ -1,13 +1,7 @@
-import {
-  MiddlewareConsumer,
-  Module,
-  Provider,
-  RequestMethod,
-} from '@nestjs/common';
+import { Module, Provider } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ImageModule } from 'src/Image/image.module';
 import { PodcastEpisodeModule } from 'src/Podcast/podcast-episode.module';
-import { ValidateJWTMiddleware } from 'src/Shared/middlewares/ValidateJWT.middleware';
 import { SharedModule } from 'src/Shared/shared.module';
 import { UserModule } from 'src/User/user.module';
 
@@ -25,11 +19,7 @@ import {
   MongoPlaylistSchema,
   PLAYLIST_NAME,
 } from './infrastructure/MongoPlaylistRepository/MongoPlaylistSchema';
-import { PlaylistCreatorController } from './playlistCreator.controller';
-import { PlaylistFinderController } from './playlistFinder.controller';
-import { ProtectedPlaylistDeleteController } from './protected-playlist-delete.controller';
-import { ProtectedPlaylistUpdaterController } from './protected-playlist-updater.controller';
-import { ProtectedPlaylistFinderController } from './protected-playlistFinder.controller';
+import { PlaylistController } from './playlist.controller';
 
 const providers: Provider[] = [
   {
@@ -50,13 +40,7 @@ const useCases = [
 ];
 
 @Module({
-  controllers: [
-    PlaylistCreatorController,
-    ProtectedPlaylistFinderController,
-    PlaylistFinderController,
-    ProtectedPlaylistUpdaterController,
-    ProtectedPlaylistDeleteController,
-  ],
+  controllers: [PlaylistController],
   imports: [
     SharedModule,
     ImageModule,
