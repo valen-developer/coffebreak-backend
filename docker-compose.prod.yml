@@ -63,3 +63,8 @@ services:
 
 networks:
   coffebreak:
+
+volumes:
+  certs:
+  vhostd:
+  html:
