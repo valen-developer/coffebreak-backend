@@ -1,0 +1,44 @@
+
+
+name: deploy-production
+on:
+  push:
+    branches:
+      - production
+    tags: 
+      - coffebreak
+      - production
+
+env:
+  enviroment: production
+
+
+jobs:
+  test1:    
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3   
+
+      - name: check who am i
+        run: echo "I am $(whoami)"
+
+      - name: decrypt env secret
+        run: ./.decode_env.sh
+        env: 
+          ENV_PASSPHRASE: ${{ secrets.ENV_PASSPHRASE }}
+          ENVIROMENT: ${{ env.enviroment }}
+      
+      - name: build backend
+        run: docker build -t backend --file Dockerfile.${{ env.enviroment }} .
+        env:
+          ENVIROMENT: ${{ env.enviroment }}
+
+
+      - name: up containers
+        run: docker-compose -f docker-compose.prod.yml up -d
+        env:
+          ENVIROMENT: ${{ env.enviroment }}
+
+
+
+      

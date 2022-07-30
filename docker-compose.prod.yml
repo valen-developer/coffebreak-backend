@@ -1,0 +1,65 @@
+
+  
+version: '3'
+
+services:
+  proxy:
+    image: jwilder/nginx-proxy
+    container_name: proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - certs:/etc/nginx/certs:ro
+      - vhostd:/etc/nginx/vhost.d:ro
+      - html:/usr/share/nginx/html:ro
+    networks:
+      - galisur-net
+    labels:
+      - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy
+    restart: always
+
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: letsencrypt
+    networks:
+      - galisur-net
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - certs:/etc/nginx/certs:rw
+      - vhostd:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+    restart: always
+
+
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.$ENVIROMENT
+    image: backend:latest
+    container_name: backend
+    ports:
+      - 3000:3000
+    restart: always
+    networks:
+      coffebreak:
+        aliases:
+          - backend
+
+  mongo:
+    image: mongo
+    container_name: coffebreak-db
+    restart: always
+    ports:
+      - 27017:27017
+    env_file:
+      - .env
+    networks:
+      coffebreak:
+        aliases:
+          - mongo
+
+networks:
+  coffebreak:
