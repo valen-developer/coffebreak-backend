@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { LoginReponse } from 'src/Auth/application/LoginUser';
 import { UserDto } from 'src/User/domain/User.mode';
-import { UserWithoutPasswordSwaggerModel } from './UserWithoutPasswordSwaggerModel';
+import { UserWithoutPasswordSwaggerModel } from '../../../User/infrastructure/UserWithoutPasswordSwaggerModel';
 
 export class LoginResponseSwaggerModel implements LoginReponse {
   @ApiProperty({ type: UserWithoutPasswordSwaggerModel, required: true })

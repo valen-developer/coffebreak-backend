@@ -5,8 +5,10 @@ import { Request } from 'express';
 import { JWTGuard } from 'src/Auth/infrastructure/JWT.guard';
 import { FormDataParser } from 'src/Shared/domain/interfaces/FormDataParser.interface';
 import { UserUpdater } from './application/UserUpdater';
+import { UpdateUserBodySwagger } from './infrastructure/UpdateUserBodySwagger';
 
 @Controller('user')
+@ApiTags('User')
 export class UserController {
   constructor(
     private userUpdater: UserUpdater,
@@ -14,6 +16,8 @@ export class UserController {
   ) {}
 
   @Put(':uuid')
+  @ApiBody({ type: UpdateUserBodySwagger })
+  @ApiResponse({ status: 201 })
   @UseGuards(JWTGuard)
   public async updateUser(
     @Param('uuid') uuid: string,

@@ -25,7 +25,7 @@ import { LoginResponseSwaggerModel } from './infrastructure/SwaggerDoc/LoginResp
 import { PasswordChangeBodySwagger } from './infrastructure/SwaggerDoc/PasswordChangeBodySwagger';
 import { PasswordRecoverBodySwagger } from './infrastructure/SwaggerDoc/PasswordRecoverBodySwagger';
 import { SignupBodySwagger } from './infrastructure/SwaggerDoc/SignupBodySwagger';
-import { UserWithoutPasswordSwaggerModel } from './infrastructure/SwaggerDoc/UserWithoutPasswordSwaggerModel';
+import { UserWithoutPasswordSwaggerModel } from '../User/infrastructure/UserWithoutPasswordSwaggerModel';
 
 @Controller('auth')
 @ApiTags('Auth')
