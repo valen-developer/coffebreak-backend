@@ -43,8 +43,8 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./images:./images
-      - ./temp:./temp
+      - ./images:/app/images
+      - ./temp:/app/temp
     restart: always
     networks:
       coffebreak:
