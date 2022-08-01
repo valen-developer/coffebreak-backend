@@ -11,16 +11,51 @@ on:
 
 env:
   enviroment: production
+  registry_username: ${{ secrets.REGISTRY_USERNAME }}
+  registry_password: ${{ secrets.REGISTRY_PASSWORD }}
 
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      # Decrypt env
+      - name: decrypt env secret
+        run: ./.decode_env.sh
+        env: 
+          ENV_PASSPHRASE: ${{ secrets.ENV_PASSPHRASE }}
+          ENVIROMENT: ${{ env.enviroment }}
+      
+      # build container
+      - name: build backend
+        run: docker build -t backend --file Dockerfile.${{ env.enviroment }} .
+        env:
+          ENVIROMENT: ${{ env.enviroment }}
+
+      # login to github docker registry
+      - name: Login to docker registry
+        run: docker login https://ghcr.io -u ${{ env.registry_username }} -p ${{ env.registry_password }}
+
+      # tag the image
+      - name: Tag image
+        run: docker tag backend ghcr.io/${{ env.registry_username }}/backend:latest
+      
+      # push the image to the registry
+      - name: Push image
+        run: docker push ghcr.io/${{ env.registry_username }}/backend:latest
+
+      # logout of github docker registry
+      - name: Logout of docker registry
+        run: docker logout
+
   deploy:    
     runs-on: self-hosted
+    needs:
+      - build
     steps:
       - uses: actions/checkout@v3   
-
-      - name: check who am i
-        run: echo "I am $(whoami)"
 
       - name: decrypt env secret
         run: ./.decode_env.sh
@@ -28,17 +63,44 @@ jobs:
           ENV_PASSPHRASE: ${{ secrets.ENV_PASSPHRASE }}
           ENVIROMENT: ${{ env.enviroment }}
       
-      - name: build backend
-        run: docker build -t backend --file Dockerfile.${{ env.enviroment }} .
-        env:
-          ENVIROMENT: ${{ env.enviroment }}
+      # login to github docker registry
+      - name: Login to docker registry
+        run: docker login https://ghcr.io -u ${{ env.registry_username }} -p ${{ env.registry_password }}
 
-
-      - name: up containers
+      # get the image from the registry
+      - name: Get image from registry
+        run: docker pull ghcr.io/${{ env.registry_username }}/backend:latest
+      
+      # tag the image
+      - name: Tag image
+        run: docker tag ghcr.io/${{ env.registry_username }}/backend:latest backend:latest
+      
+      # run containers
+      - name: Run containers
         run: docker-compose -f docker-compose.prod.yml up -d
         env:
           ENVIROMENT: ${{ env.enviroment }}
-
+      
+      # logout of github docker registry
+      - name: Logout of docker registry
+        run: docker logout
+      
+  cleanup:
+    runs-on: self-hosted
+    needs:
+      - deploy
+    steps:
+      # Login to github docker registry
+      - name: Login to docker registry
+        run: docker login https://ghcr.io -u ${{ env.registry_username }} -p ${{ env.registry_password }}
+      
+      # Remove the image from the registry
+      - name: Remove image from registry
+        run: docker rmi ghcr.io/${{ env.registry_username }}/backend:latest
+      
+      # Logout of github docker registry
+      - name: Logout of docker registry
+        run: docker logout
 
 
       

@@ -5,7 +5,6 @@ import {
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
-import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util';
 import { catchError, Observable, throwError } from 'rxjs';
 import { HttpErrorManager } from 'src/helpers/HttpErrorManager';
 

@@ -9,13 +9,27 @@ import { ErrorInterceptor } from './Shared/interceptors/Error.interceptor';
 
 const logger = new Logger('Main');
 
+const buildSwaggerDocument = (app: any): void => {
+  const isProd = process.env.ENVIROMENT === 'production';
+
+  if (!isProd) return;
+
+  const config = new DocumentBuilder()
+    .setTitle('Coffebreak API')
+    .setDescription('API for Coffebreak: science podcast')
+    .setVersion('1.0')
+    .addBearerAuth({
+      type: 'http',
+      bearerFormat: 'Bearer {token}',
+    })
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+};
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    cors: {
-      origin: '*',
-      methods: '*',
-      allowedHeaders: '*',
-    },
+    cors: true,
   });
 
   // set api prefix
@@ -33,17 +47,7 @@ async function bootstrap() {
   // compression
   app.use(compression());
 
-  const config = new DocumentBuilder()
-    .setTitle('Coffebreak API')
-    .setDescription('API for Coffebreak: science podcast')
-    .setVersion('1.0')
-    .addBearerAuth({
-      type: 'http',
-      bearerFormat: 'Bearer {token}',
-    })
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  buildSwaggerDocument(app);
 
   await app.listen(process.env.PORT ?? 3000);
 

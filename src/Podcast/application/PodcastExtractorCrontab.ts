@@ -34,7 +34,7 @@ export class PodcastExtractorCrontab {
     const everyminutes = '*/1 * * * *';
 
     // execute extract every second between 22:00 and 23:00 (UTC)
-    this.cron.schedule(everyminutes, async () => {
+    this.cron.schedule(everyThursdayEvery2minutes, async () => {
       await this.extract();
     });
     this.cron.start();
