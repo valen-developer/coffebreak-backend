@@ -20,24 +20,29 @@ export class EpisodeNotificationGateway implements NestGateway {
 
   public afterInit(server: Server) {
     this.server = server;
-  }
-
-  public handleConnection(client: Socket) {
-    console.log('Connection');
 
     this.eventEmitter.on(Events.NEW_EPISODE, (episode: PodcastEpisode) => {
-      this.handleNewEpisode(episode, client);
+      this.handleNewEpisode(episode);
     });
 
     this.eventEmitter.on(Events.NEW_CHANNEL, (channel: Playlist) => {
-      client.emit(Events.NEW_CHANNEL, channel.toDTO());
+      this.handleNewChannel(channel);
     });
   }
 
-  public handleDisconnect(client: any) {}
+  public handleConnection(client: Socket) {
+    console.log('New Connection');
+  }
 
-  public handleNewEpisode(episode: PodcastEpisode, client: Socket): void {
-    if (!client.connected) return;
-    this.server.emit(Events.NEW_EPISODE, episode.toDTO());
+  public handleDisconnect(client: any) {
+    console.log('Disconnected');
+  }
+
+  public handleNewEpisode(episode: PodcastEpisode): void {
+    this.server?.emit(Events.NEW_EPISODE, episode.toDTO());
+  }
+
+  public handleNewChannel(channel: Playlist): void {
+    this.server?.emit(Events.NEW_CHANNEL, channel.toDTO());
   }
 }

@@ -30,7 +30,8 @@ export class FsFileUploader implements FileUploader {
     if (!this.isAllowedExt(fileExt)) throw new InvalidImageExtension(fileExt);
 
     const filePath = path.join(this._IMAGE_PATH, `${file.name}.${fileExt}`);
-    fs.renameSync(file.path, filePath);
+    fs.copyFileSync(file.path, filePath);
+    fs.unlinkSync(file.path);
 
     return filePath;
   }
