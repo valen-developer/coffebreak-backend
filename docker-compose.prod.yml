@@ -44,7 +44,6 @@ services:
       - 3000:3000
     volumes:
       - ./images:/app/images
-      - ./temp:/app/temp
     restart: always
     networks:
       coffebreak:
