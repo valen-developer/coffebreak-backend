@@ -31,7 +31,6 @@ const ConfigModules = [
   }),
   MongooseModule.forRoot(enviroment().db.uri, {
     dbName: enviroment().db.name,
-    authSource: 'admin',
     auth: {
       username: enviroment().db.user,
       password: enviroment().db.password,

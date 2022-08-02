@@ -57,6 +57,8 @@ services:
     restart: always
     expose:
       - 27017
+    volumes:
+      - mongo:/data/db:rw
     env_file:
       - .env
     networks:
@@ -76,3 +78,4 @@ volumes:
   html:
   images:
   temp:
+  mongo:

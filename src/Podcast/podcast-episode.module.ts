@@ -27,11 +27,7 @@ const providers: Provider[] = [
   },
 ];
 
-const useCases = [
-  PodcastEpisodeFinder,
-  PodcastExtractorCrontab,
-  EpisodeNotificationGateway,
-];
+const useCases = [PodcastEpisodeFinder, PodcastExtractorCrontab];
 
 @Module({
   controllers: [PodcastEpisodeController],
