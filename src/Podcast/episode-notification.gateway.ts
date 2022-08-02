@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { WebSocketGateway } from '@nestjs/websockets';
 import { NestGateway } from '@nestjs/websockets/interfaces/nest-gateway.interface';
 import { Server, Socket } from 'socket.io';
@@ -6,6 +6,8 @@ import { Playlist } from 'src/Playlist/domain/Playlist.model';
 import { Events } from 'src/Shared/domain/constants/Events';
 import { EventEmitter } from 'src/Shared/domain/interfaces/EventEmitter';
 import { PodcastEpisode } from './domain/PodcastEpisode.model';
+
+const logger = new Logger('PodcastEpisodeNotificationGateway');
 
 @Injectable()
 @WebSocketGateway({
@@ -15,6 +17,7 @@ import { PodcastEpisode } from './domain/PodcastEpisode.model';
 })
 export class EpisodeNotificationGateway implements NestGateway {
   private server: Server;
+  private count: number = 0;
 
   constructor(private eventEmitter: EventEmitter) {}
 
@@ -31,11 +34,15 @@ export class EpisodeNotificationGateway implements NestGateway {
   }
 
   public handleConnection(client: Socket) {
-    console.log('New Connection');
+    this.count++;
+    logger.log(`Client connected: ${client.id}`);
+    logger.log(`Total clients: ${this.count}`);
   }
 
   public handleDisconnect(client: any) {
-    console.log('Disconnected');
+    this.count--;
+    logger.log(`Client disconnected: ${client.id}`);
+    logger.log(`Total clients: ${this.count}`);
   }
 
   public handleNewEpisode(episode: PodcastEpisode): void {

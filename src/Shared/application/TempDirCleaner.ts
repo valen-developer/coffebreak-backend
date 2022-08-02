@@ -18,7 +18,9 @@ export class TempDirCleaner {
   private runCrontab(): void {
     logger.log('clean tmp dir job started');
     this.clean();
-    this.cron.schedule('10 */10 * * * *', async () => {
+
+    const everyDayAtMidnight = '0 0 0 * * *';
+    this.cron.schedule(everyDayAtMidnight, async () => {
       this.clean();
     });
     this.cron.start();

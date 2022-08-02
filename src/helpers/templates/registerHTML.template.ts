@@ -336,15 +336,9 @@ export const registerHTML = (user: User, token: string): string => {
                                   "
                                 >
                                   <strong
-<<<<<<< HEAD
                                     >Hey, ${
                                       user.name.value
                                     }<br /><br />Bienvenido a la
-=======
-                                    >Hey, ${
-                                      user.name.value
-                                    }<br /><br />Bienvenido a la
->>>>>>> chore/migrate-nestjs
                                     app de Coffebreak</strong
                                   >
                                 </div>

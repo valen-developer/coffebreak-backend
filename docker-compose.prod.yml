@@ -40,8 +40,8 @@ services:
       dockerfile: Dockerfile.$ENVIROMENT
     image: backend:latest
     container_name: backend
-    ports:
-      - 3000:3000
+    expose:
+      - 3000
     volumes:
       - ./images:/app/images:rw
       - ./temp:/app/temp:rw
@@ -52,11 +52,11 @@ services:
           - backend
 
   mongo:
-    image: mongo
+    image: mongo:latest
     container_name: coffebreak-db
     restart: always
-    ports:
-      - 27017:27017
+    expose:
+      - 27017
     env_file:
       - .env
     networks:
