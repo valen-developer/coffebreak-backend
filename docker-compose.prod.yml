@@ -43,8 +43,8 @@ services:
     expose:
       - 3000
     volumes:
-      - ./images:/app/images:rw
-      - ./temp:/app/temp:rw
+      - images:/app/images:rw
+      - temp:/app/temp:rw
     restart: always
     networks:
       coffebreak:
@@ -74,3 +74,5 @@ volumes:
   certs:
   vhostd:
   html:
+  images:
+  temp:
