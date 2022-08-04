@@ -10,6 +10,7 @@ import { ArtistCreatorForExtraction } from '../application/ArtistCreatorForExtra
 import { asyncMap } from 'src/helpers/functions/asyncMap.function';
 import { enviroment } from 'src/helpers/enviroment';
 import { Injectable } from '@nestjs/common';
+import { cleanArray } from 'src/helpers/functions/cleanArray.function';
 
 @Injectable()
 export class FtpArtistExtractor extends ArtistExtractor {
@@ -33,12 +34,13 @@ export class FtpArtistExtractor extends ArtistExtractor {
 
     try {
       return await asyncMap(relations, async (rl) => {
-        const artist = await this.saveArtist(rl.artistName);
+        const artist = await this.saveArtist(rl.artistName).catch(() => null);
+        if (!artist) return null;
         artist.setEpisodes(rl.episodes);
         await this.updateArtist(artist);
 
         return artist;
-      });
+      }).then((arr) => cleanArray(arr));
     } catch (error) {
       return [];
     }
