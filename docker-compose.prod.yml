@@ -40,6 +40,13 @@ services:
       dockerfile: Dockerfile.$ENVIROMENT
     image: backend:latest
     container_name: backend
+    environment:
+      - PORT=3000
+      - VIRTUAL_PROTO=https
+      - VIRTUAL_PORT=443
+      - VIRTUAL_HOST=api.coffeebreakpodcast.app,www.api.coffeebreakpodcast.app
+      - LETSENCRYPT_HOST=api.coffeebreakpodcast.app,www.api.coffeebreakpodcast.app
+      - LETSENCRYPT_EMAIL=valentin@valentinvalverde.com
     expose:
       - 3000
     volumes:
