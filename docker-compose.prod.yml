@@ -18,6 +18,11 @@ services:
       - coffebreak
     labels:
       - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "5"
     restart: always
 
   letsencrypt:
@@ -30,7 +35,32 @@ services:
       - certs:/etc/nginx/certs:rw
       - vhostd:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "5"
     restart: always
+
+  fail2ban:
+    image: crazymax/fail2ban:latest
+    container_name: fail2ban
+    restart: "unless-stopped"
+    network_mode: "host"
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    volumes:
+      - "./fail2ban-data:/data"
+      - "/var/log:/var/log:ro"
+      - "/var/lib/docker/containers/:/container-logs/:ro"
+    env_file:
+      - "./fail2ban.env"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "10"
 
 
 
