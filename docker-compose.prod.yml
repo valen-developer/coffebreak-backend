@@ -3,44 +3,20 @@
 version: '3'
 
 services:
-  proxy:
-    image: jwilder/nginx-proxy
-    container_name: proxy
+  traefik:
+    image: traefik:1.7.34-alpine
+    container_name: traefik
+    command: --docker
     ports:
       - "80:80"
       - "443:443"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - certs:/etc/nginx/certs:ro
-      - vhostd:/etc/nginx/vhost.d:ro
-      - html:/usr/share/nginx/html:ro
-    networks:
-      - coffebreak
-    labels:
-      - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "5m"
-        max-file: "5"
-    restart: always
-
-  letsencrypt:
-    image: jrcs/letsencrypt-nginx-proxy-companion
-    container_name: letsencrypt
     networks:
       - coffebreak
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - certs:/etc/nginx/certs:rw
-      - vhostd:/etc/nginx/vhost.d
-      - html:/usr/share/nginx/html
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "5m"
-        max-file: "5"
-    restart: always
+      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+      - ./traefik/traefik.toml:/traefik.toml # Traefik configuration file
+      - ./traefik/acme:/acme   
+    restart: always         
 
   fail2ban:
     image: crazymax/fail2ban:latest
@@ -77,6 +53,9 @@ services:
       - VIRTUAL_HOST=api.coffeebreakpodcast.app,www.api.coffeebreakpodcast.app
       - LETSENCRYPT_HOST=api.coffeebreakpodcast.app,www.api.coffeebreakpodcast.app
       - LETSENCRYPT_EMAIL=valentin@valentinvalverde.com
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:api.coffeebreakpodcast.app"
     expose:
       - 3000
     volumes:
