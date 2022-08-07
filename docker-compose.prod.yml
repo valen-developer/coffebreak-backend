@@ -7,6 +7,9 @@ services:
     image: traefik:1.7.34-alpine
     container_name: traefik
     command: --docker
+             --logLevel=ACCESS
+             --accessLog.filePath=/var/log/access.log
+             --accessLog.filters.method=CONNECT
     ports:
       - "80:80"
       - "443:443"
@@ -15,7 +18,13 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
       - ./traefik/traefik.toml:/traefik.toml # Traefik configuration file
-      - ./traefik/acme:/acme   
+      - ./traefik/acme:/acme 
+      - /var/log/traefik:/var/log 
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
     restart: always         
 
   fail2ban:
@@ -36,7 +45,7 @@ services:
       driver: "json-file"
       options:
         max-size: "5m"
-        max-file: "10"
+        max-file: "3"
 
 
 
@@ -48,8 +57,8 @@ services:
     container_name: backend
     environment:
       - PORT=3000
-      - VIRTUAL_PROTO=https
-      - VIRTUAL_PORT=443
+      - VIRTUAL_PROTO=https # This is the protocol used by the virtual host traefik      
+      - VIRTUAL_PORT=443 # This is the port used by the virtual host traefik
       - VIRTUAL_HOST=api.coffeebreakpodcast.app,www.api.coffeebreakpodcast.app
       - LETSENCRYPT_HOST=api.coffeebreakpodcast.app,www.api.coffeebreakpodcast.app
       - LETSENCRYPT_EMAIL=valentin@valentinvalverde.com
@@ -77,6 +86,12 @@ services:
       - mongo:/data/db:rw
     env_file:
       - .env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
+        path: "/var/log/coffebreak/mongo.log"
     networks:
       coffebreak:
         aliases:

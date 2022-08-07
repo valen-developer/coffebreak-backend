@@ -28,6 +28,12 @@ maxretry = 10
 findtime = 60
 bantime = 18000
 
+[traefik-connect]
+enabled = true
+port = http,https
+logpath = /var/log/traefik/access.log
+
+
 
 
 
