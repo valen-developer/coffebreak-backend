@@ -25,10 +25,11 @@ export class RequestLoggerInterceptor implements NestInterceptor {
     requestLogger.log(`${ip} ${method} ${url}`);
 
     return next.handle().pipe(
-      tap((res: Response) => {
-        const status = res.statusCode;
+      tap(() => {
+        const res = context.switchToHttp().getResponse<Response>();
+        const statusCode = res?.statusCode;
 
-        responseLogger.log(`${ip} ${method} ${url} ${status}`);
+        responseLogger.log(`${ip} ${method} ${url} ${statusCode}`);
       }),
     );
   }
