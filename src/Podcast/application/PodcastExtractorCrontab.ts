@@ -1,9 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { Cron } from '@nestjs/schedule';
 
 import { EpisodeTrackCreator } from 'src/EpisodeTrack/application/EpisodeTrackCreator';
 import { asyncForeach } from 'src/helpers/functions/asyncForeach.function';
 import { Events } from '../../Shared/domain/constants/Events';
-import { CronJob } from '../../Shared/domain/interfaces/Cronjob.interface';
 import { EventEmitter } from '../../Shared/domain/interfaces/EventEmitter';
 import { HttpClient } from '../../Shared/domain/interfaces/HttpClient.interface';
 import { UUIDGenerator } from '../../Shared/domain/interfaces/UuidGenerator';
@@ -13,13 +13,12 @@ import { PodcastEpisode } from '../domain/PodcastEpisode.model';
 import { PodcastEpisodeFinder } from './PodcastEpisodeFinder';
 
 const logger = new Logger('PodcastExtractorCrontab');
-
+const everyThursdayEvery10minutes = '0 */30 * * * 4-5';
 @Injectable()
 export class PodcastExtractorCrontab {
   constructor(
     private httpClient: HttpClient,
     private uuidGenerator: UUIDGenerator,
-    private cron: CronJob,
     private podcastExtractor: PodcastExtractor,
     private podcastFinder: PodcastEpisodeFinder,
     private podcastEpisodeRepository: PodcastEpisodeRepository,
@@ -27,23 +26,18 @@ export class PodcastExtractorCrontab {
     private eventEmitter: EventEmitter,
   ) {}
 
+  @Cron(everyThursdayEvery10minutes, {
+    timeZone: 'Europe/Madrid',
+    name: 'PodcastExtractorCrontab',
+  })
   public async run(): Promise<void> {
     this.extract();
-
-    // const everyThursdayEvery2minutes = '10 */2 * * * 5';
-    // const everyminutes = '*/1 * * * *';
-
-    // // execute extract every second between 22:00 and 23:00 (UTC)
-    // this.cron.schedule(everyThursdayEvery2minutes, async () => {
-    //   await this.extract();
-    // });
-    // this.cron.start();
   }
 
   public async extract(): Promise<void> {
-    console.log('extracting podcasts');
+    logger.log('extracting podcasts');
     // timezone Madrid
-    console.log(
+    logger.log(
       new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' }),
     );
     const lastEpisode = await this.podcastFinder

@@ -23,15 +23,10 @@ import { JsonWebTokenJWT } from './infrastructure/JsonWebTokenJWT';
 import { MongoQueryBuilder } from './infrastructure/MongoQueryBuilder';
 import { NanoUuidGenerator } from './infrastructure/NanoUuidGenerator';
 import { NativeEventEmitter } from './infrastructure/NativeEventEmitter';
-import { NodeCronJob } from './infrastructure/NodeCronJob';
 import { NodeFetchHttpClient } from './infrastructure/NodeFetchHttpClient';
 import { NodeMailer } from './infrastructure/NodeMailer';
 
 const providers: Provider[] = [
-  {
-    provide: CronJob,
-    useClass: NodeCronJob,
-  },
   {
     provide: ICrypt,
     useClass: BCrypt,

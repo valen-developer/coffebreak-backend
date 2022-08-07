@@ -1,9 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { Cron } from '@nestjs/schedule';
 import * as fs from 'fs';
 import * as path from 'path';
 import { enviroment } from 'src/helpers/enviroment';
-
-import { CronJob } from '../domain/interfaces/Cronjob.interface';
 
 const logger = new Logger('TempDirCleaner');
 
@@ -11,19 +10,17 @@ const logger = new Logger('TempDirCleaner');
 export class TempDirCleaner {
   private _TMP_PATH = enviroment().dirs.temp;
 
-  constructor(private cron: CronJob) {
+  constructor() {
     this.runCrontab();
   }
 
+  @Cron('0 */10 * * * 5', {
+    timeZone: 'Europe/Madrid',
+    name: 'TempDirCleaner',
+  })
   private runCrontab(): void {
     logger.log('clean tmp dir job started');
     this.clean();
-
-    // const everyDayAtMidnight = '0 0 0 * * *';
-    // this.cron.schedule(everyDayAtMidnight, async () => {
-    //   this.clean();
-    // });
-    // this.cron.start();
   }
 
   public clean(): void {
