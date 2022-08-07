@@ -13,8 +13,14 @@ services:
     ports:
       - "80:80"
       - "443:443"
+      - "8080:8080"
     networks:
       - coffebreak
+    labels:
+      traefik.http.routers.api.rule: Host(`traefik.coffeebreakpodcast.app`)    # Define the subdomain for the traefik dashboard.
+      traefik.http.routers.api.entryPoints: https    # Set the Traefik entry point.
+      traefik.http.routers.api.service: api@internal    # Enable Traefik API.
+      traefik.enable: true   # Enable Traefik reverse proxy for the Traefik dashboard
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
       - ./traefik/traefik.toml:/traefik.toml # Traefik configuration file
