@@ -1,11 +1,12 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as helmet from 'helmet';
 import * as compression from 'compression';
+import * as helmet from 'helmet';
 
 import { AppModule } from './app.module';
 import { ErrorInterceptor } from './Shared/interceptors/Error.interceptor';
+import { RequestLoggerInterceptor } from './Shared/middlewares/RequestLogger.interceptor';
 
 const logger = new Logger('Main');
 
@@ -36,7 +37,10 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   // global interceptors
-  app.useGlobalInterceptors(new ErrorInterceptor());
+  app.useGlobalInterceptors(
+    new RequestLoggerInterceptor(),
+    new ErrorInterceptor(),
+  );
 
   // helmet
   app.use(helmet.xssFilter());
