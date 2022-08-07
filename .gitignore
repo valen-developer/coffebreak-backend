@@ -49,3 +49,6 @@ lerna-debug.log*
 /images/*
 /temp
 /temp/*
+/fail2ban-data/db
+/fail2ban-data/db/*
+/traefik/acme/*

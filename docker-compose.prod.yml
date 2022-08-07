@@ -7,9 +7,9 @@ services:
     image: traefik:1.7.34-alpine
     container_name: traefik
     command: --docker
-             --logLevel=ACCESS
+             --logLevel=info
              --accessLog.filePath=/var/log/access.log
-             --accessLog.filters.method=CONNECT
+             --accesslog.filters.statuscodes=400,401,403,404,500,502,503
     ports:
       - "80:80"
       - "443:443"
@@ -91,7 +91,6 @@ services:
       options:
         max-size: "5m"
         max-file: "3"
-        path: "/var/log/coffebreak/mongo.log"
     networks:
       coffebreak:
         aliases:

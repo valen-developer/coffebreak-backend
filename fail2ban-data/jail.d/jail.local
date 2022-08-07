@@ -20,18 +20,21 @@ findtime = 60
 maxretry = 10
 
 # ban when 10 successive attempts are made with any result within the findtime
-[proxy]
-enabled = true
-port = http,https
-logpath = /container-logs/*/*-json.log
-maxretry = 10
-findtime = 60
-bantime = 18000
+#[proxy]
+#enabled = true
+#port = http,https
+#logpath = /container-logs/*/*-json.log
+#maxretry = 10
+#findtime = 60
+#bantime = 18000
 
 [traefik-connect]
 enabled = true
 port = http,https
 logpath = /var/log/traefik/access.log
+maxretry = 10
+findtime = 60
+bantime = 18000
 
 
 
