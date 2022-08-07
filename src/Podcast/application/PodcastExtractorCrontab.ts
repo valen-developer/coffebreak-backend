@@ -30,14 +30,14 @@ export class PodcastExtractorCrontab {
   public async run(): Promise<void> {
     this.extract();
 
-    const everyThursdayEvery2minutes = '10 */2 * * * 5';
-    const everyminutes = '*/1 * * * *';
+    // const everyThursdayEvery2minutes = '10 */2 * * * 5';
+    // const everyminutes = '*/1 * * * *';
 
-    // execute extract every second between 22:00 and 23:00 (UTC)
-    this.cron.schedule(everyThursdayEvery2minutes, async () => {
-      await this.extract();
-    });
-    this.cron.start();
+    // // execute extract every second between 22:00 and 23:00 (UTC)
+    // this.cron.schedule(everyThursdayEvery2minutes, async () => {
+    //   await this.extract();
+    // });
+    // this.cron.start();
   }
 
   public async extract(): Promise<void> {

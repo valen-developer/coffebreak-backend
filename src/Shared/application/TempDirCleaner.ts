@@ -19,11 +19,11 @@ export class TempDirCleaner {
     logger.log('clean tmp dir job started');
     this.clean();
 
-    const everyDayAtMidnight = '0 0 0 * * *';
-    this.cron.schedule(everyDayAtMidnight, async () => {
-      this.clean();
-    });
-    this.cron.start();
+    // const everyDayAtMidnight = '0 0 0 * * *';
+    // this.cron.schedule(everyDayAtMidnight, async () => {
+    //   this.clean();
+    // });
+    // this.cron.start();
   }
 
   public clean(): void {

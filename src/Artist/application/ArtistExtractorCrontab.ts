@@ -14,11 +14,11 @@ export class ArtistExtractoCrontab {
   public run(): Promise<void> {
     logger.log('starting extract artist cron job');
     this.extract();
-    this.cron.schedule('10 */2 * * * 5', async () => {
-      await this.extract();
-    });
+    // this.cron.schedule('10 */2 * * * 5', async () => {
+    //   await this.extract();
+    // });
 
-    this.cron.start();
+    // this.cron.start();
 
     return Promise.resolve();
   }

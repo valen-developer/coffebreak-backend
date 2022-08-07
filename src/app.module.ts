@@ -26,7 +26,7 @@ const EntitiesModules = [
 
 const ConfigModules = [
   ConfigModule.forRoot({
-    envFilePath: ['.env', '.env.local'],
+    envFilePath: ['.env'],
     isGlobal: true,
   }),
   MongooseModule.forRoot(enviroment().db.uri, {
