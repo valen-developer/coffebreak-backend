@@ -13,7 +13,7 @@ const logger = new Logger('Main');
 const buildSwaggerDocument = (app: any): void => {
   const isProd = process.env.ENVIROMENT === 'production';
 
-  if (!isProd) return;
+  if (isProd) return;
 
   const config = new DocumentBuilder()
     .setTitle('Coffebreak API')

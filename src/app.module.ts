@@ -8,6 +8,7 @@ import { AppService } from './app.service';
 
 import { ArtistModule } from './Artist/artist.module';
 import { AuthModule } from './Auth/auth.module';
+import { EpisodeTimeTrackerModule } from './EpisodeTimeTraker/episode-time-tracker.module';
 import { enviroment } from './helpers/enviroment';
 import { ImageModule } from './Image/image.module';
 import { PlaylistModule } from './Playlist/playlist.module';
@@ -23,6 +24,7 @@ const EntitiesModules = [
   ImageModule,
   PlaylistModule,
   PodcastEpisodeModule,
+  EpisodeTimeTrackerModule,
 ];
 
 const ConfigModules = [
