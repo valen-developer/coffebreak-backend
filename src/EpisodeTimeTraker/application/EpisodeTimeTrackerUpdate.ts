@@ -30,7 +30,11 @@ export class EpisodeTimeTrackerUpdater {
       );
     }
 
-    const newTimeTracker = new EpisodeTimeTracker(params);
+    const newTimeTracker = new EpisodeTimeTracker({
+      ...params,
+      createdAt: timeTracker.createdAt.value,
+      updatedAt: new Date(),
+    });
 
     await this.episodeTimeTrackerRepository.update(newTimeTracker);
   }

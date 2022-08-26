@@ -33,7 +33,7 @@ export class EpisodeTimeTrackerController {
 
   @Post()
   @UseGuards(JWTGuard)
-  @ApiBody({ type: EpisodeTrackSwaggerModel })
+  @ApiBody({ type: EpisodeTimeTrackerSwaggerModel })
   @ApiResponse({ status: 201 })
   public async create(
     @Body() body: Union<EpisodeTimeTrackerDTO, { session: { user: User } }>,
@@ -46,7 +46,7 @@ export class EpisodeTimeTrackerController {
 
   @Put()
   @UseGuards(JWTGuard)
-  @ApiBody({ type: EpisodeTrackSwaggerModel })
+  @ApiBody({ type: EpisodeTimeTrackerSwaggerModel })
   @ApiResponse({ status: 201 })
   public async update(
     @Body() body: Union<EpisodeTimeTrackerDTO, { session: { user: User } }>,
@@ -59,12 +59,16 @@ export class EpisodeTimeTrackerController {
 
   @Get('user')
   @UseGuards(JWTGuard)
-  @ApiResponse({ status: 200, type: EpisodeTimeTrackerSwaggerModel })
+  @ApiResponse({ status: 200, type: [EpisodeTimeTrackerSwaggerModel] })
   public async getEpisodeTimeTrackerByUser(
     @Body() body: { session: { user: User } },
-  ): Promise<EpisodeTimeTracker[]> {
+  ): Promise<EpisodeTimeTrackerDTO[]> {
     const { user } = body.session;
 
-    return this.episodeTimeTrackerFinder.findByUser(user.uuid?.value);
+    const timeTrackers = await this.episodeTimeTrackerFinder.findByUser(
+      user.uuid?.value,
+    );
+
+    return timeTrackers.map((timeTracker) => timeTracker.toDto());
   }
 }

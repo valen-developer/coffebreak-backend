@@ -3,7 +3,10 @@ import { DeepRequired } from 'src/helpers/types/DeepRequired.type';
 import { EpisodeTimeTrackerDTO } from '../domain/EpisodeTimeTracker.model';
 
 export class EpisodeTimeTrackerSwaggerModel
-  implements DeepRequired<EpisodeTimeTrackerDTO>
+  implements
+    DeepRequired<
+      Omit<EpisodeTimeTrackerDTO, 'userUuid' | 'createdAt' | 'updatedAt'>
+    >
 {
   @ApiProperty({ type: String, required: true })
   uuid: string;
@@ -11,9 +14,9 @@ export class EpisodeTimeTrackerSwaggerModel
   @ApiProperty({ type: String, required: true })
   episodeUuid: string;
 
-  @ApiProperty({ type: String, required: true })
-  userUuid: string;
-
   @ApiProperty({ type: Number, required: true })
   time: number;
+
+  @ApiProperty({ type: Number, required: true })
+  episodeDuration: number;
 }
