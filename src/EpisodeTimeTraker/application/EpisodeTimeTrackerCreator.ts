@@ -21,7 +21,7 @@ export class EpisodeTimeTrackerCreator {
         episodeUuid_equals: dto.episodeUuid,
         userUuid_equals: dto.userUuid,
       })
-      .then((timeTrackers) => timeTrackers[0]);
+      .then(({ trackers }) => trackers[0]);
 
     if (!timeTrackerFound) {
       await this.createTimeTracker(dto);

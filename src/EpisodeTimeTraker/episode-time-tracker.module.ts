@@ -4,6 +4,7 @@ import { SharedModule } from 'src/Shared/shared.module';
 import { UserModule } from 'src/User/user.module';
 import { EpisodeTimeTrackerCreator } from './application/EpisodeTimeTrackerCreator';
 import { EpisodeTimeTrackerFinder } from './application/EpisodeTimeTrackerFinder';
+import { EpisodeTimeTrackerLastEarsFinder } from './application/EpisodeTimeTrackerLastEarsFinder';
 import { EpisodeTimeTrackerUpdater } from './application/EpisodeTimeTrackerUpdate';
 import { EpisodeTimeTrackerRepository } from './domain/interfaces/EpisodeTimeTrackerRepository.interface';
 import { EpisodeTimeTrackerController } from './episode-time-tracker.controller';
@@ -24,6 +25,7 @@ const useCases = [
   EpisodeTimeTrackerCreator,
   EpisodeTimeTrackerFinder,
   EpisodeTimeTrackerUpdater,
+  EpisodeTimeTrackerLastEarsFinder,
 ];
 
 @Module({

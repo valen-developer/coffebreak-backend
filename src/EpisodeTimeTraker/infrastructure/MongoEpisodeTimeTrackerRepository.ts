@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Nullable } from 'src/helpers/types/Nullable.type';
+import { Paginated } from 'src/helpers/types/Paginated';
 import { PAGE_SIZE } from 'src/Shared/constansts/PageSize.constant';
 import { NotFoundException } from 'src/Shared/domain/exceptions/NotFound.exception';
 
@@ -88,7 +89,7 @@ export class MongoEpisodeTrackRepository
   public async filter(
     query: any,
     paginator: Paginator<EpisodeTimeTrackerDTO>,
-  ): Promise<EpisodeTimeTracker[]> {
+  ): Promise<Paginated<EpisodeTimeTracker[], 'trackers'>> {
     const { page, sort_by, order } = paginator;
     const pageSize = PAGE_SIZE;
     const skip = page ? (page - 1) * pageSize : 0;
@@ -101,9 +102,21 @@ export class MongoEpisodeTrackRepository
         .skip(skip)
         .limit(limit);
 
-    return episodeTimeTrackerDto.map(
+    const timeTrackers = episodeTimeTrackerDto.map(
       (episodeTimeTrackerDto) => new EpisodeTimeTracker(episodeTimeTrackerDto),
     );
+
+    const count = await this.count(query);
+    const totalPages = Math.ceil(count / pageSize);
+
+    return {
+      trackers: timeTrackers,
+      pages: totalPages,
+    };
+  }
+
+  public async count(query: any): Promise<number> {
+    return this.mongoEpisodeTimeTracker.countDocuments(query);
   }
 
   public async delete(uuid: string): Promise<void> {

@@ -20,3 +20,12 @@ export interface DatedDTO {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+export interface DatedQuery {
+  createdAt_equals?: Date;
+  updatedAt_equals?: Date;
+  createdAt_gte?: Date;
+  createdAt_lte?: Date;
+  updatedAt_gte?: Date;
+  updatedAt_lte?: Date;
+}

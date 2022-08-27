@@ -14,6 +14,7 @@ import { Union } from 'src/helpers/types/Union.type';
 import { User } from 'src/User/domain/User.mode';
 import { EpisodeTimeTrackerCreator } from './application/EpisodeTimeTrackerCreator';
 import { EpisodeTimeTrackerFinder } from './application/EpisodeTimeTrackerFinder';
+import { EpisodeTimeTrackerLastEarsFinder } from './application/EpisodeTimeTrackerLastEarsFinder';
 import { EpisodeTimeTrackerUpdater } from './application/EpisodeTimeTrackerUpdate';
 import {
   EpisodeTimeTracker,
@@ -29,6 +30,7 @@ export class EpisodeTimeTrackerController {
     private episodeTimeTrackerFinder: EpisodeTimeTrackerFinder,
     private episodeTimeTrackerCreator: EpisodeTimeTrackerCreator,
     private episodeTimeTrackerUpdater: EpisodeTimeTrackerUpdater,
+    private episodeTimeTrackerLastEarFinder: EpisodeTimeTrackerLastEarsFinder,
   ) {}
 
   @Post()
@@ -70,5 +72,20 @@ export class EpisodeTimeTrackerController {
     );
 
     return timeTrackers.map((timeTracker) => timeTracker.toDto());
+  }
+
+  @Get('last/user')
+  @UseGuards(JWTGuard)
+  @ApiResponse({ status: 200, type: [EpisodeTimeTrackerSwaggerModel] })
+  public async getLastEpisodeTimeTrackerByUser(
+    @Body() body: { session: { user: User } },
+  ): Promise<EpisodeTimeTrackerDTO[]> {
+    const { user } = body.session;
+
+    const timeTracker = await this.episodeTimeTrackerLastEarFinder.findByUser(
+      user.uuid?.value,
+    );
+
+    return timeTracker.map((timeTracker) => timeTracker.toDto());
   }
 }

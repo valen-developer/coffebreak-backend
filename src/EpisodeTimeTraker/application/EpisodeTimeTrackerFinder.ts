@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Paginated } from 'src/helpers/types/Paginated';
 
 import { NotFoundException } from 'src/Shared/domain/exceptions/NotFound.exception';
 import { Paginator } from 'src/Shared/domain/interfaces/Paginator.interface';
@@ -20,7 +21,7 @@ export class EpisodeTimeTrackerFinder {
   public async filter(
     query: EpisodeTimeTrackerQuery,
     paginator: Paginator<EpisodeTimeTrackerDTO> = {},
-  ): Promise<EpisodeTimeTracker[]> {
+  ): Promise<Paginated<EpisodeTimeTracker[], 'trackers'>> {
     const queryBuilt = this.queryBuilder.build(query);
 
     return await this.episodeTimeTrackerRepository.filter(
