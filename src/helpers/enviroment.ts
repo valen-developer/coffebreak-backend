@@ -27,6 +27,6 @@ export const enviroment = () => ({
   googleSingin: {
     callbackUrl:
       process.env.GOOGLE_CALLBACK_URL ||
-      'http://localhost:3000/auth/google/callback',
+      'http://localhost:3000/api/auth/google/callback',
   },
 });
