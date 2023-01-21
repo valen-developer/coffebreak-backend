@@ -16,6 +16,7 @@ export class MongoPodcastEpisodeModel {
   @Prop({
     type: String,
     required: true,
+    unique: true,
   })
   title: string;
 
