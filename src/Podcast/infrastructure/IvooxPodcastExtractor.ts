@@ -19,7 +19,7 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class IvooxPodcastExtractor implements PodcastExtractor {
   private _IVOOX_PODCAST_URL =
-    'https://www.ivoox.com/feed_fg_f1172891_filtro_1.xml';
+    'https://feeds.acast.com/public/shows/63910e8796d1480011f2eaaa';
 
   private uuidGenerator!: UUIDGenerator;
 
@@ -76,13 +76,13 @@ export class IvooxPodcastExtractor implements PodcastExtractor {
       if (!match2) return null;
 
       // extract digits after "("
-      let digits = match2[0]
+      const digits = match2[0]
         .replace('min ', '')
         .replace('(', '')
         .replace(')', '');
 
-      let time = digits;
-      let trackName = track.split('(')[0];
+      const time = digits;
+      const trackName = track.split('(')[0];
 
       return {
         time,
@@ -91,13 +91,13 @@ export class IvooxPodcastExtractor implements PodcastExtractor {
     });
 
     const tracks = description.split(';').map((track) => {
-      let regex = /\(([0-9:]+)\)/i;
-      let match = track.match(regex);
+      const regex = /\(([0-9:]+)\)/i;
+      const match = track.match(regex);
 
       if (!match) return null;
 
-      let time = match[1];
-      let trackName = track.replace(regex, '');
+      const time = match[1];
+      const trackName = track.replace(regex, '');
 
       return {
         time,
@@ -154,15 +154,15 @@ export class IvooxPodcastExtractor implements PodcastExtractor {
     const items = data.rss.channel[0].item;
 
     const episodes = items.map((item) => {
-      const title = item['title'][0];
-      const ep = this.getEpisodeNumber(title);
-      const description = item['description'][0];
-      const pubDate = item['pubDate'][0];
-      const duration = item['itunes:duration'][0];
-      const imageUrl = item['itunes:image'][0].$.href;
-      const audioUrl = item['enclosure'][0].$.url;
-
       try {
+        const title = item['title'][0];
+        const ep = this.getEpisodeNumber(title);
+        const description = item['description'][0];
+        const pubDate = item['pubDate'][0];
+        const duration = item['itunes:duration'][0];
+        const imageUrl = item['itunes:image'][0].$.href;
+        const audioUrl = item['enclosure'][0].$.url;
+
         const titleValueObject = new PodcastTitle(title);
         const descriptionValueObject = new PodcastDescription(description);
         const pubDateValueObject = PodcastPubDate.fromString(pubDate);
@@ -203,11 +203,11 @@ export class IvooxPodcastExtractor implements PodcastExtractor {
   }
 
   private getEpisodeNumber(title: string): Nullable<number> {
-    let regex = /Ep[0-9]+/i;
-    let match1 = title.match(regex);
+    const regex = /Ep[0-9]+/i;
+    const match1 = title.match(regex);
 
-    let regex2 = /Ep\s+[0-9]+/i;
-    let match2 = title.match(regex2);
+    const regex2 = /Ep\s+[0-9]+/i;
+    const match2 = title.match(regex2);
 
     const hasMatch = match1 || match2;
     if (!hasMatch) return null;
